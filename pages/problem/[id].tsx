@@ -1,14 +1,24 @@
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import { useRef } from "react";
+import React, { useRef } from "react";
+import { Nav } from "react-bootstrap";
+import EditorForm from "../../components/editorForm";
+import ProblemDisplay from "../../components/problemDisplay";
+import styles from '../../styles/Problem.module.css'
+import 'bootstrap/dist/css/bootstrap.min.css'; // seems we need to import on every page we need coz on loading directly, it doesn't seem to be injected
+
+import {
+    HorizontalPageSplit,
+    VerticalPageSplit
+} from 'react-page-split';
+import 'react-page-split/style.css';
 
 // hmm, how is it detecting the query param if added in URL path - it is happening because of file structure. See if I can also limit access like this to the API itself
 export default function Problem({ problem }: any) {
 
-    const editorRef = useRef<editor.IStandaloneCodeEditor>();
-
     return (
         <>
+            <div className={styles.nav}></div>
             <div style={{
                 // TODO: find a good fix for this 100% issue
                 height: "100vh",
@@ -17,68 +27,19 @@ export default function Problem({ problem }: any) {
                 justifyContent: "space-evenly",
                 alignContent: "center",
                 alignItems: "center",
-                backgroundColor: "aqua",
-                overflow: "scroll"
+                backgroundColor: "white",
+                overflow: "clip" // resolve this
             }}>
-                <div style={{}}>
-                    Problem id: {problem}
-                </div>
 
-                <div style={{ height: "100%", backgroundColor: "red" }}>
-                    Strip
-                </div>
+                <HorizontalPageSplit style={{ overflow: "clip" }}>
 
-                <div style={{ height: "40rem", width: "50rem", margin: "1rem" }}>
-                    {/*
-                    Use direct dependency later on rather than react one, font size changes etc. we need, also it has dep issues
-                    Also add fontsize and language change, theme change options
-                    See if you can add more advanced customisation options like vscode, but be careful it should only affect the display, nothing like save actions etc.
-                    Add a save action also in the editor - like save hotkey should not save the webpage but do nothing I guess
-                    */}
+                    <div style={{ overflow: "clip" }}>
+                        <ProblemDisplay problem={problem} />
+                    </div>
 
-                    <form onSubmit=
-                        {async (e) => {
-                            e.preventDefault();
-                            console.log(e);
-                            console.log(editorRef.current?.getValue());
+                    <EditorForm problemId={2} userId={1} />
 
-                            var formData = new FormData();
-                            var coddd = editorRef.current!.getValue();
-                            formData.append('code', coddd);
-                            formData.append('userId', e.target.userId.value);
-                            formData.append('problemId', e.target.problemId.value);
-
-
-                            const res = await fetch(
-                                'http://localhost:8080/submitCode',
-                                {
-                                    body: formData,
-                                    method: 'POST'
-                                }
-                            );
-
-                            console.log(res);
-                        }}
-                        style={{ height: "100%", width: "100%" }}>
-
-                        <label>
-                            <Editor
-                                theme="vs-dark"
-                                options={{ fontSize: 20 }}
-                                language="cpp"
-                                onMount={(editor, monaco) => { editorRef.current = editor }} />
-                        </label>
-
-                        Problem: <input type="text" id="problemId" name="problemId"></input>
-                        User: <input type="text" id="userId" name="userId"></input>
-
-                        <button type="submit">SUBMIT</button>
-
-                    </form>
-
-
-
-                </div>
+                </HorizontalPageSplit>
 
             </div>
         </>
@@ -100,8 +61,19 @@ export default function Problem({ problem }: any) {
 // is it a good idea when accounts are there? Does it affect anything else other than the params use?
 export async function getStaticProps({ params }: any) {
 
-    const req = await fetch(`http://localhost:8080/problem?id=${params.id}`); // TODO: watch out for any security issues here, while passing params
-    const data = await req.json();
+    const data = await
+        fetch(`http://localhost:8080/problem?id=${params.id}`)
+            .then(res => res.json())
+            .catch(error => {
+                //console.log(error);
+                return {
+                    id: 2,
+                    statement: "Problem Statement",
+                    solution: "Problem Solution"
+                };
+            }); // TODO: watch out for any security issues here, while passing params
+
+    console.log(data);
 
     return {
         props: { problem: data }
@@ -110,8 +82,15 @@ export async function getStaticProps({ params }: any) {
 
 export async function getStaticPaths() {
 
-    const req = await fetch("http://localhost:8080/problems");
-    const data = await req.json(); // it's size should be reasonable enough that build times are less
+    const reqDef = [1, 2, 3, 4, 5];
+
+    const data = await
+        fetch('http://localhost:8080/problems')
+            .then(res => res.json())
+            .catch(error => {
+                //console.log(error);
+                return [1, 2, 3, 4, 5];
+            }); // it's size should be reasonable enough that build times are less
 
     console.log(data);
 
