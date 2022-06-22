@@ -1,48 +1,49 @@
-import Editor from "@monaco-editor/react";
-import { editor } from "monaco-editor";
-import React, { useRef } from "react";
-import { Nav } from "react-bootstrap";
-import EditorForm from "../../components/editorForm";
-import ProblemDisplay from "../../components/problemDisplay";
-import styles from '../../styles/Problem.module.css'
-import 'bootstrap/dist/css/bootstrap.min.css'; // seems we need to import on every page we need coz on loading directly, it doesn't seem to be injected
+import EditorDisplay from "../../components/editor/editorDisplay";
+import ProblemDisplay from "../../components/information/problemDisplay";
 
 import {
-    HorizontalPageSplit,
-    VerticalPageSplit
+    HorizontalPageSplit
 } from 'react-page-split';
 import 'react-page-split/style.css';
+import PageNav from "../../components/general/pageNav";
 
 // hmm, how is it detecting the query param if added in URL path - it is happening because of file structure. See if I can also limit access like this to the API itself
 export default function Problem({ problem }: any) {
 
     return (
-        <>
-            <div className={styles.nav}></div>
-            <div style={{
-                // TODO: find a good fix for this 100% issue
+        <div
+            style={{
                 height: "100vh",
                 width: "100vw",
-                display: "flex",
-                justifyContent: "space-evenly",
-                alignContent: "center",
-                alignItems: "center",
-                backgroundColor: "white",
-                overflow: "clip" // resolve this
+                // I'm thinking of using flex only since it autosizes based on content
+                // display: "flex", // only thing with flex is gap control not there easily
+                // flexDirection: "column",
+                // justifyContent: "space-around"
+                display: "grid",
+                gap: "1%", // responsive doesnt fit well with this, sue maxHeight or something
+                gridTemplateRows: "4% 95%", // hmm.... auto automatically resizes to 100% total with gap but not always(like in collection display) so better keep it static
+                gridTemplateColumns: "100%"
             }}>
 
-                <HorizontalPageSplit style={{ overflow: "clip" }}>
+            <PageNav />
 
-                    <div style={{ overflow: "clip" }}>
-                        <ProblemDisplay problem={problem} />
-                    </div>
+            <HorizontalPageSplit
+                style={{
+                    overflow: "clip",
+                    height: "100%" // does this matter?
+                }}>
 
-                    <EditorForm problemId={2} userId={1} />
+                <div style={{ overflow: "clip", minWidth: "30%" }}>
+                    <ProblemDisplay problem={problem} />
+                </div>
 
-                </HorizontalPageSplit>
+                <div style={{ overflow: "clip", minWidth: "30%" }}>
+                    <EditorDisplay problemId={2} userId={1} />
+                </div>
 
-            </div>
-        </>
+            </HorizontalPageSplit>
+
+        </div>
     )
 }
 
@@ -73,8 +74,6 @@ export async function getStaticProps({ params }: any) {
                 };
             }); // TODO: watch out for any security issues here, while passing params
 
-    console.log(data);
-
     return {
         props: { problem: data }
     }
@@ -91,7 +90,6 @@ export async function getStaticPaths() {
                 //console.log(error);
                 return [1, 2, 3, 4, 5];
             }); // it's size should be reasonable enough that build times are less
-
     console.log(data);
 
     const paths = data.map((problem: number) => {

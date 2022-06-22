@@ -1,0 +1,24 @@
+.divider {
+    /* Make transition properties more specific */
+    transition: background-color 200ms ease-in-out;
+    /*Wow, this also works in debugging transitions like when changing value on dev code*/
+    cursor: col-resize;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 2px blue inset;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Make light and dark of same color for hover and active respectively */
+.divider:hover {
+    background-color: aqua;
+}
+
+/* This is working but see if it's the right thing, and does not cause conflict with other classes */
+.divider:active {
+    /* See more opacity adjustments */
+    border-color: rgb(73, 66, 66);
+}

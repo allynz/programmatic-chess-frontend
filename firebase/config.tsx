@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { collection, CollectionReference, getFirestore } from "firebase/firestore";
+import { doc, collection, CollectionReference, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,9 +22,17 @@ const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-export function getFirestoreCollection(collectionName: string) {
+export function getCollection(collectionName: string) {
     //console.log(db);
     //console.log(collection(db, collectionName));
-    return collection(db, collectionName)
+    return collection(db, collectionName);
+}
+
+/*
+From the docs: https://firebase.google.com/docs/firestore/query-data/get-data
+Note: If there is no document at the location referenced by docRef, the resulting document will be empty and calling exists on it will return false.
+ */
+export function getDocument(documentId: string) {
+    return doc(db, 'Submissions', documentId);
 }
 
