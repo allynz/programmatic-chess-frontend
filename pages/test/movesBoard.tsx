@@ -1,4 +1,4 @@
-import MovesBoardDisplay from "../../components/chessboard/movesBoardDisplay";
+import MovesBoardDisplay from "../../components/chessboard/movesboard/movesBoardDisplay";
 
 const Test = () => {
     const moveList = [

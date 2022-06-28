@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { usePrevious } from "../../hooks/usePrevious";
+import { useEffect, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
