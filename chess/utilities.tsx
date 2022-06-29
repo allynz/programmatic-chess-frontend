@@ -1,7 +1,7 @@
 // can also make const vars here - can we make functions here static, or does static in js even make sense?
 import { Chess } from "chess.js";
-import { Chessground } from "chessground";
-import { Cord, Piece, Move, Color, Board, Square } from "./types";
+import { Board, Color, Cord, Move, Square } from "./types";
+import { cloneDeep } from 'lodash';
 
 // general Utilities //
 
@@ -26,7 +26,10 @@ export function getSquareFromCord(cord: Cord): Square | undefined {
 
 // if it is of type square then it will be in bound
 export function inBoundSquare(square: Square): boolean {
-    return true;
+    return square.length === 2
+        // check if this equality compares correctly
+        && (square.charAt(0) >= 'a' && square.charAt(0) <= 'h')
+        && (square.charAt(1) >= '1' && square.charAt(1) <= '8');
 }
 
 export function inBoundCord(cord: Cord): boolean {
@@ -43,7 +46,9 @@ export const nextTurn = (turn: Color) => {
 
 // This is the problem with functional programming - managing large states
 export const boardAfterMove = (board: Board, move: Move): Board => {
-    const newBoard = board;
+    // remember, whenever an object modification is req, use deep clone
+    const newBoard: Board = cloneDeep(board); // this seems necessary, although see if any other fix is possible or not
+
     const
         startCord = getCordFromSquare(move.orig),
         endCord = getCordFromSquare(move.dest);
@@ -54,6 +59,7 @@ export const boardAfterMove = (board: Board, move: Move): Board => {
 };
 
 // board should be valid
+// gets only first part of an FEN so be careful in using it
 export const getFen = (board: Board): string => {
     // problem with chessGround is u need an html element to initialise, can that be bypassed? still doesnt seem right? Could have issues: https://stackoverflow.com/questions/26220243/how-to-instantiate-new-htmlelement
     const chess = new Chess();

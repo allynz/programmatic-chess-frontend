@@ -1,4 +1,5 @@
-import { Board, Color, Cord, Move, Piece, Square } from "./types";
+import { eq } from "../utilities/equals";
+import { Board, Cord, Move, Piece, Square } from "./types";
 import { getCordFromSquare, getSquareFromCord, inBoundCord } from "./utilities";
 
 // need to make this a class so I can access getPiece properly and not have so many parameter passing outside
@@ -17,14 +18,14 @@ export default function getValidMovesForSquare(
         // make sure that
         return board[cord[0]][cord[1]];
     };
-    const piece: Piece | undefined = board[0][0];
+    const piece: Piece | undefined = getPiece(startCord);
 
     if (piece === undefined) {
         return [];
     }
 
     let res: Array<Square> = [];
-    const movement = new Movement(board, startCord);
+    const movement = movementProvider(board, startCord);
     if (piece.type == 'k') {
         // in_check does not matter, only find moves with no blocking
         res = movement.kingMovement();
@@ -43,32 +44,23 @@ export default function getValidMovesForSquare(
     return res.map(square => { return { orig: startSquare, dest: square } as Move });
 }
 
-// probably just functions would be better: https://stackoverflow.com/questions/16157839/typescript-this-inside-a-class-method (const vars captures this - what does it mean?)
 // https://stackoverflow.com/questions/56055658/what-is-the-difference-between-class-method-vs-class-field-function-vs-class-f
-// try something like return {kingMovement: ()=>{}, bmovement: ()=>{}} like in chess.js types
-class Movement {
-    private board: Board;
-    private startCord: Cord;
-
-    constructor(board: Board, startCord: Cord) {
-        this.board = board;
-        this.startCord = startCord;
+// iterate only on the diffs, not on actual cord, that way we don't have to clone it
+// remove ? checks here, it looks ugly
+const movementProvider = (board: Board, startCord: Cord) => {
+    const piece = (cord: Cord): Piece | undefined => {
+        return board[cord[0]][cord[1]];
     }
 
-    // no checks on cord for now
-    piece = (cord: Cord): Piece | undefined => {
-        return this.board[cord[0]][cord[1]];
-    }
-
-    kingMovement = (): Array<Square> => {
+    const kingMovement = (): Array<Square> => {
         const cords: Array<Cord> = [];
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
-                const cord: Cord = [this.startCord[0] + i, this.startCord[1] + j];
-                if (cord === this.startCord
+                const cord: Cord = [startCord[0] + i, startCord[1] + j];
+                if (eq(cord, startCord)
                     || !inBoundCord(cord)
-                    || (this.piece(cord)
-                        && this.piece(cord)?.color !== this.piece(this.startCord)?.color)) {
+                    || (piece(cord)
+                        && piece(cord)?.color === piece(startCord)?.color)) {
                     continue;
                 }
 
@@ -79,7 +71,7 @@ class Movement {
         return cords
             .map(cord => getSquareFromCord(cord) as Square);
     };
-    rookMovement = (): Array<Square> => {
+    const rookMovement = (): Array<Square> => {
         const dirs: Array<Cord> = [
             [0, 1],
             [1, 0],
@@ -89,17 +81,15 @@ class Movement {
 
         const cords: Array<Cord> = [];
         for (const dir of dirs) {
-            for (let
-                cord: Cord = [
-                    this.startCord[0] + dir[0],
-                    this.startCord[1] + dir[1]
-                ];
-                inBoundCord(cord);
-                cord[0] += dir[0], cord[1] += dir[1]) {
-                if (this.piece(cord) === undefined) {
+            // need to clone cord before pushing
+            for (let i = 1; ; i++) {
+                const cord: Cord = [startCord[0] + i * dir[0], startCord[1] + i * dir[1]];
+                if (!inBoundCord(cord)) break;
+
+                if (piece(cord) === undefined) {
                     cords.push(cord);
                 } else {
-                    if (this.piece(cord)?.color === this.piece(this.startCord)?.color) {
+                    if (piece(cord)?.color === piece(startCord)?.color) {
                         break;
                     } else {
                         cords.push(cord);
@@ -112,7 +102,7 @@ class Movement {
         return cords
             .map(cord => getSquareFromCord(cord) as Square);
     };
-    bishopMovement = (): Array<Square> => {
+    const bishopMovement = (): Array<Square> => {
         const dirs: Array<Cord> = [
             [1, -1],
             [-1, 1],
@@ -122,17 +112,14 @@ class Movement {
 
         const cords: Array<Cord> = [];
         for (const dir of dirs) {
-            for (let
-                cord: Cord = [
-                    this.startCord[0] + dir[0],
-                    this.startCord[1] + dir[1]
-                ];
-                inBoundCord(cord);
-                cord[0] += dir[0], cord[1] += dir[1]) {
-                if (this.piece(cord) === undefined) {
+            for (let i = 1; ; i++) {
+                const cord: Cord = [startCord[0] + i * dir[0], startCord[1] + i * dir[1]];
+                if (!inBoundCord(cord)) break;
+
+                if (piece(cord) === undefined) {
                     cords.push(cord);
                 } else {
-                    if (this.piece(cord)?.color === this.piece(this.startCord)?.color) {
+                    if (piece(cord)?.color === piece(startCord)?.color) {
                         break;
                     } else {
                         cords.push(cord);
@@ -146,10 +133,10 @@ class Movement {
             .map(cord => getSquareFromCord(cord) as Square);
     };
     // see if we need to place it above the others as it is a const var, not a function
-    queenMovement = (): Array<Square> => {
-        return this.rookMovement().concat(this.bishopMovement());
+    const queenMovement = (): Array<Square> => {
+        return rookMovement().concat(bishopMovement());
     };
-    knightMovement = (): Array<Square> => {
+    const knightMovement = (): Array<Square> => {
         const dirs = [
             [-1, 2],
             [-2, 1],
@@ -163,11 +150,11 @@ class Movement {
 
         const cords: Array<Cord> = [];
         for (const dir of dirs) {
-            const cord: Cord = [this.startCord[0] + dir[0], this.startCord[1] + dir[1]];
+            const cord: Cord = [startCord[0] + dir[0], startCord[1] + dir[1]];
             if (inBoundCord(cord)) {
                 // use getPiece here when we shift this to a class
-                if (this.board[cord[0]][cord[1]] === undefined
-                    || this.board[cord[0]][cord[1]]?.color != this.board[this.startCord[0]][this.startCord[1]]?.color)
+                if (piece(cord) === undefined
+                    || !eq(piece(cord)?.color, piece(startCord)?.color))
                     cords.push(cord);
             }
         }
@@ -176,31 +163,39 @@ class Movement {
         return cords
             .map(cord => getSquareFromCord(cord) as Square); // cords are valid so Square will be valid too
     };
-    pawnMovement = (): Array<Square> => {
-        const piece: Piece = this.piece(this.startCord)!;
-        const diff = piece.color == 'w' ? -1 : 1;
+    const pawnMovement = (): Array<Square> => {
+        const diff = piece(startCord)!.color == 'w' ? -1 : 1;
 
-        const forward: Cord = [this.startCord[0] + diff, this.startCord[1]];
-        const forwardLeft: Cord = [this.startCord[0] + diff, this.startCord[1] - 1];
-        const forwardRight: Cord = [this.startCord[0] + diff, this.startCord[1] + 1];
+        const forward: Cord = [startCord[0] + diff, startCord[1]];
+        const forwardLeft: Cord = [startCord[0] + diff, startCord[1] - 1];
+        const forwardRight: Cord = [startCord[0] + diff, startCord[1] + 1];
 
         const cords: Array<Cord> = [];
-        if (inBoundCord(forward) && this.piece(forward) === undefined) {
+        if (inBoundCord(forward) && piece(forward) === undefined) {
             cords.push(forward);
         }
         if (inBoundCord(forwardLeft)
-            && this.piece(forwardLeft)
-            && this.piece(forwardLeft)!.color != piece.color) {
+            && piece(forwardLeft)
+            && !eq(piece(forwardLeft)!.color, piece(startCord)!.color)) {
             cords.push(forwardLeft);
         }
         if (inBoundCord(forwardRight)
-            && this.piece(forwardRight)
-            && this.piece(forwardRight)!.color != piece.color) {
+            && piece(forwardRight)
+            && !eq(piece(forwardRight)!.color, piece(startCord)!.color)) {
             cords.push(forwardRight);
         }
 
         return cords
             .map(cord => getSquareFromCord(cord) as Square);
+    };
+
+    return {
+        kingMovement: kingMovement,
+        rookMovement: rookMovement,
+        bishopMovement: bishopMovement,
+        queenMovement: queenMovement,
+        knightMovement: knightMovement,
+        pawnMovement: pawnMovement
     };
 }
 

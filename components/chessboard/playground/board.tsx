@@ -3,7 +3,7 @@ import { Dests, Key } from "chessground/types";
 import { useState } from "react";
 import 'react-chessground/dist/styles/chessground.css';
 import Chessboard from "./chessboard";
-import { findRandomPosition } from "./positionFinder";
+import { findRandomPosition } from "../../../chess/positionFinder";
 
 const PlaygroundBoard = () => {
     const piecesDefault: Array<Piece> = [
@@ -18,35 +18,25 @@ const PlaygroundBoard = () => {
         {
             type: 'r',
             color: 'w'
-        },
-        {
-            type: 'k',
-            color: 'w'
         }
     ];
+
+    const generateNewPosition = () => {
+        const randomFen = findRandomPosition(piecesDefault);
+        setFen(randomFen);
+    };
 
     const [fen, setFen] = useState<string>(findRandomPosition(piecesDefault)); // empty is needed as otherwise it's undefined which causes issues
 
     return (<>
         <div
             style={{
-                display: "flex",
-                flexDirection: "row",
-                margin: "3rem"
+                // change height and width to 100%
+                height: "50rem",
+                width: "30rem"
             }}>
-            <Chessboard startFen={fen} />
-            <div style={{ margin: "5rem" }}>
-                {/* TODO: Also set button to loading */}
-                <button
-                    onClick={() => {
-                        const randomFen = findRandomPosition(piecesDefault);
-                        setFen(randomFen);
-                    }}>
-                    Generate new Pos
-                </button>
-            </div>
+            <Chessboard startFen={fen} newPositionGeneration={generateNewPosition} />
         </div>
-
     </>);
 }
 

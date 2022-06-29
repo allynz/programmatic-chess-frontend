@@ -1,6 +1,6 @@
 import { SQUARES } from "./config";
 import isValidMovement from "./movementChecker";
-import { Board, Color, Cord, Piece, Square } from "./types";
+import { Color, Cord, Piece, Square } from "./types";
 import { getCordFromSquare, nextTurn } from "./utilities";
 
 // Hmmm, should we use Object oriented instead? How does the boardState object access it
@@ -10,33 +10,37 @@ import { getCordFromSquare, nextTurn } from "./utilities";
 function checkBoard(
     turn: Color,
     board: Array<Array<Piece | undefined>>): boolean {
+    // put this function inside board class itslef, it is used too often
+    const piece = (cord: Cord): Piece | undefined => {
+        return board[cord[0]][cord[1]];
+    }
 
     // remove if condition and turn into one block
     // check for undefined before converting
-    const kingSquare: Square | undefined =
+    const opponentTurn = nextTurn(turn);
+    const opponentKingSquare: Square | undefined =
         SQUARES
             .find(square => {
                 const cord: Cord = getCordFromSquare(square);
                 // find better way to check undefined val
-                return board[cord[0]][cord[1]]
-                    && board[cord[0]][cord[1]]?.color == turn
-                    && board[cord[0]][cord[1]]?.type == 'k';
+                return piece(cord)
+                    && piece(cord)?.color == opponentTurn
+                    && piece(cord)?.type == 'k';
             });
 
-    if (kingSquare === undefined) return true;
+    if (opponentKingSquare === undefined) return true;
 
-    const opponentTurn = nextTurn(turn);
-    const opponentCords =
+    const currPieceCords =
         SQUARES
             .filter(square => {
                 const cord = getCordFromSquare(square);
-                return board[cord[0]][cord[1]]
-                    && board[cord[0]][cord[1]]?.color == opponentTurn;
+                return piece(cord)
+                    && piece(cord)?.color == turn;
             })
             .map(square => getCordFromSquare(square));
 
-    const kingCord = getCordFromSquare(kingSquare);
-    for (const opponentCord of opponentCords) {
+    const kingCord = getCordFromSquare(opponentKingSquare);
+    for (const opponentCord of currPieceCords) {
         // if there is a valid movement from opponent piece to current king
         if (isValidMovement(board, opponentCord, kingCord)) {
             return false;

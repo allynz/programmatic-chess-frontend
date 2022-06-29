@@ -1,7 +1,7 @@
 
 // row and col values of a matrix in c++ as usual how it is stored in memory, like how a matrix is used in CP
 // Check if you want {x, y} or [x, y] or {row, col}
-// I like {x, y} more since it's more verbose
+// I like {x, y} more since it's more verbose and better to read, 0 1 not everyone will understand
 export type Cord = [x: number, y: number];
 
 export type Color = 'b' | 'w';

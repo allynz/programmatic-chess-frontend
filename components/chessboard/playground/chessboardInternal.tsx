@@ -29,6 +29,7 @@ const ChessboardInternal = ({
                 document.getElementById("board") || document.body,
                 config
             ));
+        ground?.setAutoShapes([]);
     }, []); // need to use deps otherwise it keeps rendering again, although empty will make sure it runs only once: https://css-tricks.com/run-useeffect-only-once/
 
     // Do we need useEffect? Can we just update it after config initialisation itself, what about first render, ground will not be available then, but be careful of stateful variables
@@ -41,8 +42,9 @@ const ChessboardInternal = ({
         <div
             id="board"
             style={{
-                height: "20rem",
-                width: "20rem"
+                height: "auto",
+                width: "auto",
+                aspectRatio: "1/1"
             }}>
         </div>
     </>);
@@ -52,6 +54,8 @@ export default ChessboardInternal;
 
 // TODO: make king capture false, although avoid that condition entirely
 const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
+    //console.log("movesinsideff", moves);
+    // TODO: add check config also
     const config: Config = {
         selected: undefined, // fixing annoying square shown when new pos generated bug
         viewOnly: false,

@@ -39,42 +39,38 @@ const CarouselWrapper = ({ lodingParentState, lodingParentStateFalse, movesList,
         }
     };
     return (<>
-        <div
-            style={{
-                width: "20rem"
-            }}>
-            {/* Make faster transitions, try using customerTransition */}
-            <Carousel
-                transitionDuration={100} // what does this mean? it does make it fast though and prevents unwanted errors on fast clicking. It does control the loading and button gap though
-                beforeChange={lodingParentState}
-                afterChange={lodingParentStateFalse}
-                ref={(el) => {
-                    carouselRef.current = el; // better use this rather than this.Carousel, also see diff betn useState and useRef
-                }}
-                responsive={responsive}
-                infinite={false}
-                arrows={false}>
-                <div />
-                {
-                    movesList.map((move: any, index: number) =>
-                    (<>
-                        <div
-                            style={{
-                                height: "5rem",
-                                backgroundColor: index == idx ? "aqua" : "grey",
-                                border: "1rem solid white",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                transition: "background-color 300ms ease-in-out" // this is cool, match with slide duration which defaults to 300ms
-                            }}>
-                            {move}
-                        </div>
-                    </>))
-                }
-                <div />
-            </Carousel>
-        </div>
+        {/* Make faster transitions, try using customerTransition */}
+        <Carousel
+            transitionDuration={100} // what does this mean? it does make it fast though and prevents unwanted errors on fast clicking. It does control the loading and button gap though
+            beforeChange={lodingParentState}
+            afterChange={lodingParentStateFalse}
+            ref={(el) => {
+                carouselRef.current = el; // better use this rather than this.Carousel, also see diff betn useState and useRef
+            }}
+            responsive={responsive}
+            infinite={false}
+            arrows={false}>
+            <div />
+            {
+                movesList.map((move: any, index: number) =>
+                (<>
+                    <div
+                        style={{
+                            fontSize: "small",
+                            height: "auto",
+                            backgroundColor: index == idx ? "aqua" : "grey",
+                            border: "2px solid white",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transition: "background-color 300ms ease-in-out" // this is cool, match with slide duration which defaults to 300ms
+                        }}>
+                        {move}
+                    </div>
+                </>))
+            }
+            <div />
+        </Carousel>
     </>);
 };
 

@@ -1,5 +1,12 @@
 import { Square } from "./types";
 
+export enum Status {
+    CHECKMATE = "Checkmate",
+    STALEMATE = "Stalemate",
+    INSUFFICIENT_MATERIAL = "Insufficient Material",
+    PLAYING = "Playing"
+}
+
 export const SQUARES: Array<Square> = [
     "a8",
     "b8",

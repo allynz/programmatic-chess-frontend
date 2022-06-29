@@ -1,3 +1,4 @@
+import { eq } from "../utilities/equals";
 import { Board, Cord, Piece } from "./types";
 
 // without any piece checks, just check movement
@@ -15,19 +16,21 @@ const isValidMovement = (
     // ?. will short circuit to undefined: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining, test it though once 
     if (endPiece?.color === piece.color) return false;
 
+    const movement = movementProvider(board, startCord, endCord);
+
     // we just need to check if there is a path from [startCord, endCord)
     if (piece.type === 'k') {
-        return kingMovement(board, startCord, endCord);
+        return movement.kingMovement();
     } else if (piece.type == 'q') {
-        return queenMovement(board, startCord, endCord);
+        return movement.queenMovement();
     } else if (piece.type == 'r') {
-        return rookMovement(board, startCord, endCord);
+        return movement.rookMovement();
     } else if (piece.type == 'n') {
-        return knightMovement(board, startCord, endCord);
+        return movement.knightMovement();
     } else if (piece.type == 'b') {
-        return bishopMovement(board, startCord, endCord);
+        return movement.bishopMovement();
     } else if (piece.type == 'p') {
-        return pawnMovement(board, startCord, endCord);
+        return movement.pawnMovement();
     }
 
     return false;
@@ -35,152 +38,140 @@ const isValidMovement = (
 
 export default isValidMovement;
 
-// maybe we can refactor these movements by returning a function which returns a function
-const kingMovement = (board: Board, startCord: Cord, endCord: Cord): boolean => {
-    const xDist: number = Math.abs(startCord[0] - endCord[0]);
-    const yDist: number = Math.abs(startCord[1] - endCord[1]);
-
-    // has to be one move dist from startCord - dont use comments like these, make another function with good name
-    return xDist <= 1 && yDist <= 1;
-};
-const rookMovement = (board: Board, startCord: Cord, endCord: Cord): boolean => {
-    // convert to one block rather than 2 if blocks
-    if (endCord[0] == startCord[0]) {
-        const diff = (startCord[1] < endCord[1] ? 1 : -1);
-        for (let i = startCord[1] + diff;
-            i != endCord[1];
-            i += diff) {
-            // dont have these kind of early returns, take out in a function and compute it
-            if (board[startCord[0]][i] !== undefined) {
-                return false;
-            }
-        }
-
-        return true;
-    } else if (endCord[1] == startCord[1]) {
-        const diff = (startCord[0] < endCord[0] ? 1 : -1);
-        for (let i = startCord[0] + diff;
-            i != endCord[0];
-            i += diff) {
-            // dont have these kind of early returns, take out in a function and compute it
-            if (board[i][startCord[0]] !== undefined) {
-                return false;
-            }
-        }
-
-        return true;
-    } else {
-        return false; // seems we can return false at the end adn just check for returning true
+// also can just return the required piece movement from here
+const movementProvider = (board: Board, startCord: Cord, endCord: Cord) => {
+    // not checking if cord is in bound, although can return null if that's the case
+    const piece = (cord: Cord): Piece | undefined => {
+        return board[cord[0]][cord[1]];
     }
 
-};
-const bishopMovement = (board: Board, startCord: Cord, endCord: Cord): boolean => {
-    const
-        startSum = startCord[0] + startCord[1],
-        endSum = endCord[0] + endCord[1];
-    const
-        startDiff = startCord[0] - startCord[1],
-        endDiff = endCord[0] - endCord[1];
+    const kingMovement = () => {
+        const xDist: number = Math.abs(startCord[0] - endCord[0]);
+        const yDist: number = Math.abs(startCord[1] - endCord[1]);
 
-    if (startSum === endSum) {
-        const diff = (startCord[0] < endCord[0] ? 1 : -1);
-
-        // improve these kind of loops, they are hard to read
-        for (let
-            cord = [startCord[0] - diff, startCord[1] + diff];
-            cord !== endCord;
-            cord[0] -= diff, cord[1] += diff) {
-            if (board[cord[0]][cord[1]] !== undefined) {
-                return false;
+        // has to be one move dist from startCord - dont use comments like these, make another function with good name
+        return xDist <= 1 && yDist <= 1;
+    };
+    const rookMovement = () => {
+        // convert to one block rather than 2 if blocks
+        if (endCord[0] === startCord[0]) {
+            const diff = (startCord[1] < endCord[1] ? 1 : -1);
+            for (let i = startCord[1] + diff;
+                i != endCord[1];
+                i += diff) {
+                // dont have these kind of early returns, take out in a function and compute it
+                if (board[startCord[0]][i] !== undefined) {
+                    return false;
+                }
             }
-        }
 
-        return true;
-    } else if (startDiff === endDiff) {
-        const diff = (startCord[0] < endCord[0] ? 1 : -1);
-
-        for (let
-            cord = [startCord[0] + diff, startCord[1] + diff];
-            cord !== endCord;
-            cord[0] += diff, cord[1] += diff) {
-            if (board[cord[0]][cord[1]] !== undefined) {
-                return false;
+            return true;
+        } else if (endCord[1] === startCord[1]) {
+            const diff = (startCord[0] < endCord[0] ? 1 : -1);
+            for (let i = startCord[0] + diff;
+                i != endCord[0];
+                i += diff) {
+                // dont have these kind of early returns, take out in a function and compute it
+                if (board[i][startCord[0]] !== undefined) {
+                    return false;
+                }
             }
+
+            return true;
+        } else {
+            return false; // seems we can return false at the end adn just check for returning true
         }
+    };
+    const bishopMovement = () => {
+        const
+            startSum: number = startCord[0] + startCord[1],
+            endSum: number = endCord[0] + endCord[1];
+        const
+            startDiff: number = startCord[0] - startCord[1],
+            endDiff: number = endCord[0] - endCord[1];
 
-        return true;
-    }
+        if (startSum === endSum) {
+            const diff = (startCord[0] < endCord[0] ? 1 : -1);
 
-    return false;
-};
-// see if we need to place it above the others as it is a const var, not a function
-const queenMovement = (board: Board, startCord: Cord, endCord: Cord): boolean => {
-    return rookMovement(board, startCord, endCord)
-        || bishopMovement(board, startCord, endCord);
-};
-const knightMovement = (board: Board, startCord: Cord, endCord: Cord): boolean => {
-    const dirs = [
-        [-1, 2],
-        [-2, 1],
-        [2, 1],
-        [1, 2],
-        [-1, -2],
-        [-2, -1],
-        [2, -1],
-        [1, -2]
-    ];
+            // improve these kind of loops, they are hard to read
+            for (let
+                cord: Cord = [startCord[0] - diff, startCord[1] + diff];
+                !eq(cord, endCord);
+                cord[0] -= diff, cord[1] += diff) {
 
-    for (const dir of dirs) {
-        if (endCord == [startCord[0] + dir[0], startCord[1] + dir[1]]) {
+                if (piece(cord) !== undefined) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else if (startDiff === endDiff) {
+            const diff = (startCord[0] < endCord[0] ? 1 : -1);
+
+            for (let
+                cord: Cord = [startCord[0] + diff, startCord[1] + diff];
+                !eq(cord, endCord);
+                cord[0] += diff, cord[1] += diff) {
+
+                if (piece(cord) !== undefined) {
+                    return false;
+                }
+            }
+
             return true;
         }
-    }
 
-    return false;
-};
-const pawnMovement = (board: Board, startCord: Cord, endCord: Cord): boolean => {
-    const piece: Piece = board[startCord[0]][startCord[1]]!;
-    const endPiece: Piece | undefined = board[endCord[0]][endCord[1]];
+        return false;
+    };
+    const queenMovement = (): boolean => {
+        return rookMovement() || bishopMovement();
+    };
+    const knightMovement = (): boolean => {
+        const dirs = [
+            [-1, 2],
+            [-2, 1],
+            [2, 1],
+            [1, 2],
+            [-1, -2],
+            [-2, -1],
+            [2, -1],
+            [1, -2]
+        ];
 
-    // combine both if blocks as one - forward, forwardLeft..., use diff=+/-1 as a variable
-    if (piece.color == 'w') {
-        const up: Cord = [startCord[0] - 1, startCord[1]];
-        const upLeft: Cord = [startCord[0] - 1, startCord[1] - 1];
-        const upRight: Cord = [startCord[0] - 1, startCord[1] + 1];
+        for (const dir of dirs) {
+            const cord: Cord = [startCord[0] + dir[0], startCord[1] + dir[1]];
+            if (eq(endCord, cord)) {
+                return true;
+            }
+        }
 
-        if (endCord === up) {
+        return false;
+    };
+    const pawnMovement = (): boolean => {
+        const piece: Piece = board[startCord[0]][startCord[1]]!;
+        const endPiece: Piece | undefined = board[endCord[0]][endCord[1]];
+
+        const rowDirection = piece.color == 'w' ? -1 : 1;
+        const forwardRow = [startCord[0] + rowDirection];
+
+        const forward = [forwardRow, startCord[1]];
+        const forwardLeft = [forwardRow, startCord[1] - 1];
+        const forwardRight = [forwardRow, startCord[1] + 1];
+        if (eq(endCord, forward)) {
             return endPiece === undefined;
-        } else if (endCord === upLeft || endCord === upRight) {
+        } else if (eq(endCord, forwardLeft) || eq(endCord, forwardRight)) {
             return endPiece !== undefined;
         }
-    } else {
-        const down: Cord = [startCord[0] + 1, startCord[1]];
-        const downLeft: Cord = [startCord[0] + 1, startCord[1] - 1];
-        const downRight: Cord = [startCord[0] + 1, startCord[1] + 1];
 
-        if (endCord === down) {
-            return endPiece === undefined;
-        } else if (endCord === downLeft || endCord === downRight) {
-            return endPiece !== undefined;
-        }
-    }
+        return false;
+    };
 
-    return false;
-};
-
-const ff = (a: number): { bro: () => boolean, bro2: () => {}, abc: Function } => {
     return {
-        bro: (): boolean => {
-            const b = a + 1;
-            return true;
-        },
-
-        bro2: () => {
-            return a + 10;
-        },
-
-        abc: function gg(a: string) {
-            return 5;
-        }
+        kingMovement: kingMovement,
+        rookMovement: rookMovement,
+        bishopMovement: bishopMovement,
+        queenMovement: queenMovement,
+        knightMovement: knightMovement,
+        pawnMovement: pawnMovement
     }
 }
