@@ -89,7 +89,7 @@ const movementProvider = (board: Board, startCord: Cord) => {
                 if (piece(cord) === undefined) {
                     cords.push(cord);
                 } else {
-                    if (piece(cord)?.color === piece(startCord)?.color) {
+                    if (eq(piece(cord)?.color, piece(startCord)?.color)) {
                         break;
                     } else {
                         cords.push(cord);

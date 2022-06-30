@@ -1,5 +1,6 @@
 import { eq } from "../utilities/equals";
 import { Board, Cord, Piece } from "./types";
+import { getSquareFromCord } from "./utilities";
 
 // without any piece checks, just check movement
 // piece needs to be present at the start cord, later refactor if function is crashing with stateless methodology - we can't keep checking everywhere
@@ -56,11 +57,12 @@ const movementProvider = (board: Board, startCord: Cord, endCord: Cord) => {
         // convert to one block rather than 2 if blocks
         if (endCord[0] === startCord[0]) {
             const diff = (startCord[1] < endCord[1] ? 1 : -1);
-            for (let i = startCord[1] + diff;
-                i != endCord[1];
+            for (let
+                i = startCord[1] + diff;
+                i !== endCord[1];
                 i += diff) {
                 // dont have these kind of early returns, take out in a function and compute it
-                if (board[startCord[0]][i] !== undefined) {
+                if (!eq(board[startCord[0]][i], undefined)) {
                     return false;
                 }
             }
@@ -68,11 +70,12 @@ const movementProvider = (board: Board, startCord: Cord, endCord: Cord) => {
             return true;
         } else if (endCord[1] === startCord[1]) {
             const diff = (startCord[0] < endCord[0] ? 1 : -1);
-            for (let i = startCord[0] + diff;
-                i != endCord[0];
+            for (let
+                i = startCord[0] + diff;
+                i !== endCord[0];
                 i += diff) {
                 // dont have these kind of early returns, take out in a function and compute it
-                if (board[i][startCord[0]] !== undefined) {
+                if (!eq(board[i][startCord[1]], undefined)) {
                     return false;
                 }
             }

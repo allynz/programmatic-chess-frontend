@@ -1,4 +1,5 @@
 import { Chess } from "chess.js"; // see this implementation of class and see if you can learn anything from it
+import { eq } from "../utilities/equals";
 import checkBoard from "./boardChecker";
 import isValidMovement from "./movementChecker";
 import { Board, Color, Cord, Move, Piece, Square } from "./types";
@@ -77,7 +78,7 @@ export class BoardState {
         // check types and casting
         if (!inBoundSquare(orig)
             || !inBoundSquare(dest)
-            || orig === dest) {
+            || eq(orig, dest)) {
             return false;
         }
 
@@ -86,7 +87,7 @@ export class BoardState {
 
         // check if turn == current piece color and a piece exists at orig and piece has valid movement to dest
         if (true) {
-            const piece: Piece | undefined = this.grid[startCord[0]][startCord[1]];
+            const piece: Piece | undefined = this.pieceFromCord(startCord);
             if (!piece
                 || piece.color !== this.turn
                 || !isValidMovement(this.grid, startCord, endCord)) {
@@ -117,7 +118,7 @@ export class BoardState {
     getValidMovesForSquare(square: Square): Array<Move> {
         //console.log("gridinsidevalidmoves", this.grid);
         const moves = getValidMovesForSquare(this.grid, square);
-        const cord = getCordFromSquare(square);
+        //const cord = getCordFromSquare(square);
         //console.log("valid piece in chess", this.grid[cord[0]][cord[1]]);
         //console.log("valid moves in chess", moves);
         return moves;
