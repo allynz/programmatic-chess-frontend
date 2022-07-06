@@ -22,7 +22,7 @@ const SubmissionCode = ({ code }: any) => {
                 scrollbar: {
                     // See if we can make this more smoother, scroll outside after certain more scrolls inside so that it is smoother, prob we cannot update it check docs: https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IEditorScrollbarOptions.html 
                     // Back button on Mac can have problems as that auto detects back key on trackpad
-                    alwaysConsumeMouseWheel: false,
+                    //alwaysConsumeMouseWheel: false, // actually seems better when it consumes the whole mouse
                 }
             }}
             language="cpp"

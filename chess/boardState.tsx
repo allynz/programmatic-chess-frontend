@@ -1,19 +1,21 @@
 import { Chess } from "chess.js"; // see this implementation of class and see if you can learn anything from it
 import { eq } from "../utilities/equals";
 import checkBoard from "./boardChecker";
-import isValidMovement from "./movementChecker";
+import isRawValidMovement from "./movementChecker";
 import { Board, Color, Cord, Move, Piece, Square } from "./types";
 import { boardAfterMove, getCordFromSquare, getFen, inBoundSquare, nextTurn } from "./utilities";
-import getValidMovesForSquare from "./validMoveProvider";
+import getRawValidMovesForSquare from "./validMoveProvider";
+import { cloneDeep } from "lodash";
 
 // Use === not ==
 
 // is this class public, make it accessible only in this file
 export class BoardState {
+    // for orientation, use up for white, and down for black
     private turn: Color;
-    private orientation; // needed for pawn moves, or just use default one. Preferably don't use pawns in your game a checking if it is valid is a mess
     private fen: string;
     private grid: Board;
+    private kingInCheck: boolean;
 
     constructor(fen: string) {
         this.fen = fen;
@@ -35,14 +37,16 @@ export class BoardState {
                 }
             })
         });
-        //console.log("constructor", this.grid);
-        this.orientation = true;
         this.turn = 'w';
+        this.kingInCheck = this.computeKingInCheck();
     }
 
     // update all board vars
-    updateBoard(turn?: Color, fen?: string, grid?: Board) {
-
+    updateBoard(grid: Readonly<Board>) {
+        this.turn = nextTurn(this.turn);
+        this.grid = grid as Board;
+        this.fen = getFen(this.grid);
+        this.kingInCheck = this.computeKingInCheck();
     }
 
     getGrid(): Board {
@@ -53,12 +57,12 @@ export class BoardState {
         return this.fen;
     }
 
-    pieceFromSquare(square: Square): Piece | undefined {
+    pieceFromSquare(square: Readonly<Square>): Piece | undefined {
         const cord = getCordFromSquare(square);
         return this.pieceFromCord(cord);
     }
 
-    pieceFromCord(cord: Cord): Piece | undefined {
+    pieceFromCord(cord: Readonly<Cord>): Piece | undefined {
         return this.grid[cord[0]][cord[1]];
     }
 
@@ -66,13 +70,13 @@ export class BoardState {
         return this.turn;
     }
 
+    isKingInCheck(): boolean {
+        return this.kingInCheck;
+    }
+
     // check here if board is valid after making the move
     // cannot capture a king in current turn but that shouldn't be possible anyway if current board is valid
-    isValidMove(
-        orig: Square,
-        dest: Square,
-        // ordering matters in param, so better make it a map?
-        shouldCheckValidity?: boolean): boolean {
+    isValidMove(orig: Readonly<Square>, dest: Readonly<Square>): boolean {
         //console.log("gridinsideisvlaid", this.grid);
 
         // check types and casting
@@ -86,38 +90,38 @@ export class BoardState {
         const endCord: Cord = getCordFromSquare(dest);
 
         // check if turn == current piece color and a piece exists at orig and piece has valid movement to dest
-        if (true) {
-            const piece: Piece | undefined = this.pieceFromCord(startCord);
-            if (!piece
-                || piece.color !== this.turn
-                || !isValidMovement(this.grid, startCord, endCord)) {
-                return false;
-            }
+        const piece: Piece | undefined = this.pieceFromCord(startCord);
+        if (!piece
+            || piece.color !== this.turn
+            || !isRawValidMovement(this.grid, startCord, endCord)) {
+            return false;
         }
 
-        const isBoardValid = checkBoard(
-            nextTurn(this.turn),
-            boardAfterMove(this.grid, { orig, dest })); // TODO: should we update turn here
+        // have to check regardless of check, as other pieces movement can also cause check, even if not in check right now
+        const isBoardValid =
+            checkBoard(
+                nextTurn(this.turn),
+                boardAfterMove(this.grid, { orig, dest }));
 
         return isBoardValid;
     }
 
     // move without validation, no promotion or castling, etc.
     // if anything goes wrong, error will be thrown
-    move(orig: Square, dest: Square): void {
+    move(orig: Readonly<Square>, dest: Readonly<Square>): void {
         //debugger;
         // order of assignment is important
         //console.log("den before movement:", this.grid);
-        this.grid = boardAfterMove(this.grid, { orig, dest });
-        this.fen = getFen(this.grid);
-        //console.log("den after movement:", this.grid);
-        this.turn = nextTurn(this.turn);
+        const board: Board = boardAfterMove(this.grid, { orig, dest });
+        //console.log("grid after movement:", this.grid);
+
+        this.updateBoard(board);
     }
 
     // should we just return only the real valid moves from here?
-    getValidMovesForSquare(square: Square): Array<Move> {
+    getRawValidMovesForSquare(square: Square): Array<Move> {
         //console.log("gridinsidevalidmoves", this.grid);
-        const moves = getValidMovesForSquare(this.grid, square);
+        const moves = getRawValidMovesForSquare(this.grid, square);
         //const cord = getCordFromSquare(square);
         //console.log("valid piece in chess", this.grid[cord[0]][cord[1]]);
         //console.log("valid moves in chess", moves);
@@ -141,8 +145,8 @@ export class BoardState {
     }
 
     // king should be present for this turn
-    kingInCheck() {
+    computeKingInCheck() {
         // wow, what an algo
-        return checkBoard(nextTurn(this.turn), this.grid) == false;
+        return checkBoard(nextTurn(this.turn), this.grid) === false;
     }
 };

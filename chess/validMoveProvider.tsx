@@ -1,14 +1,14 @@
 import { eq } from "../utilities/equals";
-import { Board, Cord, Move, Piece, Square } from "./types";
+import { Board, Color, Cord, Move, Piece, Square } from "./types";
 import { getCordFromSquare, getSquareFromCord, inBoundCord } from "./utilities";
 
 // need to make this a class so I can access getPiece properly and not have so many parameter passing outside
 // king can walk into a check, we are just returning all next valid moves of piece, without blockage
 // capturing a king should not be possible as that would itself have been a previous invalid move
 // return all valid squares by piece, no check stuff, that will be seen in isMoveValid
-export default function getValidMovesForSquare(
-    board: Array<Array<Piece | undefined>>,
-    startSquare: Square): Array<Move> {
+export default function getRawValidMovesForSquare(
+    board: Readonly<Board>,
+    startSquare: Readonly<Square>): Array<Move> {
     // Is type anyways inferred in TS, or do i always have to specify type for safety? Better to specify only though as we will be passing current var to other places etc, and while reading from github, reader cannot infer automatically
     const startCord: Cord = getCordFromSquare(startSquare);
 
@@ -25,20 +25,20 @@ export default function getValidMovesForSquare(
     }
 
     let res: Array<Square> = [];
-    const movement = movementProvider(board, startCord);
+    const movement = movementProvider(board);
+    // cannot find a good way to remove startCord duplicacy, as OO is terrible in js, and calling function multiple times is gonna declare all vars and methods again
     if (piece.type == 'k') {
-        // in_check does not matter, only find moves with no blocking
-        res = movement.kingMovement();
+        res = movement.kingMovement(startCord);
     } else if (piece.type == 'q') {
-        res = movement.queenMovement();
+        res = movement.queenMovement(startCord);
     } else if (piece.type == 'b') {
-        res = movement.bishopMovement();
+        res = movement.bishopMovement(startCord);
     } else if (piece.type == 'r') {
-        res = movement.rookMovement();
+        res = movement.rookMovement(startCord);
     } else if (piece.type == 'n') {
-        res = movement.knightMovement();
+        res = movement.knightMovement(startCord);
     } else if (piece.type == 'p') {
-        res = movement.pawnMovement();
+        res = movement.pawnMovement(startCord);
     }
 
     return res.map(square => { return { orig: startSquare, dest: square } as Move });
@@ -47,20 +47,33 @@ export default function getValidMovesForSquare(
 // https://stackoverflow.com/questions/56055658/what-is-the-difference-between-class-method-vs-class-field-function-vs-class-f
 // iterate only on the diffs, not on actual cord, that way we don't have to clone it
 // remove ? checks here, it looks ugly
-const movementProvider = (board: Board, startCord: Cord) => {
-    const piece = (cord: Cord): Piece | undefined => {
+// cannot provide undefined param, as it will see it as undefined and use undefined val
+// make sure board is not being modified
+// !!!TODO: if king is in check, you have to check board no matter what
+const movementProvider = (
+    board: Readonly<Board>) => {
+    const piece = (cord: Readonly<Cord>): Piece | undefined => {
         return board[cord[0]][cord[1]];
     }
 
-    const kingMovement = (): Array<Square> => {
+    // in the case of king, it's always true
+    const filterAndTransform = (cords: Readonly<Array<Cord>>) => {
+        return cords.map(cord => getSquareFromCord(cord) as Square);
+    };
+
+    // use attackGrid here to filter in_check sqaures
+    // matrix O() is better than ch ecking with all pieces
+    // best to check the board after move as that is the best way, piece could be protected etc. so attackgrid may not fully reveal thing
+    const kingMovement = (startCord: Readonly<Cord>): Array<Square> => {
         const cords: Array<Cord> = [];
+
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
                 const cord: Cord = [startCord[0] + i, startCord[1] + j];
                 if (eq(cord, startCord)
                     || !inBoundCord(cord)
                     || (piece(cord)
-                        && piece(cord)?.color === piece(startCord)?.color)) {
+                        && eq(piece(cord)?.color, piece(startCord)?.color))) {
                     continue;
                 }
 
@@ -68,10 +81,10 @@ const movementProvider = (board: Board, startCord: Cord) => {
             }
         }
 
-        return cords
-            .map(cord => getSquareFromCord(cord) as Square);
+        // always check validity for king
+        return filterAndTransform(cords);
     };
-    const rookMovement = (): Array<Square> => {
+    const rookMovement = (startCord: Readonly<Cord>): Array<Square> => {
         const dirs: Array<Cord> = [
             [0, 1],
             [1, 0],
@@ -99,10 +112,9 @@ const movementProvider = (board: Board, startCord: Cord) => {
             }
         }
 
-        return cords
-            .map(cord => getSquareFromCord(cord) as Square);
+        return filterAndTransform(cords);
     };
-    const bishopMovement = (): Array<Square> => {
+    const bishopMovement = (startCord: Readonly<Cord>): Array<Square> => {
         const dirs: Array<Cord> = [
             [1, -1],
             [-1, 1],
@@ -129,14 +141,13 @@ const movementProvider = (board: Board, startCord: Cord) => {
             }
         }
 
-        return cords
-            .map(cord => getSquareFromCord(cord) as Square);
+        return filterAndTransform(cords);
     };
     // see if we need to place it above the others as it is a const var, not a function
-    const queenMovement = (): Array<Square> => {
-        return rookMovement().concat(bishopMovement());
+    const queenMovement = (startCord: Readonly<Cord>): Array<Square> => {
+        return rookMovement(startCord).concat(bishopMovement(startCord));
     };
-    const knightMovement = (): Array<Square> => {
+    const knightMovement = (startCord: Readonly<Cord>): Array<Square> => {
         const dirs = [
             [-1, 2],
             [-2, 1],
@@ -159,11 +170,9 @@ const movementProvider = (board: Board, startCord: Cord) => {
             }
         }
 
-        // if this is common across all, then do it later
-        return cords
-            .map(cord => getSquareFromCord(cord) as Square); // cords are valid so Square will be valid too
+        return filterAndTransform(cords);
     };
-    const pawnMovement = (): Array<Square> => {
+    const pawnMovement = (startCord: Readonly<Cord>): Array<Square> => {
         const diff = piece(startCord)!.color == 'w' ? -1 : 1;
 
         const forward: Cord = [startCord[0] + diff, startCord[1]];
@@ -185,8 +194,7 @@ const movementProvider = (board: Board, startCord: Cord) => {
             cords.push(forwardRight);
         }
 
-        return cords
-            .map(cord => getSquareFromCord(cord) as Square);
+        return filterAndTransform(cords);;
     };
 
     return {

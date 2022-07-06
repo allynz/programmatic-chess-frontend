@@ -1,6 +1,7 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
 
+// https://getcssscan.com/css-buttons-examples
 const SubmissionButton = ({ isSubmitting }: any) => {
     return (<>
         <div>

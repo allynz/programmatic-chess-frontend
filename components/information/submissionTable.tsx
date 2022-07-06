@@ -1,5 +1,6 @@
-import { Table } from "react-bootstrap";
 import { Timestamp } from "firebase/firestore";
+import Link from "next/link";
+import { Table } from "react-bootstrap";
 
 // order fields as per priority - details of status should come first
 // Keep head sticky if you can
@@ -9,6 +10,9 @@ import { Timestamp } from "firebase/firestore";
 // submission table shifts appropriately if any submission updates, see if that can be an issue
 // color success in green, and unsuccess in red
 export function SubmissionTable({ submissionList }: any) {
+    // optimise fields
+    // if no submissions, show a welcome message
+    // also see to adjust height as certain fields occupy lot of unnecessary space, elipsis them
     return (<>
         <Table
             style={{
@@ -33,11 +37,12 @@ export function SubmissionTable({ submissionList }: any) {
                 </tr>
             </thead>
             <tbody>
-                {console.log("slist", submissionList)}
                 {submissionList && submissionList.map((submission: any) => (
                     //{ console.log("sub", submission) }
                     <tr>
-                        <td>{submission.userId}</td>
+                        {/* convert to spinner when link clicked */}
+                        {/* use encodeURIComponent */}
+                        <td><Link href={"/submission/" + submission.id}>{submission.id}</Link></td>
                         <td>{
                             // set different display alternatives
                             submission.timestamp.submitted ?

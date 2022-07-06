@@ -1,40 +1,28 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import { authenticate, logout } from "../../firebase/config";
 
 const Page = () => {
-    const [val, setVal] = useState(0);
+    const user = useContext(UserContext);
 
-    return (<>
-        <div
-            style={{
-                height: "100vh",
-                width: "100vw",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "2rem"
-            }}>
-            <Element a={val} />
-            <button
-                onClick={() => { setVal(val + 1); }}>
-                Incr
+    if (user) {
+        return (<>
+            WOHOO
+            <button onClick={logout}>
+                Log out
             </button>
-        </div>
-    </>);
+        </>);
+    } else {
+        return (<>
+            <button onClick={authenticate}>
+                Sign in
+            </button>
+
+            <button onClick={logout}>
+                Log out
+            </button>
+        </>);
+    }
 }
 
 export default Page;
-
-const Element = ({ a, b, c }: any) => {
-    const [s, setS] = useState(a * a);
-    const cc = s + 10;
-
-    return (<>
-        {s}
-        <br></br>
-        {cc}
-        <button
-            onClick={() => { setS(s + 20); }}>
-            Incr inside
-        </button>
-    </>)
-}

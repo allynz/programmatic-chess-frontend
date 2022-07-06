@@ -3,8 +3,7 @@ import { Chessground } from "chessground";
 import { Api } from "chessground/api";
 import { Config } from "chessground/config";
 import { Dests, Key } from "chessground/types";
-import { useEffect, useState } from "react";
-import 'react-chessground/dist/styles/chessground.css';
+import { useEffect, useId, useState } from "react";
 
 // Basically make this wrapper stateless
 const ChessboardInternal = ({
@@ -19,6 +18,7 @@ const ChessboardInternal = ({
         // check if we can drag multiple times or not, prob will be fine but take care of capture square as that can be dragged multiple times
         (orig: Key, dest: Key) => moveFunction(orig, dest)
     );
+    const boardId = useId();
 
     const [ground, setGround] = useState<Api>();
     useEffect(() => {
@@ -26,7 +26,7 @@ const ChessboardInternal = ({
         console.log("agaon")
         setGround(
             Chessground(
-                document.getElementById("board") || document.body,
+                document.getElementById(boardId) || document.body,
                 config
             ));
         ground?.setAutoShapes([]);
@@ -40,12 +40,30 @@ const ChessboardInternal = ({
 
     return (<>
         <div
-            id="board"
             style={{
-                height: "auto",
-                width: "auto",
-                aspectRatio: "1/1"
+                // padding needs to be same for all so we can get a sqaure parent container for board
+                padding: "4rem", // can we make this also auto somehow? as screen size increases this may get cropped
+                overflow: "clip", // clip here only, no complications at the top
+                aspectRatio: "1/1",
+                maxHeight: "100%",
+                maxWidth: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "black", // make coordinates color different
+                margin: "0 auto" // needed as board has margin of it's own, auto aligns to center though // https://developer.mozilla.org/en-US/docs/Web/CSS/margin
             }}>
+            {/* make this non-clickable somehow, could not find anything in config, or using cursor property directly on div */}
+            <div
+                id={boardId} // for multiple divs, need to make this dynamic also
+                style={{
+                    aspectRatio: "1/1",
+                    maxHeight: "200%",
+                    maxWidth: "200%"
+                    // seems better than height: auto as auto is controlled by browser
+                }}>
+
+            </div>
         </div>
     </>);
 }

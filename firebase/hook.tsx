@@ -1,20 +1,21 @@
-import React from "react";
-import { getCollection, getDocument } from "./config";
+import { query, where } from "@firebase/firestore";
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
-import { orderBy, query, where } from "@firebase/firestore";
 import { SubmissionTable } from "../components/information/submissionTable";
+import { getCollection, getDocument } from "./config";
 
 // hopefully the hook doesnt run on every submission addition, to filter again otherwise it would be a lot of TLE, and I would have to structure data differently
 // TODO: Find out how many reads do hooks take up
 // Better to keep data for specific users as then my hooks will be pointing to specific collection rather than all
-export function getSubmissionCollectionDataHook() {
+// Should we get user here directly, or be passed as param? See which components should be stateless
+export function getSubmissionCollectionDataHook(userId: string, problemId: string) {
+    console.log("problemId", problemId);
     const [value, loading, error] =
         // See why where and orderBy cannot be combined easily, do I need to create indexes?
         useCollectionData(
             query(
                 getCollection('Submissions'),
-                where("userId", "==", "1"),
-                where("problemId", "==", "2")
+                where("userId", "==", userId),
+                where("problemId", "==", String(problemId)) // pass it as string only though, even TS doesnt cast or throw error when raw hmmm...
             ));
 
     // TODO: Ordering is random so make it ordered by time

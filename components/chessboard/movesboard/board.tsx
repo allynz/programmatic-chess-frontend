@@ -1,10 +1,8 @@
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
-import { useEffect, useState } from 'react';
-import 'react-chessground/dist/styles/chessground.css'; // TODO: Find correct stylesheet, important to render though - https://github.com/lichess-org/chessground
+import { useEffect, useId, useState } from 'react';
+// TODO: Find correct stylesheet, important to render though - https://github.com/lichess-org/chessground
 import { Square } from '../../../chess/types';
-
-const boardId: string = "board";
 
 // https://blog.logrocket.com/accessing-previous-props-state-react-hooks/ - create own usePreviousState hook
 // Block cursor on board
@@ -12,6 +10,8 @@ const boardId: string = "board";
 // This is a static board so startFen and movesList won't change, if they do, then use useEffect to update
 // See if movesList is properly handled, especially if it contains last status
 const Board = ({ startFen, movesList, idx }: any) => {
+    const boardId = useId();
+
     const [ground, setGround] = useState<Api>(); // amazing, use useState and it will remember state, otherwise not if it is a let variable
     const [stack, setStack] = useState<FenStack>(new FenStack(startFen));
 
@@ -55,7 +55,7 @@ const Board = ({ startFen, movesList, idx }: any) => {
             }
         } else {
             // not necessary if newIdx === prevIdx but no issue anyway
-            ground?.set({ fen: stack.get(newIdx) });
+            ground?.set({ fen: stack.get(newIdx), viewOnly: true });
             return;
         }
     };

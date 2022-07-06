@@ -1,7 +1,7 @@
 import { Dests, Key } from "chessground/types";
 import { useEffect, useState } from "react";
-import 'react-chessground/dist/styles/chessground.css';
 import { Chess } from "../../../chess";
+import { Status } from "../../../chess/config";
 import { Move, Square } from "../../../chess/types";
 import ChessboardInternal from "./chessboardInternal";
 import StatusDisplay from "./statusDisplay";
@@ -16,18 +16,20 @@ type Props = {
 // also need to wait for all updates to be completed before moving forward
 // Wow, just use const vars if in doubt, no setState needed
 const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: Props) => {
-    const [chess, setChess] = useState(new Chess(startFen)); // setState updates const vars also so need to make this stateful, or maybe make it top-level?
+    const [chess, setChess] = useState<Chess>(new Chess(startFen)); // setState updates const vars also so need to make this stateful, or maybe make it top-level?
     // make sure this is updated really only when valid moves are 0
-    const [gameStatus, setGameStatus] = useState(chess.getStatus());
+    const [gameStatus, setGameStatus] = useState<Status>(chess.getStatus());
 
     // setState updates probably happen after useEffect is completed, and are reflected in the browser for that reason
     // cannot use useState vars as const vars as they are not updated by prop changes, only using setState. const vars update on any changes
     // TODO: combine this into one state so I can update them together
     const [moveAllowed, setMoveAllowed] = useState<boolean>(true);
-    const [state, setState] = useState({
-        fen: startFen,
-        validMoves: convertMoveToMap(chess.validMoves())
-    });
+    const [state, setState] = useState<{ fen: string, validMoves: Dests }>(
+        {
+            fen: chess.getFen(),
+            validMoves: convertMoveToMap(chess.validMoves())
+        }
+    );
 
     // check on undefined timwout - it should default to 0
     const updateStateOnMove = (timeoutMs?: number | undefined) => {
@@ -49,10 +51,11 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
         console.log("moveall", moveAllowed);
         console.log("before", chess.validMoves().length);
         // Keep on playing even with insufficient material
-        if (!moveAllowed || gameStatus === "Checkmate" || gameStatus === "Stalemate") return;
+        if (!moveAllowed || gameStatus in [Status.CHECKMATE, Status.STALEMATE]) return;
 
         const moveString = orig.toString() + "-" + dest.toString();
         console.log(moveString);
+        // dont need to check validity here as we had only allowed valid moves, but its fine for now in general
         let moved = chess.move(orig as Square, dest as Square);
         if (!moved) {
             console.log("Not moved");
@@ -63,12 +66,12 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
 
         const possibleMoves = chess.validMoves();
         if (possibleMoves.length === 0) {
-            updateStateOnMove(0); // somethings fishy here, on left and rhs side of board it repeats, but on bottom side it doesn't
+            updateStateOnMove(0); // find a better way of passing params so that it is more readable, like named params in python
             return; // take care of equality in JS
         }
 
         const randomIdx = Math.floor(Math.random() * possibleMoves.length);
-        moved = chess.move(possibleMoves[randomIdx].orig, possibleMoves[randomIdx].dest);
+        moved = chess.move(possibleMoves[randomIdx].orig, possibleMoves[randomIdx].dest, true);
         console.log(moved);
         if (!moved) {
             console.log("Not moved");
@@ -101,8 +104,11 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
             style={{
                 height: "100%",
                 width: "100%",
-                padding: "5rem",
-                overflow: "clip"
+                padding: "1rem",
+                overflow: "clip",
+                display: "grid",
+                gridTemplateRows: "10% 5% 70% 5% 10%",
+                gridTemplateColumns: "100%"
             }}>
             <div
                 style={{

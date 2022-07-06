@@ -25,7 +25,6 @@ const MovesBoardDisplay = ({ startFen, movesList }: any) => {
                 width: "100%",
                 //padding: "1rem", // seems  chilren are inheriting padding
                 overflow: "scroll",
-                outline: "solid red",
                 display: "grid",
                 gridTemplateRows: "10% 80% 10%"
             }}>

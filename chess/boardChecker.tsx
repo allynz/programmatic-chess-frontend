@@ -1,6 +1,6 @@
 import { SQUARES } from "./config";
-import isValidMovement from "./movementChecker";
-import { Color, Cord, Piece, Square } from "./types";
+import isRawValidMovement from "./movementChecker";
+import { Board, Color, Cord, Piece, Square } from "./types";
 import { getCordFromSquare, nextTurn } from "./utilities";
 
 // Hmmm, should we use Object oriented instead? How does the boardState object access it
@@ -8,8 +8,8 @@ import { getCordFromSquare, nextTurn } from "./utilities";
 // board should be slightly valid, only one piece per square
 // opponent king can't be in check during my turn
 function checkBoard(
-    turn: Color,
-    board: Array<Array<Piece | undefined>>): boolean {
+    turn: Readonly<Color>,
+    board: Readonly<Board>): boolean {
     // put this function inside board class itslef, it is used too often
     const piece = (cord: Cord): Piece | undefined => {
         return board[cord[0]][cord[1]];
@@ -42,7 +42,7 @@ function checkBoard(
     const kingCord = getCordFromSquare(opponentKingSquare);
     for (const opponentCord of currPieceCords) {
         // if there is a valid movement from opponent piece to current king
-        if (isValidMovement(board, opponentCord, kingCord)) {
+        if (isRawValidMovement(board, opponentCord, kingCord)) {
             return false;
         }
     }

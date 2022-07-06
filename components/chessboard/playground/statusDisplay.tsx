@@ -9,7 +9,20 @@ const StatusDisplay = ({ status }: { status: string }) => {
         [Status.PLAYING, <Playing />]
     ]);
 
-    return statusMap.get(status) || <Unknown />;
+    const element = statusMap.get(status) || <Unknown />;
+
+    return (<>
+        <div
+            style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+            {element}
+        </div>
+    </>);
 }
 
 export default StatusDisplay;

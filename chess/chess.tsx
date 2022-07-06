@@ -1,7 +1,9 @@
 import { eq } from "../utilities/equals";
+import checkBoard from "./boardChecker";
 import { BoardState } from "./boardState";
 import { SQUARES, Status } from "./config";
 import { Board, Move, Piece, Square } from "./types";
+import { boardAfterMove, getCordFromSquare, nextTurn } from "./utilities";
 
 // don't go for afncy stuff right now, just do it and then we'll optimise later. Board is small only
 // structured this class to place most used function at the bottom
@@ -36,15 +38,21 @@ export class Chess {
     }
 
     // store it in the history, update curr state - fen and boardState
-    move(orig: Square, dest: Square): boolean {
+    // no sense in returning readonly since client can do whatever it likes with the result
+    // if by making a move, we know that the board is valid, then the move would be valid also
+    move(
+        orig: Readonly<Square>,
+        dest: Readonly<Square>,
+        skipValidityCheck?: Readonly<boolean>): boolean {
         //console.log("gridFirst", this.boardState.getGrid()); // this is some async shit as on disabling below code, grid is normal
         //debugger;
-        const isGameOver = this.isGameOver();
-        const isMoveValid = this.boardState.isValidMove(orig, dest);
-        console.log("gameOver", isGameOver);
-        console.log("isMoveValid", isMoveValid);
-        if (isGameOver || !isMoveValid) {
-            return false;
+        // dont really need to check it in playground as we only display valid moves beforehand
+        if (!skipValidityCheck) {
+            const isMoveValid = this.boardState.isValidMove(orig, dest);
+            console.log("isMoveValid", isMoveValid);
+            if (!isMoveValid) {
+                return false;
+            }
         }
 
         // needs to be before boardState move as then we change the state by moving
@@ -53,11 +61,14 @@ export class Chess {
         if (this.history.length > Chess.HISTORY_LIMIT) this.history.shift(); // check if this is in place
         this.boardState.move(orig, dest);
 
+        console.log("moved" + orig + dest);
+
         return true;
     }
 
     // checkmate, stalemate, be careful of king in check condition
     // store this as a variable so we don't compute it again and again
+    // TODO: can we get this faster, like whenever we find a valid move, then return, for now is fine, see if we can do that kind of architecture, streaming data, prob can be done by sending a function as param
     isGameOver(): boolean {
         //debugger;
         // current turn side have valid moves possible
@@ -71,13 +82,25 @@ export class Chess {
     // don't call isGameOver in here otherwise it's recursive
     // return valid moves for the current turn
     // check sqaures for current turn pieces only, that way we can do it faster
+    // current board should be valid
     validMoves(): Array<Move> {
         //console.log("wow");
         return SQUARES
             // all valid piece moves for the current turn
-            .flatMap(square => this.boardState.getValidMovesForSquare(square as Square))
-            .filter(move => move && move.orig && move.dest && !eq(move.orig, move.dest))
-            .filter(move => this.boardState.isValidMove(move.orig, move.dest));
+            // first filter all valid sqaures, then get valid moves for that
+            .filter(square => {
+                const piece: Piece | undefined = this.boardState.pieceFromSquare(square);
+                return piece && eq(piece?.color, this.boardState.getTurn());
+            })
+            .flatMap(square => this.boardState.getRawValidMovesForSquare(square as Square))
+            .filter(move =>
+                checkBoard(
+                    nextTurn(this.boardState.getTurn()),
+                    boardAfterMove(
+                        this.boardState.getGrid(),
+                        move
+                    )
+                ));
     }
 
     // TODO: complete later
@@ -104,7 +127,7 @@ export class Chess {
                 return Status.INSUFFICIENT_MATERIAL;
             } else {
                 if (pieces.find(piece => piece.type === 'k')) {
-                    if (this.boardState.kingInCheck()) {
+                    if (this.boardState.isKingInCheck()) {
                         return Status.CHECKMATE;
                     } else {
                         return Status.STALEMATE;

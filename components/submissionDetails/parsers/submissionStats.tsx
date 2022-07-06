@@ -3,9 +3,10 @@ import { DocumentData } from "firebase/firestore";
 export const parseSubmissionStats = (data: DocumentData) => {
     //data = JSON.parse(data);
 
+    // make sure to have spaces in values so overflow can be handles easily
     const res = [
         {
-            key: "SubmissionId",
+            key: "Submission Id",
             val: data.id
         },
         {

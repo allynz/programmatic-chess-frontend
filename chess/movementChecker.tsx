@@ -1,6 +1,5 @@
 import { eq } from "../utilities/equals";
 import { Board, Cord, Piece } from "./types";
-import { getSquareFromCord } from "./utilities";
 
 // without any piece checks, just check movement
 // piece needs to be present at the start cord, later refactor if function is crashing with stateless methodology - we can't keep checking everywhere
@@ -8,8 +7,10 @@ import { getSquareFromCord } from "./utilities";
 // the position on the board right now should be a valid one
 // remember all the checks so we dont check again - cords are in bound, startPiece is present
 // should we have multiple returns? We can
-const isValidMovement = (
-    board: Board, startCord: Cord, endCord: Cord): boolean => {
+const isRawValidMovement = (
+    board: Readonly<Board>,
+    startCord: Readonly<Cord>,
+    endCord: Readonly<Cord>): boolean => {
     const piece: Piece = board[startCord[0]][startCord[1]]!; // piece will be present but it isn't guaranteed in stateless
     const endPiece: Piece | undefined = board[endCord[0]][endCord[1]];
 
@@ -20,27 +21,28 @@ const isValidMovement = (
     const movement = movementProvider(board, startCord, endCord);
 
     // we just need to check if there is a path from [startCord, endCord)
+    let isMovementValid: boolean = false;
     if (piece.type === 'k') {
-        return movement.kingMovement();
+        isMovementValid = movement.kingMovement();
     } else if (piece.type == 'q') {
-        return movement.queenMovement();
+        isMovementValid = movement.queenMovement();
     } else if (piece.type == 'r') {
-        return movement.rookMovement();
+        isMovementValid = movement.rookMovement();
     } else if (piece.type == 'n') {
-        return movement.knightMovement();
+        isMovementValid = movement.knightMovement();
     } else if (piece.type == 'b') {
-        return movement.bishopMovement();
+        isMovementValid = movement.bishopMovement();
     } else if (piece.type == 'p') {
-        return movement.pawnMovement();
+        isMovementValid = movement.pawnMovement();
     }
 
-    return false;
+    return isMovementValid;
 }
 
-export default isValidMovement;
+export default isRawValidMovement;
 
 // also can just return the required piece movement from here
-const movementProvider = (board: Board, startCord: Cord, endCord: Cord) => {
+const movementProvider = (board: Readonly<Board>, startCord: Readonly<Cord>, endCord: Readonly<Cord>) => {
     // not checking if cord is in bound, although can return null if that's the case
     const piece = (cord: Cord): Piece | undefined => {
         return board[cord[0]][cord[1]];

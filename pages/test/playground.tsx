@@ -1,8 +1,24 @@
+import { Piece } from "../../chess/types";
 import PlaygroundBoard from "../../components/chessboard/playground/board";
 
 const Test = () => {
+    const pieces: Array<Piece> = [
+        {
+            type: 'k',
+            color: 'b'
+        },
+        {
+            type: 'r',
+            color: 'w'
+        },
+        {
+            type: 'r',
+            color: 'w'
+        }
+    ];
+
     return (<>
-        <PlaygroundBoard />
+        <PlaygroundBoard pieces={pieces} />
     </>);
 }
 

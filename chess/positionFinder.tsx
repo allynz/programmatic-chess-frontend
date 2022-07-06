@@ -1,10 +1,10 @@
 import { Piece, Square, SQUARES } from "chess.js";
-import 'react-chessground/dist/styles/chessground.css';
 import checkBoard from "./boardChecker";
 import { Board } from "./types";
 import { getCordFromSquare, getFen } from "./utilities";
 
 // neither king is in check and has position is not stalemate for any side
+// dont render board if i/net or service not present, or see appropriate exp
 export const findRandomPosition = (pieceList: Array<Piece>) => {
     return newPos(pieceList);
 };
@@ -15,14 +15,14 @@ export const findRandomPosition = (pieceList: Array<Piece>) => {
 // try to improve this logic later on with matrix and pieces placement
 const newPos = (pieces: Array<Piece>): string => {
     let board: Board = [...Array(8)].map(e => Array(8)); // need default val
-    let isValidCombo = false;
+    let isValidCombo: boolean = false;
     // have a counter also for maximum tries
     while (isValidCombo == false) {
         board = [...Array(8)].map(e => Array(8));
-        const positions: Array<Square> = getRandomPositions(pieces.length);
+        const positions: Array<Square> = getRandomPositions(pieces?.length);
         positions.forEach((square, idx) => {
             const cord = getCordFromSquare(square);
-            board[cord[0]][cord[1]] = pieces.at(idx);
+            board[cord[0]][cord[1]] = pieces?.at(idx); // these kind of null checks I should avoid, should throw error if net is not there
         })
         isValidCombo = checkBoard('w', board);
     }

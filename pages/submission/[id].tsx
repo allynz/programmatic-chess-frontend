@@ -1,5 +1,5 @@
 import { DocumentData, getDoc } from "firebase/firestore";
-import PageNav from "../../components/general/pageNav";
+import PageWrapNav from "../../components/general/pageWrapper";
 import SubmissionCode from "../../components/submissionDetails/code";
 import SubmissionStats from "../../components/submissionDetails/statistics";
 import TestCaseDetailElement from "../../components/submissionDetails/testCases";
@@ -13,37 +13,38 @@ type Props = {
 // Add titles above each of the blocks to show what info they represent
 // Do not add hooks, so just show the info on it directly
 // improve naming of variables
+// add feature to raise a ticket on a submission - for now just email
 export default function Submission({ code, doc }: Props) {
     const docData: DocumentData = JSON.parse(doc);
 
+    // have absolute sizing on this page, a users may shift to larger screen to see more stuff, rather than responsive behaviour
     return (<>
-        <div
-            style={{
-                width: "100vw",
-                backgroundColor: "yellow"
-            }}>
-            {/* Div for nav */}
-            <PageNav />
-            <br></br>
-
-            {/* Div for editor + status */}
+        <PageWrapNav>
             <div
                 style={{
-                    backgroundColor: "white",
                     width: "100%",
-                    display: "grid",
-                    gridTemplateColumns: "70% 30%",
-                    overflow: "clip" // test it and make it work with scroll
+                    backgroundColor: "yellow"
                 }}>
-                <SubmissionCode code={code} />
-                <SubmissionStats doc={docData} />
+
+                {/* Div for editor + status */}
+                <div
+                    style={{
+                        backgroundColor: "white",
+                        width: "100%",
+                        display: "grid",
+                        gridTemplateColumns: "70% 30%",
+                        overflow: "clip" // test it and make it work with scroll
+                    }}>
+                    <SubmissionCode code={code} />
+                    <SubmissionStats doc={docData} />
+                </div>
+
+                {/* Gap */}
+                <br></br>
+
+                <TestCaseDetailElement doc={docData} />
             </div>
-
-            {/* Gap */}
-            <br></br>
-
-            <TestCaseDetailElement doc={docData} />
-        </div>
+        </PageWrapNav>
     </>);
 }
 
@@ -51,7 +52,7 @@ export default function Submission({ code, doc }: Props) {
 // need to return only JSON from here as it is running in server
 export async function getServerSideProps({ req, res, params }: any) {
     // Enable caching in production, not now
-    // Is caching useful in waiting case? prob not as values are chaning rapidly, Someone can DDOS this page, so watch out
+    // Is caching useful in waiting case? prob not as values are changing rapidly, Someone can DDOS this page, so watch out
     // res.setHeader(
     //     'Cache-Control',
     //     'public, s-maxage=10, stale-while-revalidate=59'
