@@ -1,0 +1,25 @@
+$height: 40px;
+
+.inner {
+    height: $height;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: clip;
+}
+
+.outer {
+    height: $height + 10px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+
+    background-color: lightcyan;
+    border-top: 3px solid rgb(255, 176, 176);
+    border-bottom: 3px solid rgb(0, 255, 187);
+    border-left: 3px solid rgb(104, 143, 250);
+    border-right: 3px solid rgb(114, 106, 106);
+    box-shadow: 0px 0px 5px 2px lightcyan;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,24 +1,27 @@
 import TopNavBar from "./pageNav";
 
+const navHeight: string = "8vh";
+// or can use this: //const remainingVH: string = (100 - parseInt(navHeightVH.at(0) || '0')) + "vh";
+const remainingViewportHeight: string = "92vh";
+
 type Props = {
     stickyNav?: boolean,
     constrainToViewport?: boolean,
     children: any
 };
 
-// should we have a full-stretch div element also, although that should be handled by class="full-strectch" on a div using tailwind
-// and div functionality would be lost
-// separate constrain to viewport and stick nav elements is poss
-// TODO: Have nav height same across all pages
-// make sure it doesn't interfere with other floating zIndex divs
-const PageWrapNav = ({ stickyNav, constrainToViewport, children }: Props) => {
+const PageWrapNav = ({
+    stickyNav,
+    constrainToViewport,
+    children
+}: Props) => {
     console.log(children);
 
     if (stickyNav) {
         if (constrainToViewport) {
             return (<>
                 <ViewportConstrain>
-                    <TopNavBar sticky />
+                    <TopNavBar height={navHeight} sticky />
                     {/* make sure children is just 1 element or wrap with div for safety */}
                     <div>
                         {children}
@@ -29,10 +32,10 @@ const PageWrapNav = ({ stickyNav, constrainToViewport, children }: Props) => {
             return (<>
                 <div
                     style={{
-                        height: "5vh",
+                        height: navHeight,
                         width: "100%"
                     }}>
-                    <TopNavBar sticky />
+                    <TopNavBar height={navHeight} sticky />
                 </div>
                 {children}
             </>);
@@ -40,7 +43,7 @@ const PageWrapNav = ({ stickyNav, constrainToViewport, children }: Props) => {
     } else if (constrainToViewport) {
         return (<>
             <ViewportConstrain>
-                <TopNavBar />
+                <TopNavBar height={navHeight} />
                 {/* make sure children is just 1 element or wrap with div for safety */}
                 <div>
                     {children}
@@ -51,10 +54,10 @@ const PageWrapNav = ({ stickyNav, constrainToViewport, children }: Props) => {
         return (<>
             <div
                 style={{
-                    height: "5vh",
+                    height: navHeight,
                     width: "100%"
                 }}>
-                <TopNavBar />
+                <TopNavBar height={navHeight} />
             </div>
             {children}
         </>);
@@ -63,9 +66,8 @@ const PageWrapNav = ({ stickyNav, constrainToViewport, children }: Props) => {
 
 export default PageWrapNav;
 
-// only use for this class
+// keep it private within this file
 const ViewportConstrain = ({ children }: any) => {
-    // is it a good idea to wrap <></> everywhere?
     return (<>
         <div
             style={{
@@ -74,9 +76,9 @@ const ViewportConstrain = ({ children }: any) => {
                 overflow: "clip",
                 display: "grid",
                 // sizing of elements depend on the container so have to provide percentages
-                gridTemplateRows: "5% 95%", // also adjust with non constrained Nav so that Nav height remains same across pages
+                gridTemplateRows: navHeight + " " + remainingViewportHeight, // also adjust with non constrained Nav so that Nav height remains same across pages
                 gridTemplateColumns: "100%"
-                // have elements handle their overflow on their own, like in submissions page
+                // have elements handle their overflow on their own, like in submissions page, although this is constrained viewport so ideally that shouldn't happen
             }}>
             {children}
         </div>

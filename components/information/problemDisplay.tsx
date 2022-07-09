@@ -1,35 +1,31 @@
-import { User } from "firebase/auth";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Col, TabContainer
 } from 'react-bootstrap';
 import ReactMarkdown from "react-markdown";
-import { Piece } from "../../chess/types";
 import UserContext from "../../contexts/UserContext";
-import { getSubmissionCollectionDataHook } from "../../firebase/hook";
 import PlaygroundBoard from "../chessboard/playground/board";
+import { getSubmissionCollectionDataHook } from "../hooks/displayHooks";
 import NavElement from "./navElement";
 import TabContentElement from "./tabContentElement";
 
-// just for rendering, do not do any fetching here, just use params to render
-// TODO: See typescript correct way to add typess
-function ProblemDisplay({ problem, pieces }: any) {
+// TODO: Fix problem type in Props
+function ProblemDisplay({ problem }: any) {
     const user = useContext(UserContext);
-    // see if we can make this a List<POJOModel> to assert type checks
-    const dataMap = getDataMap(problem, pieces, user);
+    const dataMap = getDataMap(problem);
+    console.log("problem displayed again");
 
     const defaultActiveKey = dataMap.at(0)?.key;
     const [key, setKey] = useState(defaultActiveKey);
 
-    // had to do this to get key back to start when user logged out when submission tab was active
     useEffect(() => {
         if (!user && key === 'submissions') {
-            setKey("problem");
+            setKey(defaultActiveKey);
         }
     }, [user]);
 
-    return (<> {/** should I put it unnecessarily? */}
-        {/** Top level margins are put better here as I can adjust margins inside here, outside I don't know how much to put */}
+    // see better containers for this page, what about <Navbar> ?
+    return (<>
         <TabContainer
             defaultActiveKey={defaultActiveKey}
             activeKey={key}
@@ -40,11 +36,11 @@ function ProblemDisplay({ problem, pieces }: any) {
             }>
             <Col // this is the actual container of things, see if <Col> can help out in any sizing
                 style={{
-                    height: "100%", // important! to contain the div
+                    // important! to contain the div
+                    height: "100%",
                     width: "auto",
-                    overflow: "visible", /**Kept visible for now to show nav visibility but if horizontal overflow occurs, we can clip to disable scrolling */
-                    //display: "flex", // flex is better than grid here as it auto sizes
-                    //flexDirection: "column",
+                    // Kept visible for now to show nav visibility but if horizontal overflow occurs, we can clip to disable scrolling
+                    overflow: "visible",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "flex-start",
@@ -57,13 +53,23 @@ function ProblemDisplay({ problem, pieces }: any) {
     </>);
 }
 
-// converts JSOn automatically to required type in Array<piece>, good
-const getDataMap = (problem: any, pieces: Array<Piece>, user: User | null) => {
-    // this hook should be present all the time since beginning of pageload, we only modify its params
-    // otherwise it causes errors
-    // TODO: Improve this logic and dummy value
+const getDataMap = (problem: any) => {
+    const user = useContext(UserContext);
+
+    // this hook should be present all the time since beginning of pageload, we only modify its params otherwise it causes errors
     // make sure this hook is initialised even when doing CSR in Nav, as we cannot add new hooks during runtime probably
-    const submissionDataHook = getSubmissionCollectionDataHook(user?.uid || "dummy", problem.id);
+    const submissionDataHook = getSubmissionCollectionDataHook(problem.id);
+    const playground = (<>
+        <p
+            style={{
+                textAlign: "center",
+                width: "100%",
+                fontWeight: "bold"
+            }}>
+            Chessboard for tinkering with the current problem
+        </p>
+        <PlaygroundBoard pieces={problem.pieces} />
+    </>);
 
     const dataMap = [
         {
@@ -76,11 +82,7 @@ const getDataMap = (problem: any, pieces: Array<Piece>, user: User | null) => {
         },
         {
             key: "playground",
-            renderContent: (
-                <>
-                    Chessboard with tinkering opportunities
-                    <PlaygroundBoard pieces={pieces} />
-                </>)
+            renderContent: playground
         }
     ];
 

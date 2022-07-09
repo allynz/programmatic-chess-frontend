@@ -4,18 +4,28 @@ import {
     NavLink
 } from 'react-bootstrap';
 
-const NavElement = ({ navKeys }: any) => {
+type Props = {
+    navKeys: Array<string>
+};
+
+const NavElement = ({ navKeys }: Props) => {
     return (<>
         <Nav variant="pills">
             {
                 navKeys?.map((navKey: string) =>
-                (<>
-                    <NavItem style={{ cursor: "pointer" }}>
-                        <NavLink eventKey={navKey}>
+                (
+                    // TODO: check spacing between Navs, improve it if poss
+                    <NavItem
+                        key={navKey}
+                        style={{
+                            cursor: "pointer"
+                        }}>
+                        <NavLink
+                            eventKey={navKey}>
                             {navKey.toUpperCase()}
                         </NavLink>
                     </NavItem>
-                </>))
+                ))
             }
         </Nav>
     </>);

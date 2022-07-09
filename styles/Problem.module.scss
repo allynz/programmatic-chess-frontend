@@ -1,0 +1,47 @@
+/*Learn more about modules and how to use them*/
+
+.nav {
+    background-color: violet;
+    height: 2rem;
+}
+
+.gridContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 5rem;
+}
+
+$height: 10rem;
+
+.gridItem {
+    height: $height;
+    width: $height;
+    margin: 1rem;
+}
+
+.expanding {
+    height: $height;
+    width: auto;
+    overflow: hidden;
+    margin: 1rem;
+    position: absolute;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.expanding:hover {
+    opacity: 0.9;
+    height: $height + 2rem;
+    width: auto;
+    border-radius: 1rem;
+    border-top: 1rem;
+    border-color: red;
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto; // wow, autmatically aligns to center
+}

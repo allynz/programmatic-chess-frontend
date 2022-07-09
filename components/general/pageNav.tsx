@@ -2,29 +2,35 @@ import { User } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext } from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Container, Navbar } from 'react-bootstrap';
 import UserContext from '../../contexts/UserContext';
 import { AuthButton } from '../auth/authentication';
 import { NAV_INDEX } from '../config/zIndex';
 import ProgressBar from './progressBar';
+import styles from '../../styles/UserImage.module.scss';
 
 type Props = {
-    sticky?: boolean
+    sticky?: boolean,
+    // height is needed for fixed position
+    height?: string
 };
 
-const TopNavBar = ({ sticky }: Props) => {
+const TopNavBar = ({ sticky, height }: Props) => {
     // useId hinders using selectors so added progressBar keyword in front
-    const progressBarId: Readonly<string> = "progressBar-id";
+    const progressBarId: Readonly<string> = "progressbar-id";
+
+    console.log("sticky", sticky);
 
     return (
         <div
             // overflow should be allowed here to display progress bar
             style={{
-                height: "100%",
-                position: sticky ? "sticky" : "static",
+                height: height ? height : "7vh",
+                width: "100%",
+                position: sticky ? "sticky" : "static", // can't use sticky as viewport will be left on scroll, but have to specify height then if fixed is used
                 // we can also change this also based on sticky property
                 top: "0",
-                zIndex: NAV_INDEX,
+                zIndex: NAV_INDEX.toString(),
             }}>
             <NavBarElement />
             <ProgressBarElement id={progressBarId} />
@@ -40,15 +46,14 @@ const NavBarElement = () => {
     const Links = () => {
         return (<>
             <Link
-                href='/problem/[id]'
-                as={'/problem/1'}>
-                <a>Problems</a>
+                href='/problem'>
+                <a>PROBLEMS</a>
             </Link>
-            <Link href="/problem/2">
-                <a>My Submissions</a>
+            <Link href="/submission">
+                <a>MY SUBMISSIONS</a>
             </Link>
-            <Link href="/test/test">
-                <a>About</a>
+            <Link href="/about">
+                <a>ABOUT</a>
             </Link>
         </>);
     }
@@ -63,7 +68,7 @@ const NavBarElement = () => {
             sticky='top'
             bg="primary"
             variant="dark">
-            {/* Crazy flex & grid sizing below */}
+            {/* Crazy flex & grid sizing below. Should we use CSS for such sizing? */}
             <Container
                 style={{
                     // weird, has some issues in responsive that is why set it like this and not directly width
@@ -78,7 +83,8 @@ const NavBarElement = () => {
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
-                    NavBar
+                    {/* Most simple to read, write, and understand */}
+                    CodingChess
                 </Navbar.Brand>
                 <div
                     style={{
@@ -101,26 +107,9 @@ const NavBarElement = () => {
                     <div
                         style={{
                             display: "flex",
-                            gap: "1.5rem"
+                            gap: "1rem"
                         }}>
-                        <div
-                            style={{
-                                width: "2rem",
-                                height: "2rem",
-                                borderRadius: "2rem",
-                                overflow: "clip",
-                                backgroundColor: "red",
-
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center"
-                            }}>
-                            <Image
-                                src={user?.photoURL || "https://unsplash.com/photos/s5kTY-Ve1c0"}
-                                width={"100%"}
-                                height={"100%"}
-                                objectFit="cover" />
-                        </div>
+                        <UserImage />
                         <AuthButton />
                     </div>
                 </div>
@@ -147,4 +136,30 @@ const ProgressBarElement = ({ id }: { id: string }) => {
             <ProgressBar id={id} />
         </div>
     </>);
+}
+
+// Can make a matrix style border but too much tinkering for now
+export const UserImage = () => {
+    const user = useContext(UserContext);
+
+    if (!user) {
+        return (<></>);
+    }
+
+    // TODO: improve default pic
+    const defaultImage: string =
+        "https://images.unsplash.com/photo-1562109245-d184fe2c81ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80";
+
+    return (
+        <div className={styles.outer}>
+            <div className={styles.inner}>
+                <Image
+                    src={user?.photoURL || defaultImage}
+                    width={"100%"}
+                    height={"100%"}
+                    layout="responsive"
+                    objectFit="cover" />
+            </div>
+        </div>
+    );
 }

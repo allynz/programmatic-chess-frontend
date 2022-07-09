@@ -1,18 +1,20 @@
 import { Timestamp } from "firebase/firestore";
 import Link from "next/link";
 import { Table } from "react-bootstrap";
+import styles from '../../styles/Table.module.css';
 
-// order fields as per priority - details of status should come first
-// Keep head sticky if you can
-// table has some issues with reloading so have to restart it everytime with npm eun devs, see if hydration issues will solve it
-// it does not have state right now, so on reloading table is again at top, we can change that if we want
-// add overflow scroll to the elements inside
-// submission table shifts appropriately if any submission updates, see if that can be an issue
+// table has some issues with reloading so have to restart it everytime with npm run devs, see if hydration issues will solve it
 // color success in green, and unsuccess in red
-export function SubmissionTable({ submissionList }: any) {
-    // optimise fields
-    // if no submissions, show a welcome message
-    // also see to adjust height as certain fields occupy lot of unnecessary space, elipsis them
+// TODO: Think about pagination or infinite scrolling, as with large no. of submissions I won't be able to keep up
+export function SubmissionTable({ submissionList }: { submissionList: Array<any> }) {
+    if (!submissionList || submissionList.length === 0) {
+        return (
+            <strong>
+                Make a submission to view it's status here!!
+            </strong>
+        );
+    }
+
     return (<>
         <Table
             style={{
@@ -28,34 +30,83 @@ export function SubmissionTable({ submissionList }: any) {
                     border: "1rem solid"
                 }}>
                 <tr>
-                    <th>Submission Id</th>
-                    <th>Submission Time</th>
-                    <th>Problem</th>
-                    <th>Status</th>
-                    <th>Time Taken</th>
-                    <th>Memory Used</th>
+                    {
+                        // Find a better way than this
+                        submissionMap('')
+                            .map((vv, idx) => (
+                                <th key={idx}>
+                                    {vv.key}
+                                </th>
+                            ))
+                    }
                 </tr>
             </thead>
             <tbody>
-                {submissionList && submissionList.map((submission: any) => (
-                    //{ console.log("sub", submission) }
-                    <tr>
-                        {/* convert to spinner when link clicked */}
-                        {/* use encodeURIComponent */}
-                        <td><Link href={"/submission/" + submission.id}>{submission.id}</Link></td>
-                        <td>{
-                            // set different display alternatives
-                            submission.timestamp.submitted ?
-                                (submission.timestamp.submitted as Timestamp).toDate().toUTCString() :
-                                0
-                        }</td>
-                        <td>{submission.problemId}</td>
-                        <td>{submission.status}</td>
-                        <td>{submission.time}</td>
-                        <td>{submission.memory}</td>
-                    </tr>
-                ))}
+                {submissionList
+                    &&
+                    submissionList.map((submission: any, idx) => {
+                        const mp = submissionMap(submission);
+                        return (
+                            <tr key={submission?.id || idx}>
+                                {
+                                    mp.map((vv, idx) => (
+                                        <td key={idx}>
+                                            {vv.value()}
+                                        </td>
+                                    ))
+                                }
+                            </tr>
+                        );
+                    })}
             </tbody>
         </Table>
     </>);
 }
+
+const submissionMap = (submission: any): Array<{ key: string, value: () => JSX.Element }> => [
+    {
+        key: 'Submission Id',
+        value: () => {
+            const id = submission.id;
+
+            {/* convert to spinner when link clicked */ }
+            {/* use encodeURIComponent, use URI rather than string for URL generation */ }
+            {/* convert whole row to link */ }
+            return (
+                <Link href={"/submission/" + id}>
+                    <p className={styles.submissionId}>
+                        {id}
+                    </p>
+                </Link>
+            );
+        }
+    },
+    {
+        /* return status here rather than just string, render the status itself */
+        key: 'Status',
+        value: () => {
+            return (<>{submission.status}</>);
+        }
+    },
+    {
+        key: 'Time (ms)',
+        value: () => <>{submission.time}</>
+    },
+    {
+        key: 'Memory (KB)',
+        value: () => <>{submission.memory}</>
+    },
+    {
+        key: 'Submission Time',
+        value: () => {
+            return (<>
+                {
+                    // set different display alternatives
+                    submission.timestamp.submitted ?
+                        (submission.timestamp.submitted as Timestamp).toDate().toUTCString() :
+                        0
+                }
+            </>);
+        }
+    }
+];

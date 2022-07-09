@@ -1,0 +1,38 @@
+$width: 50px;
+
+.button {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+
+    width: $width;
+    height: $width/2;
+    /* as the half of the width */
+    border-top-left-radius: $width/2;
+    border-top-right-radius: $width/2;
+    border-bottom: 0;
+
+    background-color: transparent;
+    color: transparent;
+
+    position: absolute;
+    z-index: 200;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+$margin: 1.6rem;
+
+.halfCircleRight {
+    @extend .button;
+    transform: rotate(90deg);
+    margin-left: $margin;
+}
+
+.halfCircleLeft {
+    @extend .button;
+    transform: rotate(-90deg);
+    margin-right: $margin;
+}

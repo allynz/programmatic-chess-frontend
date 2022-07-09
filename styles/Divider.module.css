@@ -1,7 +1,10 @@
 .divider {
-    /* Make transition properties more specific */
-    transition: background-color 200ms ease-in-out;
-    /*Wow, this also works in debugging transitions like when changing value on dev code*/
+    /* Keep transition properties specific */
+    transition:
+        background-color 200ms ease-in-out,
+        color 200ms ease-in-out;
+
+    /*This also works in debugging transitions like when changing value on dev code*/
     cursor: col-resize;
     box-shadow: 0px 0px 5px 2px lightgreen inset;
 

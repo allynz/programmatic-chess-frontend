@@ -1,28 +1,29 @@
 import { query, where } from "@firebase/firestore";
+import { useContext } from "react";
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
-import { SubmissionTable } from "../components/information/submissionTable";
-import { getCollection, getDocument } from "./config";
+import { SubmissionTable } from "../information/submissionTable";
+import UserContext from "../../contexts/UserContext";
+import { getCollection, getDocument } from "../../firebase/config";
+import Loading from "../general/loading";
 
-// hopefully the hook doesnt run on every submission addition, to filter again otherwise it would be a lot of TLE, and I would have to structure data differently
-// TODO: Find out how many reads do hooks take up
-// Better to keep data for specific users as then my hooks will be pointing to specific collection rather than all
-// Should we get user here directly, or be passed as param? See which components should be stateless
-export function getSubmissionCollectionDataHook(userId: string, problemId: string) {
-    console.log("problemId", problemId);
+export function getSubmissionCollectionDataHook(problemId: string) {
+    const userId = useContext(UserContext)?.uid || "dummy";
     const [value, loading, error] =
         // See why where and orderBy cannot be combined easily, do I need to create indexes?
         useCollectionData(
             query(
                 getCollection('Submissions'),
                 where("userId", "==", userId),
-                where("problemId", "==", String(problemId)) // pass it as string only though, even TS doesnt cast or throw error when raw hmmm...
+                where("problemId", "==", String(problemId))
             ));
 
-    // TODO: Ordering is random so make it ordered by time
-    return (<>
-        {error && <strong>Error: {JSON.stringify(error)}</strong>}
-        {loading && <span>Collection: Loading...</span>}
-        {value && (
+    if (error) {
+        return (<strong>Error, please try again</strong>);
+    } else if (loading) {
+        return (<Loading />);
+    } else if (value) {
+        // will it already be computed if I keep it as a var outside?
+        return (
             <SubmissionTable submissionList={
                 value.sort((a, b) => {
                     const
@@ -36,16 +37,17 @@ export function getSubmissionCollectionDataHook(userId: string, problemId: strin
                         return 1;
                     }
                 })
-            } />)}
-    </>);
+            } />
+        );
+    } else {
+        return (<strong>Unknown Error, please try again</strong>);
+    }
 }
 
 export function getProblemCollectionDataHook() {
     const [value, loading, error] =
-        // See why where and orderBy cannot be combined easily, do I need to create indexes?
         useCollectionData(getCollection('Problems'));
 
-    // TODO: Ordering is random so make it ordered by time
     return (
         <div>
             <p>

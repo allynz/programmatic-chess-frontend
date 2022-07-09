@@ -2,13 +2,8 @@ import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import UserContext from "../../contexts/UserContext";
 import { authenticate, logout } from "../../firebase/config";
+import { EDITOR_AUTH_BACKDROP_INDEX } from "../config/zIndex";
 
-// See if page re-renders after Sign In
-// TODO: see if we need to render it from ssr as user can hide the html or CSS of backdrop
-// see if we can do userIdToken auth without props
-// make a general Modal library also for these type of containers, rather than whole page
-// see if we can add transition, normal css property isn't working
-// https://stackoverflow.com/questions/32370994/how-to-pass-props-to-this-props-children
 const AuthenticationWrapper = (props: any) => {
     const user = useContext(UserContext);
 
@@ -23,9 +18,6 @@ const AuthenticationWrapper = (props: any) => {
                 gridTemplateColumns: "100%"
             }}>
             <div style={{ gridArea: "1/1/1/1" }}>
-                {/* make sure everything's rendered though as it will update the stack if any loaded becomes available etc. */}
-                {/* TODO: how to get z-Index of this? So i can update in backdrop - but be careful, it may contain elements of it's own with more z-Index */}
-                {/* make sure that this doesn't mess with child props - i.e they are not lost */}
                 {props.children}
             </div>
 
@@ -41,8 +33,6 @@ const AuthenticationWrapper = (props: any) => {
 
 export default AuthenticationWrapper;
 
-// order it accordingle as to display
-// manage z-index more properly later
 const GridBackDrop = (props: any) => {
     return (<>
         <div
@@ -55,13 +45,14 @@ const GridBackDrop = (props: any) => {
                 alignItems: "center",
                 color: "white",
                 // z-index is imp as elements may re-render and update stack
-                zIndex: "100"
+                zIndex: EDITOR_AUTH_BACKDROP_INDEX
             }}>
             {props.children}
         </div>
     </>);
 };
 
+// Add sign In with google at bottom, firebaseUI?, do what's fast for now
 export const AuthButton = () => {
     const user = useContext(UserContext);
 
@@ -72,7 +63,6 @@ export const AuthButton = () => {
     }
 }
 
-// Provide these buttons based on users login status
 export const SignInButton = () => {
     return (<>
         <Button onClick={authenticate}>
@@ -89,6 +79,7 @@ export const SignOutButton = () => {
     </>);
 }
 
+// kept for legacy reasons even though dead code
 const ZIndexBackDrop = () => {
     return (<>
         {/* allow events in the modal but not on the backdrop */}

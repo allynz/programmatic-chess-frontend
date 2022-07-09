@@ -11,17 +11,10 @@ type Props = {
     newPositionGeneration: () => void
 }
 
-// TODO: Make a better react library for chess, as this using JS is causing a whole lot of trouble using useEffect and setState
-// it's highlighting last move even when position changed, look into that
-// also need to wait for all updates to be completed before moving forward
-// Wow, just use const vars if in doubt, no setState needed
-const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: Props) => {
-    const [chess, setChess] = useState<Chess>(new Chess(startFen)); // setState updates const vars also so need to make this stateful, or maybe make it top-level?
-    // make sure this is updated really only when valid moves are 0
+const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
+    const [chess, setChess] = useState<Chess>(new Chess(startFen));
     const [gameStatus, setGameStatus] = useState<Status>(chess.getStatus());
 
-    // setState updates probably happen after useEffect is completed, and are reflected in the browser for that reason
-    // cannot use useState vars as const vars as they are not updated by prop changes, only using setState. const vars update on any changes
     // TODO: combine this into one state so I can update them together
     const [moveAllowed, setMoveAllowed] = useState<boolean>(true);
     const [state, setState] = useState<{ fen: string, validMoves: Dests }>(
@@ -31,11 +24,11 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
         }
     );
 
-    // check on undefined timwout - it should default to 0
+    console.log("chessboard");
+
     const updateStateOnMove = (timeoutMs?: number | undefined) => {
         setMoveAllowed(false);
         setTimeout(() => {
-            // have these setStates together, or combine to one; if set separately, then multiple renders of board can occur
             setState({
                 fen: chess.getFen(),
                 validMoves: convertMoveToMap(chess.validMoves())
@@ -46,35 +39,27 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
         setMoveAllowed(true);
     };
 
-    // boardConfig is a derived state so handle that correctly
     const moveFunction = (orig: Key, dest: Key) => {
-        console.log("moveall", moveAllowed);
-        console.log("before", chess.validMoves().length);
         // Keep on playing even with insufficient material
         if (!moveAllowed || gameStatus in [Status.CHECKMATE, Status.STALEMATE]) return;
 
-        const moveString = orig.toString() + "-" + dest.toString();
-        console.log(moveString);
         // dont need to check validity here as we had only allowed valid moves, but its fine for now in general
         let moved = chess.move(orig as Square, dest as Square);
         if (!moved) {
-            console.log("Not moved");
             return;
         }
-        // if its not a valid move then undo, but from ground as 'chess' has not even made the move, how though? AHHHHHH!
-        // have custom game over condition as we dont have 2 kings always
 
+        // if its not a valid move then undo, but from ground as 'chess' has not even made the move, how though?
         const possibleMoves = chess.validMoves();
         if (possibleMoves.length === 0) {
-            updateStateOnMove(0); // find a better way of passing params so that it is more readable, like named params in python
-            return; // take care of equality in JS
+            updateStateOnMove(0);
+            return;
         }
 
         const randomIdx = Math.floor(Math.random() * possibleMoves.length);
         moved = chess.move(possibleMoves[randomIdx].orig, possibleMoves[randomIdx].dest, true);
         console.log(moved);
         if (!moved) {
-            console.log("Not moved");
             return;
         }
         updateStateOnMove(200);
@@ -91,14 +76,6 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
         setGameStatus(currChess.getStatus());
     }, [startFen]);
 
-    // // does this override the whole config? prob, except viewOnly and drawable as written in doc
-    // // setState changes are prob not present inside useEffect, they will run after useEffect is over
-    // useEffect(() => {
-    //     console.log("moves", moves);
-    //     ground?.set(boardConfig); // this is JS so it shows up instantly, otherwise useState will have delay and prob not even update in this loop
-    // }, [startFen]); // or set the whole props as dependencies if all are related to chess, anyway update this if props is updated
-
-    // dont let elements handle their padding, use gap or <br>
     return (<>
         <div
             style={{
@@ -114,34 +91,40 @@ const Chessboard = ({ startFen, newPositionGeneration: newPositionGneration }: P
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "space-around"
+                    justifyContent: "center",
+                    gap: "1rem"
                 }}>
-                <button
-                    /* TODO: Also set button to loading */
-                    onClick={newPositionGneration}>
+                {/* Stick to your normal button, can't tinker with this one */}
+                <button onClick={newPositionGeneration}>
                     Generate random position
                 </button>
                 <button
+                    disabled={state.fen === startFen}
                     onClick={() => {
-                        if (gameStatus !== "Playing") {
+                        // check more on this condition
+                        if (gameStatus in [Status.CHECKMATE, Status.STALEMATE]) {
                             chess.undo();
                             setGameStatus(chess.getStatus());
                         } else {
-                            // not an issue but see if we can have smoother transition
+                            // need to undo 2 times here, see if we should handle this inside board itself
                             chess.undo();
-                            chess.undo(); // need to undo 2 times
+                            chess.undo();
                         }
                         updateStateOnMove();
                     }}>
-                    Undo last move
+                    Undo move
                 </button>
             </div>
-            <br></br>
+
+            <br />
+
             <ChessboardInternal
                 fen={state.fen}
                 validMoves={state.validMoves}
                 moveFunction={moveFunction} />
-            <br></br>
+
+            <br />
+
             <StatusDisplay status={gameStatus} />
         </div>
     </>);
@@ -153,11 +136,11 @@ const convertMoveToMap = (moves: Array<Move>): Dests => {
     const mp = new Map<Key, Array<Key>>();
     moves.forEach(
         move => mp.set(move.orig, []));
-    // see if we can update map in place
+    // TODO: see if we can update map in place
     moves.forEach(
         move => mp.set(move.orig, [...mp.get(move.orig)!, move.dest]));
 
-    //console.log("mpmoves", mp);
+    console.log("moves", mp);
 
     return mp;
 }

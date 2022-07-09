@@ -2,7 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['unsplash.com', 'lh3.googleusercontent.com']
+    // to get images from unspash , click on image and copy link address
+    // TODO: make sure that not present url here does not cause page load to fail
+    domains: [
+      'unsplash.com',
+      'lh3.googleusercontent.com',
+      'images.unsplash.com',
+      'cdn.pixabay.com'
+    ]
   }
 }
 

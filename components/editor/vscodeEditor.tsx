@@ -1,8 +1,9 @@
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import React, { useRef } from "react";
+import { useRef } from "react";
+import { Spinner } from "react-bootstrap";
 
-// https://stackoverflow.com/questions/53900950/tabs-in-monaco-editor - useful if want to view submission in the same place
+// There is a command palette already in editor with few customization functionalities, so when you add any customization, keep that in mind
 const VSCodeEditor = ({ updateSubmissionCode }: any) => {
     const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
@@ -11,8 +12,15 @@ const VSCodeEditor = ({ updateSubmissionCode }: any) => {
             theme="vs-dark"
             options={{ fontSize: 20 }}
             language="cpp"
+            loading={<Spinner animation={"border"} />}
             onMount={
-                (editor, monaco) => { editorRef.current = editor }
+                (editor, monaco) => {
+                    // WOW!!! very cool, but do it inside here only, as outside it is causing some CSS error, test this also in multiple browsers
+                    editor.addCommand(
+                        monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
+                        function () { });
+                    editorRef.current = editor; // doesnt matter before or after addCommand, prob because change is in place
+                }
             }
             onChange={
                 // read more about this, if it causes any performance issues, just get value from form itself

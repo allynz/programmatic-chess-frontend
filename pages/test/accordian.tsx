@@ -22,9 +22,7 @@ const Page = () => {
     }
 
     return (<>
-        <div
-            style={{
-            }}>
+        <div>
             <Accordion
                 defaultActiveKey={['']} // all empty in beg so chessBoard can work properly
                 flush={true} //see what does this do
@@ -34,9 +32,12 @@ const Page = () => {
                         const eventKey = idx.toString();
                         return (
                             <SingleAccordion
-                                key={idx}
+                                key={idx} // since this doesn't really update so we can keep this key
                                 eventKey={eventKey}
-                                shouldShowBoard={boardKey?.at(-1) === eventKey} // ensures only 1 board will be shown, not sure if there is a performance issue here so test it out
+                                shouldShowBoard={
+                                    // ensures only 1 board will be shown, not sure if there is a performance issue here so test it out
+                                    boardKey?.at(-1) === eventKey
+                                }
                                 closeBoard={closeBoard}
                                 openBoard={openBoard} />
                         );

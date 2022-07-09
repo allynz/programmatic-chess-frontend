@@ -14,12 +14,14 @@ type Props = {
 // Do not add hooks, so just show the info on it directly
 // improve naming of variables
 // add feature to raise a ticket on a submission - for now just email
+// TODO: See preview of non-completed submissions, how do they look
+// TODO: Don't just word wrap anywhere for table, set maxWidths
 export default function Submission({ code, doc }: Props) {
     const docData: DocumentData = JSON.parse(doc);
 
     // have absolute sizing on this page, a users may shift to larger screen to see more stuff, rather than responsive behaviour
     return (<>
-        <PageWrapNav>
+        <PageWrapNav stickyNav>
             <div
                 style={{
                     width: "100%",
@@ -35,11 +37,11 @@ export default function Submission({ code, doc }: Props) {
                         gridTemplateColumns: "70% 30%",
                         overflow: "clip" // test it and make it work with scroll
                     }}>
+                    {/* Should we shift stats to left so we can scroll easily down? */}
                     <SubmissionCode code={code} />
                     <SubmissionStats doc={docData} />
                 </div>
 
-                {/* Gap */}
                 <br></br>
 
                 <TestCaseDetailElement doc={docData} />
@@ -82,7 +84,8 @@ const fetchCode = async (id: string) => {
         fetch(`http://localhost:8080/submissionCode?id=${id}`)
             .then(res => res.json())
             .catch(err => {
-                console.log(err)
+                console.log(err);
+                return "";
             });
 
     return res.code;

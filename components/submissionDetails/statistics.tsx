@@ -4,6 +4,7 @@ import styles from '../../styles/Table.module.css';
 import { parseSubmissionStats } from "./parsers/submissionStats";
 
 /* For stats of the submission */
+// Add error details also here
 const SubmissionStats = ({ doc }: { doc: DocumentData }) => {
     const statsList = parseSubmissionStats(doc);
 

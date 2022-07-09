@@ -103,13 +103,18 @@ export class Chess {
                 ));
     }
 
+    can_undo(): boolean {
+        if (this.history.length === 0) return false;
+        else return true;
+    }
+
     // TODO: complete later
     undo() {
         //console.log("undo");
-        if (this.history.length == 0) return;
-
-        this.boardState = new BoardState(this.history.pop()!); // find better way than !
-        //console.log("fenAfterUndo", this.boardState.getFen());
+        if (this.can_undo()) {
+            this.boardState = new BoardState(this.history.pop()!); // find better way than !
+            //console.log("fenAfterUndo", this.boardState.getFen());
+        }
     }
 
     // if no valid move, what is the status

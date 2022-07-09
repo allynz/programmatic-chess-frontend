@@ -52,22 +52,24 @@ const CarouselWrapper = ({ lodingParentState, lodingParentStateFalse, movesList,
             arrows={false}>
             <div />
             {
-                movesList.map((move: any, index: number) =>
-                (<>
-                    <div
-                        style={{
-                            fontSize: "small",
-                            height: "auto",
-                            backgroundColor: index == idx ? "aqua" : "grey",
-                            border: "2px solid white",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            transition: "background-color 300ms ease-in-out" // this is cool, match with slide duration which defaults to 300ms
-                        }}>
-                        {move}
-                    </div>
-                </>))
+                movesList.map(
+                    (move: any, index: number) =>
+                    (
+                        <div
+                            key={index} // this is fine as it will not change later on
+                            style={{
+                                fontSize: "small",
+                                height: "auto",
+                                backgroundColor: index == idx ? "aqua" : "grey",
+                                border: "2px solid white",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                transition: "background-color 300ms ease-in-out" // this is cool, match with slide duration which defaults to 300ms
+                            }}>
+                            {move}
+                        </div>
+                    ))
             }
             <div />
         </Carousel>

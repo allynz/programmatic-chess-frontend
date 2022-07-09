@@ -1,25 +1,25 @@
-import { Chess, Piece, SQUARES } from "chess.js";
-import { Dests, Key } from "chessground/types";
 import { useState } from "react";
-import Chessboard from "./chessboard";
 import { findRandomPosition } from "../../../chess/positionFinder";
+import Chessboard from "./chessboard";
 
+// TODO: sometimes the board gets hung up, see what it is about, prob some error with valid moves map
 const PlaygroundBoard = ({ pieces }: any) => {
     const generateNewPosition = () => {
         const randomFen = findRandomPosition(pieces);
         setFen(randomFen);
     };
 
-    const [fen, setFen] = useState<string>(findRandomPosition(pieces)); // empty is needed as otherwise it's undefined which causes issues
+    const [fen, setFen] = useState<string>(findRandomPosition(pieces));
 
     return (<>
         <div
             style={{
-                // change height and width to 100%
                 height: "100%",
                 width: "100%"
             }}>
-            <Chessboard startFen={fen} newPositionGeneration={generateNewPosition} />
+            <Chessboard
+                startFen={fen}
+                newPositionGeneration={generateNewPosition} />
         </div>
     </>);
 }
