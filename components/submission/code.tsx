@@ -13,7 +13,7 @@ const SubmissionCode = ({ code }: any) => {
 
     // Remove extra scroll lines as while viewing it's not needed
     // All options page: https://microsoft.github.io/monaco-editor/api/modules/monaco.editor.html
-    return (<>
+    return (
         <Editor
             theme="vs-dark"
             options={{
@@ -38,7 +38,7 @@ const SubmissionCode = ({ code }: any) => {
             }
             value={code}
         />
-    </>);
+    );
 };
 
 export default SubmissionCode;

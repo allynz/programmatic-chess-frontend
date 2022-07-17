@@ -1,14 +1,15 @@
-import React from "react";
 import {
     Nav, NavItem,
     NavLink
 } from 'react-bootstrap';
+import { CheckCircleFill } from "react-bootstrap-icons";
 
 type Props = {
-    navKeys: Array<string>
+    navKeys: Array<string>,
+    isSolved: boolean
 };
 
-const NavElement = ({ navKeys }: Props) => {
+const NavElement = ({ navKeys, isSolved }: Props) => {
     return (<>
         <Nav variant="pills">
             {
@@ -17,15 +18,19 @@ const NavElement = ({ navKeys }: Props) => {
                     // TODO: check spacing between Navs, improve it if poss
                     <NavItem
                         key={navKey}
-                        style={{
-                            cursor: "pointer"
-                        }}>
+                        className={`pointer`}>
                         <NavLink
                             eventKey={navKey}>
                             {navKey.toUpperCase()}
                         </NavLink>
                     </NavItem>
                 ))
+            }
+            {
+                isSolved ?
+                    <div><CheckCircleFill height={40} size={30} color={'green'} /></div>
+                    :
+                    <></>
             }
         </Nav>
     </>);

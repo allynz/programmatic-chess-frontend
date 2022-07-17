@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { findRandomPosition } from "../../../chess/positionFinder";
-import Chessboard from "./chessboard";
+import Chessboard from "./boardLayout";
+import styles from './Chessboard.module.scss';
 
-// TODO: sometimes the board gets hung up, see what it is about, prob some error with valid moves map
 const PlaygroundBoard = ({ pieces }: any) => {
     const generateNewPosition = () => {
         const randomFen = findRandomPosition(pieces);
@@ -11,12 +11,12 @@ const PlaygroundBoard = ({ pieces }: any) => {
 
     const [fen, setFen] = useState<string>(findRandomPosition(pieces));
 
+    // need to keep it fixed due to chessground CSS issue
     return (<>
-        <div
-            style={{
-                height: "100%",
-                width: "100%"
-            }}>
+        <div className={styles.boardWrap}>
+            <p>
+                Chessboard for tinkering with current problem
+            </p>
             <Chessboard
                 startFen={fen}
                 newPositionGeneration={generateNewPosition} />

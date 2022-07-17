@@ -15,14 +15,12 @@ const PageWrapNav = ({
     constrainToViewport,
     children
 }: Props) => {
-    console.log(children);
-
     if (stickyNav) {
         if (constrainToViewport) {
             return (<>
                 <ViewportConstrain>
-                    <TopNavBar height={navHeight} sticky />
-                    {/* make sure children is just 1 element or wrap with div for safety */}
+                    <TopNavBar sticky />
+                    {/* make sure children is just 1 element or wrap with div for safety, but see div sizing if wrapped, works for now */}
                     <div>
                         {children}
                     </div>
@@ -30,20 +28,14 @@ const PageWrapNav = ({
             </>);
         } else {
             return (<>
-                <div
-                    style={{
-                        height: navHeight,
-                        width: "100%"
-                    }}>
-                    <TopNavBar height={navHeight} sticky />
-                </div>
+                <TopNavBar sticky />
                 {children}
             </>);
         }
     } else if (constrainToViewport) {
         return (<>
             <ViewportConstrain>
-                <TopNavBar height={navHeight} />
+                <TopNavBar />
                 {/* make sure children is just 1 element or wrap with div for safety */}
                 <div>
                     {children}
@@ -51,14 +43,9 @@ const PageWrapNav = ({
             </ViewportConstrain>
         </>);
     } else {
+        // no options, simple stack
         return (<>
-            <div
-                style={{
-                    height: navHeight,
-                    width: "100%"
-                }}>
-                <TopNavBar height={navHeight} />
-            </div>
+            <TopNavBar />
             {children}
         </>);
     }
@@ -76,7 +63,7 @@ const ViewportConstrain = ({ children }: any) => {
                 overflow: "clip",
                 display: "grid",
                 // sizing of elements depend on the container so have to provide percentages
-                gridTemplateRows: navHeight + " " + remainingViewportHeight, // also adjust with non constrained Nav so that Nav height remains same across pages
+                gridTemplateRows: "10% 90%", // also adjust with non constrained Nav so that Nav height remains same across pages
                 gridTemplateColumns: "100%"
                 // have elements handle their overflow on their own, like in submissions page, although this is constrained viewport so ideally that shouldn't happen
             }}>

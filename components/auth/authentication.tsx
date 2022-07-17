@@ -72,8 +72,9 @@ export const SignInButton = () => {
 }
 
 export const SignOutButton = () => {
+    // can randomize the button color
     return (<>
-        <Button onClick={logout}>
+        <Button variant="info" onClick={logout}>
             SIGN OUT
         </Button>
     </>);

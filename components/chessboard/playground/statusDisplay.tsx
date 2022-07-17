@@ -1,7 +1,6 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Status } from "../../../chess/config";
 
-// make sure status is present beforehand otherwise undefined is returned
 // TODO: Add colors to it to show correct/failure status
 const StatusDisplay = ({ status }: { status: string }) => {
     const statusMap = new Map<string, any>([
@@ -37,7 +36,7 @@ const StatusDisplay = ({ status }: { status: string }) => {
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "flex-start"
             }}>
             <OverlayTrigger
                 placement="right"

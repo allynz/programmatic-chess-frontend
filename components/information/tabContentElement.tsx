@@ -3,20 +3,19 @@ import {
     TabContent,
     TabPane
 } from 'react-bootstrap';
+import styles from './Information.module.scss';
 
-// TODO: Fix prop type, also in render element
-const TabContentElement = ({ dataMap }: any) => {
+type Props = {
+    dataMap: Array<{
+        key: string,
+        // if issues occur, try changing this to `any` type
+        renderContent: JSX.Element
+    }>;
+}
+
+const TabContentElement = ({ dataMap }: Props) => {
     return (<>
-        <TabContent
-            style={{
-                overflow: "scroll",
-                // needed to view table correctly, and enable scrolling on it
-                overflowWrap: "break-word",
-                wordWrap: "break-word",
-                width: "auto",
-                marginTop: "1rem",
-                marginBottom: "1rem"
-            }}>
+        <TabContent className={styles.content}>
             {
                 dataMap.map(
                     (res: any) => (

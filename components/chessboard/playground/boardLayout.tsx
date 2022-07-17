@@ -3,19 +3,27 @@ import { useEffect, useState } from "react";
 import { Chess } from "../../../chess";
 import { Status } from "../../../chess/config";
 import { Move, Square } from "../../../chess/types";
-import ChessboardInternal from "./chessboardInternal";
+import ChessboardInternal from "./boardInternal";
 import StatusDisplay from "./statusDisplay";
+import styles from "./Chessboard.module.scss";
 
 type Props = {
     startFen: string,
     newPositionGeneration: () => void
 }
 
+// check if the flow can be optimised using useReducer
+type State = {
+    chess: Chess
+    fen: string,
+    validMoves: Dests,
+    gameStatus: Status,
+    isMoveAllowed: boolean
+};
+
 const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
     const [chess, setChess] = useState<Chess>(new Chess(startFen));
     const [gameStatus, setGameStatus] = useState<Status>(chess.getStatus());
-
-    // TODO: combine this into one state so I can update them together
     const [moveAllowed, setMoveAllowed] = useState<boolean>(true);
     const [state, setState] = useState<{ fen: string, validMoves: Dests }>(
         {
@@ -23,8 +31,6 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
             validMoves: convertMoveToMap(chess.validMoves())
         }
     );
-
-    console.log("chessboard");
 
     const updateStateOnMove = (timeoutMs?: number | undefined) => {
         setMoveAllowed(false);
@@ -77,32 +83,18 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
     }, [startFen]);
 
     return (<>
-        <div
-            style={{
-                height: "100%",
-                width: "100%",
-                padding: "1rem",
-                overflow: "clip",
-                display: "grid",
-                gridTemplateRows: "10% 5% 70% 5% 10%",
-                gridTemplateColumns: "100%"
-            }}>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    gap: "1rem"
-                }}>
-                {/* Stick to your normal button, can't tinker with this one */}
+        <div className={styles.boardLayout}>
+            <div className={styles.boardButtonLayout}>
                 <button onClick={newPositionGeneration}>
                     Generate random position
                 </button>
                 <button
                     disabled={state.fen === startFen}
                     onClick={() => {
+                        console.log(gameStatus);
                         // check more on this condition
-                        if (gameStatus in [Status.CHECKMATE, Status.STALEMATE]) {
+                        if ([Status.CHECKMATE, Status.STALEMATE]
+                            .find(status => status === gameStatus)) {
                             chess.undo();
                             setGameStatus(chess.getStatus());
                         } else {
@@ -116,14 +108,10 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
                 </button>
             </div>
 
-            <br />
-
             <ChessboardInternal
                 fen={state.fen}
                 validMoves={state.validMoves}
                 moveFunction={moveFunction} />
-
-            <br />
 
             <StatusDisplay status={gameStatus} />
         </div>

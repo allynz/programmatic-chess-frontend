@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { getSubmissionDataHook } from "../hooks/displayHooks";
+import Submission from "../hooks/submission";
 
 type Props = {
     submissionId: string,
     displayError: string
 };
 
+// TODO: Fix the spinner bug when firebase hook is in loading, just dont show it
 const LastSubmissionDisplay = ({ submissionId, displayError }: Props) => {
     return (
         <div
@@ -30,7 +31,7 @@ const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
     const user = useContext(UserContext);
 
     // need to persist hook even if user is not present as on sign in the hook must be present
-    const hook = getSubmissionDataHook(user ? submissionId : "empty document");
+    const hook = Submission(user ? submissionId : "empty document");
 
     if (user) {
         if (displayError && displayError.length > 0) {
@@ -42,10 +43,10 @@ const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
             if (submissionId === "empty document") {
                 return (
                     <>
-                        Last submission status will be shown here.
-                        <br />
+                        Current submission status will be shown here
+                        {/* <br />
                         For details of all submissions for this problem,
-                        view Submissions Tab on top left Nav links
+                        view Submissions Tab on top left Nav links */}
                     </>
                 );
             } else {

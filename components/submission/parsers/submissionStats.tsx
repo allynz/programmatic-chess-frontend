@@ -1,9 +1,11 @@
 import { DocumentData } from "firebase/firestore";
+import { TimeDisplay } from "../../information/submissionTable";
 
 export const parseSubmissionStats = (data: DocumentData) => {
-    //data = JSON.parse(data);
 
     // make sure to have spaces in values so overflow can be handles easily
+    // TODO: Later See if we can add hooks here, without overflowing read/write limits
+    // TODO: Have a spinner next to waiting status, also same in Submissions Table
     const res = [
         {
             key: "Submission Id",
@@ -11,11 +13,11 @@ export const parseSubmissionStats = (data: DocumentData) => {
         },
         {
             key: "Submitted On",
-            val: JSON.stringify(data.timestamp.submitted)
+            val: <TimeDisplay time={data.timestamp.submitted} />
         },
         {
             key: "Completed On",
-            val: JSON.stringify(data.timestamp.completed)
+            val: <TimeDisplay time={data.timestamp.completed} />
         },
         {
             key: "Time Taken",
@@ -30,11 +32,25 @@ export const parseSubmissionStats = (data: DocumentData) => {
             val: data.status
         },
         {
+            // hide sensitive info in compilation error etc.
+            key: "Status Details",
+            val: (
+                <textarea
+                    readOnly
+                    style={{
+                        width: "100%",
+                        height: "100%"
+                    }}>
+                    {data.errorMessage}
+                </textarea>
+            )
+        },
+        {
             key: "Test cases Passed",
             val: getPassedTestCases(data.testCaseDetails)
         },
         {
-            key: "Test cases failed",
+            key: "Test cases Failed",
             val: getFailedTestCases(data.testCaseDetails)
         }
     ];

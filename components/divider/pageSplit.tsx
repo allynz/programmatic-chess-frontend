@@ -6,11 +6,14 @@ import 'react-page-split/style.css';
 import CustomDivider from "./customDivider";
 
 const PageSplitWrapper = ({ panels }: { panels: Array<any> }) => {
-    const [elementMinWidth, setElementMinWidth] = useState<string>("30rem");
+    const minWidthDefault = "30rem";
+
+    // keep widths so that playground is visible correctly even on resize
+    const [elementMinWidth, setElementMinWidth] = useState<string>(minWidthDefault);
     const [widths, setWidths] = useState<PageSplitPanelSize[]>(['', '']);
 
     // TODO: Better make it absolute widths as viewport size can be reduced with opening console and resizing
-    const resetMinWidths = () => setElementMinWidth("30rem");
+    const resetMinWidths = () => setElementMinWidth(minWidthDefault);
     const disableMinWidths = () => setElementMinWidth("0rem");
 
     console.log(elementMinWidth);

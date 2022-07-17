@@ -1,0 +1,21 @@
+.container {
+    // important! to contain the div
+    height: 100%;
+    width: auto;
+    // Kept visible for now to show nav visibility but if horizontal overflow occurs, we can clip to disable scrolling
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+}
+
+.content {
+    overflow: scroll;
+    // needed to view table correctly, and enable scrolling on it
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    width: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

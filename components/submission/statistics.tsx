@@ -1,6 +1,6 @@
 import { DocumentData } from "firebase/firestore";
 import { Table } from "react-bootstrap";
-import styles from '../../styles/Table.module.css';
+import styles from './Table.module.scss';
 import { parseSubmissionStats } from "./parsers/submissionStats";
 
 /* For stats of the submission */

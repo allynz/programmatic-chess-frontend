@@ -1,8 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { doc, collection, CollectionReference, getFirestore } from "firebase/firestore";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
+import { collection, doc, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -35,6 +34,10 @@ Note: If there is no document at the location referenced by docRef, the resultin
  */
 export function getDocument(documentId: string) {
     return doc(db, 'Submissions', documentId);
+}
+
+export function getSolvedProblemsDocument(documentId: string) {
+    return doc(db, 'SolvedProblems', documentId);
 }
 
 const provider = new GoogleAuthProvider();

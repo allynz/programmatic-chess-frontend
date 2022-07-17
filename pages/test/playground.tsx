@@ -1,5 +1,5 @@
 import { Piece } from "../../chess/types";
-import PlaygroundBoard from "../../components/chessboard/playground/board";
+import PlaygroundBoard from "../../components/chessboard/playground/boardWrapper";
 
 const Test = () => {
     const pieces: Array<Piece> = [

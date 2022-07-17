@@ -5,13 +5,11 @@ import AuthenticationWrapper from "../auth/authentication";
 import SubmissionCode from "../submission/code";
 import SubmissionButton from "./submissionButton";
 import LastSubmissionDisplay from "./submissionStatusDisplay";
-import ThrottlingDisplay from "./throttlingDisplay";
 import VSCodeEditor from "./vscodeEditor";
 
-// TODO: Improve waiting symbol in Last submission display - make it loader
 // If error in solution, mail to my email id
 // TODO: See if the submission button should not be visible until editor is loaded
-function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
+function IndexEditorDisplay({ problemId, readOnly, defaultCode }: any) {
     const user: User | null = useContext(UserContext);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,7 +29,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                     display: "grid",
                     height: "100%",
                     width: "100%",
-                    gridTemplateRows: "4% 86% 10%",
+                    gridTemplateRows: "90% 10%",
                     gridTemplateColumns: "100%" // important during resizing
                 }}
 
@@ -63,13 +61,13 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                     }
                 }>
 
-                <ThrottlingDisplay />
-
                 {
                     readOnly ?
                         <SubmissionCode code={submissionCode} />
                         :
+                        // adding code is weird since it is updating the submission code also, check thsi pattern
                         <VSCodeEditor
+                            code={submissionCode}
                             updateSubmissionCode={
                                 (code: string) => setSubmissionCode(code)
                             }
@@ -94,7 +92,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
         </AuthenticationWrapper>);
 }
 
-export default EditorDisplay;
+export default IndexEditorDisplay;
 
 // Optimise this function in case of error scenarios
 // Try to make this stateless as much as possible

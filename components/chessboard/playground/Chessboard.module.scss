@@ -1,0 +1,64 @@
+.boardWrap {
+    // using vh makes it a lil more resposive
+    height: 70vh;
+    width: 30vw;
+    // absolute or fixed doesn't really matter if top and left are set I guess
+    position: absolute;
+    left: 5vh;
+    top: 25vh;
+    // dont scroll on overflow
+    overflow: clip;
+}
+
+.boardWrap>p {
+    text-align: center;
+    font-weight: bold;
+}
+
+.boardLayout {
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    overflow: clip;
+
+    display: grid;
+    justify-content: flex-start;
+    align-content: flex-start;
+    gap: 2%;
+    // no resizing of playground vertically should be allowed
+    grid-template-rows: 10% auto auto;
+    grid-template-columns: 100%;
+}
+
+.boardButtonLayout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.chessboardWrap {
+    // padding needs to be same for all so we can get a sqaure parent container for board
+    // can we make this also auto somehow? as screen size increases this may get cropped
+    padding: 4rem;
+    // clip here only, no complications at the top
+    overflow: clip;
+    aspect-ratio: 1/1;
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // make coordinates color different
+    background-color: black;
+    // needed as board has margin of it's own, auto aligns to center though 
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/margin
+    margin: 0 auto;
+}
+
+.chessboard {
+    aspect-ratio: 1/1;
+    // seems better than height: auto as auto is controlled by browser
+    max-height: 200%;
+    max-width: 200%;
+}

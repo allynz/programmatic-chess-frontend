@@ -18,8 +18,9 @@ const ProgressBar = ({ id }: Props) => {
 
     return (<>
         <NextNProgress
+            height={5}
             stopDelayMs={200}
-            color='red'
+            color='purple'
             startPosition={0.2}
             // https://github.com/rstacruz/nprogress#configuration
             options={options} />

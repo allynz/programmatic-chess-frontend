@@ -14,3 +14,22 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fit-container {
+  height: 100%;
+  width: 100%;
+}
+
+.clip-overflow {
+  overflow: hidden;
+}
+
+.pointer {
+  cursor: pointer;
+}

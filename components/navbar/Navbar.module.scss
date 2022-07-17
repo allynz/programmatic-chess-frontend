@@ -1,0 +1,25 @@
+@import '../../styles/zindex.scss';
+
+.sticky {
+    // can't use sticky as viewport will be left on scroll, 
+    // but have to specify height then if fixed is used
+    position: sticky;
+    top: 0;
+}
+
+// wrapper for navBar, sort of like a container for it - contains Nav and progresssBar
+// overflow should be allowed here to display progress bar
+.navbarWrap {
+    @extend .nav-zindex;
+    width: 100%;
+}
+
+.progressBarWrap {
+    height: 10px; // need fixed height
+    width: 100%;
+    background-color: transparent;
+    // needed if it overflows and blocks page interaction
+    pointer-events: none;
+    // since height is set, we can clip
+    overflow: clip;
+}

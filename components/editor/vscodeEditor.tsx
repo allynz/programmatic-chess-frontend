@@ -4,13 +4,19 @@ import { useRef } from "react";
 import { Spinner } from "react-bootstrap";
 
 // There is a command palette already in editor with few customization functionalities, so when you add any customization, keep that in mind
-const VSCodeEditor = ({ updateSubmissionCode }: any) => {
+const VSCodeEditor = ({ updateSubmissionCode, code }: any) => {
     const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
     return (<>
         <Editor
             theme="vs-dark"
-            options={{ fontSize: 20 }}
+            options={{
+                fontSize: 17,
+                scrollbar: {
+                    // seems not working for vscodeEditor, maybe it has a parent above?
+                    alwaysConsumeMouseWheel: true
+                }
+            }}
             language="cpp"
             loading={<Spinner animation={"border"} />}
             onMount={
@@ -28,6 +34,7 @@ const VSCodeEditor = ({ updateSubmissionCode }: any) => {
                 // ahhh.... why can I not get it when I want it, would have to add more setstate for that to happen, see if you can make that pattern more easy across
                 (code) => { updateSubmissionCode(code) }
             }
+            value={code}
         />
     </>);
 };

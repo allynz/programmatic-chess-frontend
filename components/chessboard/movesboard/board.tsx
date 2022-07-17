@@ -31,7 +31,6 @@ const Board = ({ startFen, movesList, idx }: any) => {
                         lastMove: false
                     }
                 })); // see if we need to highlight here so changing config accordingly
-        console.log("again");
     }, [movesList]); // moveList may ensure that this block is run only once, but checking could take time so find a faster way(key prop?)
 
     // moves both back and forward
@@ -90,7 +89,9 @@ const Board = ({ startFen, movesList, idx }: any) => {
                     aspectRatio: "1/1",
                     // seems better than height: auto as auto is controlled by browser
                     maxHeight: "100%",
-                    maxWidth: "100%"
+                    maxWidth: "100%",
+                    // removes hand cursor so should be fine
+                    pointerEvents: "none"
                 }}>
 
             </div>

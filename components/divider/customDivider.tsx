@@ -21,6 +21,10 @@ export default function CustomDivider({
 
     return (
         <div
+            style={{
+                // TODO: manage it through config
+                zIndex: "40"
+            }}
             className={classNames}
             {...rest}>
             <LeftButtonDivider

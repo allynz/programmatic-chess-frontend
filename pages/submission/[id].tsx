@@ -1,8 +1,6 @@
 import { DocumentData, getDoc } from "firebase/firestore";
-import PageWrapNav from "../../components/general/pageWrapper";
-import SubmissionCode from "../../components/submissionDetails/code";
-import SubmissionStats from "../../components/submissionDetails/statistics";
-import TestCaseDetailElement from "../../components/submissionDetails/testCases";
+import PageWrapNav from "../../components/navbar/pageWrapper";
+import SubmissionDisplay from "../../components/submission/submissionDisplay";
 import { getDocument } from "../../firebase/config";
 
 type Props = {
@@ -10,47 +8,21 @@ type Props = {
     doc: string;
 };
 
-// Add titles above each of the blocks to show what info they represent
-// Do not add hooks, so just show the info on it directly
-// improve naming of variables
-// add feature to raise a ticket on a submission - for now just email
-// TODO: See preview of non-completed submissions, how do they look
-// TODO: Don't just word wrap anywhere for table, set maxWidths
-export default function Submission({ code, doc }: Props) {
+const Submission = ({ code, doc }: Props) => {
     const docData: DocumentData = JSON.parse(doc);
 
-    // have absolute sizing on this page, a users may shift to larger screen to see more stuff, rather than responsive behaviour
+    // have absolute sizing on this page, as users may shift to larger screen to see more stuff, rather than responsive behaviour
     return (<>
-        <PageWrapNav stickyNav>
-            <div
-                style={{
-                    width: "100%",
-                    backgroundColor: "yellow"
-                }}>
-
-                {/* Div for editor + status */}
-                <div
-                    style={{
-                        backgroundColor: "white",
-                        width: "100%",
-                        display: "grid",
-                        gridTemplateColumns: "70% 30%",
-                        overflow: "clip" // test it and make it work with scroll
-                    }}>
-                    {/* Should we shift stats to left so we can scroll easily down? */}
-                    <SubmissionCode code={code} />
-                    <SubmissionStats doc={docData} />
-                </div>
-
-                <br></br>
-
-                <TestCaseDetailElement doc={docData} />
-            </div>
+        <PageWrapNav>
+            <SubmissionDisplay
+                doc={docData}
+                code={code} />
         </PageWrapNav>
     </>);
 }
 
-// see this use over getStaticProps - no, as that needs all paths known and all submissions will be prefetched, does not sound good idea as there are many submissions
+export default Submission;
+
 // need to return only JSON from here as it is running in server
 export async function getServerSideProps({ req, res, params }: any) {
     // Enable caching in production, not now
@@ -70,11 +42,7 @@ export async function getServerSideProps({ req, res, params }: any) {
             .then(doc => JSON.stringify(doc.data()) || []);
 
     return {
-        props:
-        {
-            code,
-            doc
-        }
+        props: { code, doc }
     };
 }
 
@@ -84,8 +52,8 @@ const fetchCode = async (id: string) => {
         fetch(`http://localhost:8080/submissionCode?id=${id}`)
             .then(res => res.json())
             .catch(err => {
-                console.log(err);
-                return "";
+                console.log(err); // remove it from user
+                return { code: "" };
             });
 
     return res.code;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 import "react-multi-carousel/lib/styles.css";
 import Board from "./board";
 import CarouselWrapper from "./carouselWrapper";
@@ -11,6 +12,7 @@ const MovesBoardDisplay = ({ startFen, movesList }: any) => {
     const [idx, setIdx] = useState<number>(0);
     const [loading, setLoading] = useState(false);
 
+    // seems to be some bug here, need to fix it
     const moveLeft = () => {
         setIdx(Math.max(0, idx - 1));
     };
@@ -26,7 +28,8 @@ const MovesBoardDisplay = ({ startFen, movesList }: any) => {
                 //padding: "1rem", // seems  chilren are inheriting padding
                 overflow: "scroll",
                 display: "grid",
-                gridTemplateRows: "10% 80% 10%"
+                gap: "1%",
+                gridTemplateRows: "10% 75% 10%"
             }}>
             {/* do better naming of params */}
             {/* Cannot keep carousel in center of board rn as it will be too complex sizing as board is also cnetered */}
@@ -55,18 +58,17 @@ const ButtonControl = (
         <div
             style={{
                 display: "flex",
-                flexDirection: "row",
                 justifyContent: "center"
             }}>
-            <button
+            <button className={`centered-container`}
                 disabled={disabled}
                 onClick={moveLeft}>
-                Left
+                <ChevronLeft />
             </button>
-            <button
+            <button className={`centered-container`}
                 disabled={disabled}
                 onClick={moveRight}>
-                Right
+                <ChevronRight />
             </button>
         </div>
     );
