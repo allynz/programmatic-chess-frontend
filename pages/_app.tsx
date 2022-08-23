@@ -13,13 +13,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    if (loading == false) return;
+
     currentUserObserver((user) => {
       setUser(user);
       if (loading) {
         setLoading(false);
       }
     });
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return (<>

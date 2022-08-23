@@ -10,7 +10,7 @@ export function SubmissionTable({ submissionList }: { submissionList: Array<any>
     if (!submissionList || submissionList.length === 0) {
         return (
             <strong className={`centered-container fit-container`}>
-                Make a submission to view it's status here!
+                {`Make a submission to view it's status here!`}
             </strong>
         );
     }

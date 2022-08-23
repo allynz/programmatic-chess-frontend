@@ -46,7 +46,7 @@ const MySubmissionsPage = () => {
     return (<>
         <div>
             <h3>My Submissions</h3>
-            <p>View all your submissions. Click on submissionId of any submission to see it's details</p>
+            <p>{`View all your submissions. Click on submissionId of any submission to see it's details`}</p>
             <h5>Submission Details Page</h5>
             <p>View details of a particular submission including failure cases, moves board etc.</p>
         </div>

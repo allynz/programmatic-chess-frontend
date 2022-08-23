@@ -1,7 +1,7 @@
 import PageSplitWrapper from "../../components/divider/pageSplit";
 import EditorDisplay from "../../components/editor/editorDisplay";
 import ProblemDisplay from "../../components/information/problemDisplay";
-import { getDataMap } from "../../components/information/problemDisplayData";
+import { useDataMap } from "../../components/information/problemDisplayData";
 import TopNavBar from "../../components/navbar/pageNav";
 
 const Page = ({ problem }: any) => {
@@ -15,7 +15,7 @@ const Page = ({ problem }: any) => {
                 }}>
                 <ProblemDisplay
                     problem={problem}
-                    createDataMap={getDataMap}
+                    createDataMap={useDataMap}
                     isSolved={false} />
             </div>
         );

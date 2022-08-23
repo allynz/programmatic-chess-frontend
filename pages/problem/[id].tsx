@@ -1,14 +1,14 @@
-import { getSolvedProblemsList } from ".";
+import { useSolvedProblemsList } from ".";
 import PageSplitWrapper from "../../components/divider/pageSplit";
 import EditorDisplay from "../../components/editor/editorDisplay";
 import ProblemDisplay from "../../components/information/problemDisplay";
-import { getDataMap } from "../../components/information/problemDisplayData";
+import { useDataMap } from "../../components/information/problemDisplayData";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import { eq } from "../../utilities/equals";
 
 // TODO: Fix prop type
 const Problem = ({ problem }: any) => {
-    const solvedProblems: Array<number> = getSolvedProblemsList();
+    const solvedProblems: Array<number> = useSolvedProblemsList();
     console.log("solved Problems", solvedProblems);
 
     const ProblemDisplayWrap = (minWidth: string) => {
@@ -21,7 +21,7 @@ const Problem = ({ problem }: any) => {
                 }}>
                 <ProblemDisplay
                     problem={problem}
-                    createDataMap={getDataMap}
+                    createDataMap={useDataMap}
                     isSolved={solvedProblems.some(p => eq(p, problem.id))} />
             </div>
         );

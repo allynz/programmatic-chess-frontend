@@ -11,7 +11,7 @@ import styles from '../../styles/Problem.module.scss';
 // See if we can use Cards
 // TODO: Update UI for solved problems
 export default function ProblemList({ problems }: { problems: Array<any> }) {
-    const solvedProblemIds: Array<number> = getSolvedProblemsList();
+    const solvedProblemIds: Array<number> = useSolvedProblemsList();
     return (
         // adjust with flex as that is more responsive
         <PageWrapNav stickyNav>
@@ -83,18 +83,16 @@ const DisplayBoard = ({ problemNumber, isSolved }: { problemNumber: number, isSo
     </>);
 }
 
-export const getSolvedProblemsList = (): Array<number> => {
+// should be a react component or custom hook to use hooks inside of it, rules of hook
+export const useSolvedProblemsList = (): Array<number> => {
     const user = useContext(UserContext);
-    if (!user) {
-        return [];
-    }
-
     const docRef = getSolvedProblemsDocument(user?.uid || "dummy");
     // useDocumentData updates again on receiving so it's better than useOnce hook
     // but it's a hook so more reads I guess
     const [value, loading, error] = useDocumentData(docRef);
 
-    if (value) {
+    // apparently, cannot have early return when using hooks later on
+    if (user && value) {
         return value?.solvedProblemIds
             .map((p: string) => Number.parseInt(p)) || [];
     } else {

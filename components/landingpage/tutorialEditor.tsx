@@ -1,6 +1,6 @@
 import EditorDisplay from "../editor/editorDisplay";
 import ProblemDisplay from "../information/problemDisplay";
-import { getDataMap } from "../information/problemDisplayData";
+import { useDataMap } from "../information/problemDisplayData";
 
 // submit them to a different faster queue
 const TutorialEditor = ({ problem }: any) => {
@@ -15,7 +15,7 @@ const TutorialEditor = ({ problem }: any) => {
             <br></br>
             <ProblemDisplay
                 problem={problem}
-                createDataMap={getDataMap}
+                createDataMap={useDataMap}
                 // keep false here
                 isSolved={false} />
             <br></br>

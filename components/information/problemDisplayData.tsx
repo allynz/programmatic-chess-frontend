@@ -4,7 +4,8 @@ import UserContext from "../../contexts/UserContext";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
 import SubmissionList from "../hooks/submissionList";
 
-export const getDataMap = (problem: any):
+// should be a functional component or react hook, as it is using user data - which we can pass from caller if needed
+export const useDataMap = (problem: any):
     // it is modifiable hence not readonly
     Array<{
         key: string,

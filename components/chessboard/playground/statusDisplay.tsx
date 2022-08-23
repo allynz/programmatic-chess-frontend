@@ -6,28 +6,36 @@ const StatusDisplay = ({ status }: { status: string }) => {
     const statusMap = new Map<string, any>([
         [
             Status.CHECKMATE,
-            [<Checkmate />,
-                'SUCCESS.\nGame over.\nOpponent king is in check and has no valid moves']
+            {
+                render: <Checkmate />,
+                details: 'SUCCESS.\nGame over.\nOpponent king is in check and has no valid moves'
+            }
         ],
         [
             Status.STALEMATE,
-            [<Stalemate />,
-                'UNSUCCESSFUL.\nGame over.\nOpponent king has no valid moves but is not in check']
+            {
+                render: <Stalemate />,
+                details: 'UNSUCCESSFUL.\nGame over.\nOpponent king has no valid moves but is not in check'
+            }
         ],
         [
             Status.INSUFFICIENT_MATERIAL,
-            [<InsufficientMaterial />,
-                'UNSUCCESSFUL.\nGame over.\nOpponent king cannot be checkmated with the current material']
+            {
+                render: <InsufficientMaterial />,
+                details: 'UNSUCCESSFUL.\nGame over.\nOpponent king cannot be checkmated with the current material'
+            }
         ],
         [
             Status.PLAYING,
-            [<Playing />,
-                'Opponent has valid moves, try to checkmate the opponent']
+            {
+                render: <Playing />,
+                details: 'Opponent has valid moves, try to checkmate the opponent'
+            }
         ]
     ]);
 
     const element = statusMap.get(status);
-    const elementJSX = element[0] || <Unknown />;
+    const elementJSX = element.render || <Unknown />;
 
     return (<>
         <div
@@ -43,7 +51,7 @@ const StatusDisplay = ({ status }: { status: string }) => {
                 delay={{ show: 0, hide: 100 }}
                 overlay={
                     <Tooltip id="button-tooltip">
-                        {element[1] || ""}
+                        {element.details || ""}
                     </Tooltip>
                 }>
                 <div>
