@@ -1,4 +1,3 @@
-import Image from "next/image";
 
 const PageTop = () => {
     return (
@@ -47,7 +46,7 @@ const SiteDetailsIntro = () => {
                 style={{
                 }}>
                 {/* Should I make this animated or just plain? Main thing is no distraction */}
-                <Image
+                <img
                     alt={`Random Chessboard`}
                     height="20%"
                     width="20%"
@@ -60,7 +59,7 @@ const SiteDetailsIntro = () => {
                 }}>
                 Hello, this is an image I like
                 {/* Show code editor here, can add animating code or empty editor etc. */}
-                <Image
+                <img
                     alt={`Random Code`}
                     style={{
                         maxHeight: "20rem"
