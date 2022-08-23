@@ -1,6 +1,6 @@
 import EditorDisplay from "../editor/editorDisplay";
+import { useDataMap } from "../hooks/useDataMap";
 import ProblemDisplay from "../information/problemDisplay";
-import { useDataMap } from "../information/problemDisplayData";
 
 // submit them to a different faster queue
 const TutorialEditor = ({ problem }: any) => {

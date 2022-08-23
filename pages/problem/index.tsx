@@ -1,10 +1,8 @@
 import { getDoc } from "firebase/firestore";
 import Link from "next/link";
-import { useContext } from "react";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useSolvedProblemsList } from "../../components/hooks/useSolvedProblemsList";
 import PageWrapNav from "../../components/navbar/pageWrapper";
-import UserContext from "../../contexts/UserContext";
-import { getProblemDocument, getSolvedProblemsDocument } from "../../firebase/config";
+import { getProblemDocument } from "../../firebase/config";
 import styles from '../../styles/Problem.module.scss';
 
 // TODO: See if this file makes sense to have here, the url path should be "problems", not "problem"
@@ -82,23 +80,6 @@ const DisplayBoard = ({ problemNumber, isSolved }: { problemNumber: number, isSo
             </Link>
         </div>
     </>);
-}
-
-// should be a react component or custom hook to use hooks inside of it, rules of hook
-export const useSolvedProblemsList = (): Array<number> => {
-    const user = useContext(UserContext);
-    const docRef = getSolvedProblemsDocument(user?.uid || "dummy");
-    // useDocumentData updates again on receiving so it's better than useOnce hook
-    // but it's a hook so more reads I guess
-    const [value, loading, error] = useDocumentData(docRef);
-
-    // apparently, cannot have early return when using hooks later on
-    if (user && value) {
-        return value?.solvedProblemIds
-            .map((p: string) => Number.parseInt(p)) || [];
-    } else {
-        return [];
-    }
 }
 
 // cannot use useContext here it seems

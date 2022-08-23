@@ -1,8 +1,8 @@
-import { useSolvedProblemsList } from ".";
 import PageSplitWrapper from "../../components/divider/pageSplit";
 import EditorDisplay from "../../components/editor/editorDisplay";
+import { useDataMap } from "../../components/hooks/useDataMap";
+import { useSolvedProblemsList } from "../../components/hooks/useSolvedProblemsList";
 import ProblemDisplay from "../../components/information/problemDisplay";
-import { useDataMap } from "../../components/information/problemDisplayData";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import { eq } from "../../utilities/equals";
 

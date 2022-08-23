@@ -2,7 +2,7 @@ import { useContext } from "react";
 import ReactMarkdown from "react-markdown";
 import UserContext from "../../contexts/UserContext";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
-import SubmissionList from "../hooks/submissionList";
+import SubmissionList from "./submissionList";
 
 // should be a functional component or react hook, as it is using user data - which we can pass from caller if needed
 export const useDataMap = (problem: any):
