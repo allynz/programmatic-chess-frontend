@@ -10,7 +10,7 @@
 // wrapper for navBar, sort of like a container for it - contains Nav and progresssBar
 // overflow should be allowed here to display progress bar
 .navbarWrap {
-    @extend .navZindex;
+    @extend %nav-zindex;
     width: 100%;
 }
 
