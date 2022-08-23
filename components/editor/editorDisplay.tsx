@@ -5,7 +5,6 @@ import AuthenticationWrapper from "../auth/authentication";
 import SubmissionCode from "../submission/code";
 import SubmissionButton from "./submissionButton";
 import LastSubmissionDisplay from "./submissionStatusDisplay";
-import ThrottlingDisplay from "./throttlingDisplay";
 import VSCodeEditor from "./vscodeEditor";
 
 // TODO: Improve waiting symbol in Last submission display - make it loader
@@ -14,6 +13,7 @@ import VSCodeEditor from "./vscodeEditor";
 function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
     const user: User | null = useContext(UserContext);
 
+    const [editerMounted, setEditorMounted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     // just don't keep it empty as that throws error
     const [submissionId, setSubmissionId] = useState("empty document");
@@ -31,7 +31,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                     display: "grid",
                     height: "100%",
                     width: "100%",
-                    gridTemplateRows: "4% 86% 10%",
+                    gridTemplateRows: "90% 10%",
                     gridTemplateColumns: "100%" // important during resizing
                 }}
 
@@ -63,32 +63,37 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                     }
                 }>
 
-                <ThrottlingDisplay />
-
+                {/* <>Language: C++</> - add this using grid */}
                 {
                     readOnly ?
                         <SubmissionCode code={submissionCode} />
                         :
                         <VSCodeEditor
+                            onEditorMount={() => setEditorMounted(true)}
+                            code={submissionCode}
                             updateSubmissionCode={
                                 (code: string) => setSubmissionCode(code)
                             }
                         />
                 }
-
-                <div
-                    style={{
-                        height: "100%",
-                        display: "grid",
-                        gridTemplateColumns: "30% 70%",
-                        gridTemplateRows: "100%"
-                    }}>
-                    <SubmissionButton
-                        isSubmitting={isSubmitting} />
-                    <LastSubmissionDisplay
-                        submissionId={submissionId}
-                        displayError={displayError} />
-                </div>
+                {
+                    editerMounted ?
+                        <div
+                            style={{
+                                height: "100%",
+                                display: "grid",
+                                gridTemplateColumns: "30% 70%",
+                                gridTemplateRows: "100%"
+                            }}>
+                            <SubmissionButton
+                                isSubmitting={isSubmitting} />
+                            <LastSubmissionDisplay
+                                submissionId={submissionId}
+                                displayError={displayError} />
+                        </div>
+                        :
+                        <></>
+                }
 
             </form>
         </AuthenticationWrapper>);
@@ -119,7 +124,7 @@ const submitForm = async (
     formData.append('problemId', problemId);
 
     const res = await fetch(
-        'http://localhost:8080/submitCode',
+        'https://programmatic-chess.uc.r.appspot.com/submitCode',
         {
             // directly adding formData has some issues as webkit adds it's own headers in payload
             // use RequestParam in server to resolve this

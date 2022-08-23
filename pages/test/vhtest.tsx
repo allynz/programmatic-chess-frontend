@@ -1,28 +1,22 @@
-import { getSolvedProblemsList } from ".";
 import PageSplitWrapper from "../../components/divider/pageSplit";
 import EditorDisplay from "../../components/editor/editorDisplay";
 import ProblemDisplay from "../../components/information/problemDisplay";
 import { getDataMap } from "../../components/information/problemDisplayData";
-import PageWrapNav from "../../components/navbar/pageWrapper";
-import { eq } from "../../utilities/equals";
+import TopNavBar from "../../components/navbar/pageNav";
 
-// TODO: Fix prop type
-const Problem = ({ problem }: any) => {
-    const solvedProblems: Array<number> = getSolvedProblemsList();
-    console.log("solved Problems", solvedProblems);
-
+const Page = ({ problem }: any) => {
     const ProblemDisplayWrap = (minWidth: string) => {
         return (
             <div
                 key={"problemDisplayWrap"}
-                className={`fit-container clip-overflow`}
+                className={`fit-container`}
                 style={{
                     minWidth: minWidth
                 }}>
                 <ProblemDisplay
                     problem={problem}
                     createDataMap={getDataMap}
-                    isSolved={solvedProblems.some(p => eq(p, problem.id))} />
+                    isSolved={false} />
             </div>
         );
     };
@@ -39,12 +33,19 @@ const Problem = ({ problem }: any) => {
         </div>
     );
 
-    return (
-        <PageWrapNav stickyNav constrainToViewport>
+    return (<>
+        <div
+            style={{
+                height: "100vh",
+                width: "100vw",
+                overflow: "clip",
+                display: "flex",
+                flexDirection: "column"
+            }}>
+            <TopNavBar />
             <div
                 style={{
                     height: "100%",
-                    // this causes submission table not to overflow!
                     overflow: "scroll"
                 }}>
                 <PageSplitWrapper
@@ -53,21 +54,19 @@ const Problem = ({ problem }: any) => {
                         EditorDisplayWrap
                     ]} />
             </div>
-        </PageWrapNav>
-    )
+        </div>
+    </>);
 }
 
-export default Problem;
+export default Page;
 
 // watch out for any security issues in URL, and data fetching, access control - prob not as users might not see it, it only runs on server
-export async function getStaticProps({ params }: { params: any }) {
-
-    console.log("params", params);
+export async function getStaticProps() {
 
     // convert data to required types here only
     // can we change this to a bulk API?
     const data = await
-        fetch(`https://programmatic-chess.uc.r.appspot.com/problem?id=${params.id}`)
+        fetch(`https://programmatic-chess.uc.r.appspot.com/problem?id=2`)
             .then(res => res.json())
             .catch(error => {
                 return {};
@@ -75,29 +74,5 @@ export async function getStaticProps({ params }: { params: any }) {
 
     return {
         props: { problem: data }
-    }
-}
-
-// TODO: fix it before releasing to production, also check behaviour when internet not present
-export async function getStaticPaths() {
-    const data: Array<number> = await
-        fetch('https://programmatic-chess.uc.r.appspot.com/problems')
-            .then(res => res.json())
-            .catch(error => {
-                console.log(error);
-                return [];
-            }); // it's size should be reasonable enough that build times are less
-
-    const paths = data.map((problem: number) => {
-        return {
-            params: {
-                id: problem.toString()
-            }
-        }
-    })
-
-    return {
-        paths,
-        fallback: false
     }
 }

@@ -5,7 +5,6 @@ import isRawValidMovement from "./movementChecker";
 import { Board, Color, Cord, Move, Piece, Square } from "./types";
 import { boardAfterMove, getCordFromSquare, getFen, inBoundSquare, nextTurn } from "./utilities";
 import getRawValidMovesForSquare from "./validMoveProvider";
-import { cloneDeep } from "lodash";
 
 // Use === not ==
 
@@ -147,6 +146,7 @@ export class BoardState {
     // king should be present for this turn
     computeKingInCheck() {
         // wow, what an algo
+        // TODO: prob not correct, as I need to do raw check, should not check if move is valid or not
         return checkBoard(nextTurn(this.turn), this.grid) === false;
     }
 };

@@ -24,12 +24,17 @@ export const getDataMap = (problem: any):
         {
             key: "solution",
             renderContent: <ReactMarkdown>{problem.solution}</ReactMarkdown>
-        },
-        {
-            key: "playground",
-            renderContent: <PlaygroundBoard pieces={problem.pieces} />
         }
     ];
+
+    if (problem.pieces && problem.pieces.length > 0) {
+        dataMap.push(
+            {
+                key: "playground",
+                renderContent: <PlaygroundBoard pieces={problem.pieces} />
+            }
+        );
+    }
 
     // Test this in the end also
     if (user) {
@@ -47,26 +52,6 @@ export const getDataMap = (problem: any):
             dataMap.splice(submissionsIndex, 1);
         }
     }
-
-    return dataMap;
-}
-
-export const reducedDataMap = (problem: any):
-    // it is modifiable hence not readonly
-    Array<{
-        key: string,
-        renderContent: JSX.Element
-    }> => {
-    const dataMap = [
-        {
-            key: "problem",
-            renderContent: <ReactMarkdown>{problem.statement}</ReactMarkdown>
-        },
-        {
-            key: "solution",
-            renderContent: <ReactMarkdown>{problem.solution}</ReactMarkdown>
-        }
-    ];
 
     return dataMap;
 }

@@ -1,6 +1,7 @@
 import { DocumentData } from "firebase/firestore";
 import { TimeDisplay } from "../../information/submissionTable";
 
+// add links to goto respective links like problem page etc.
 export const parseSubmissionStats = (data: DocumentData) => {
 
     // make sure to have spaces in values so overflow can be handles easily
@@ -40,8 +41,8 @@ export const parseSubmissionStats = (data: DocumentData) => {
                     style={{
                         width: "100%",
                         height: "100%"
-                    }}>
-                    {data.errorMessage}
+                    }}
+                    value={data.errorMessage}>
                 </textarea>
             )
         },

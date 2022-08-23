@@ -1,5 +1,5 @@
 import { eq } from "../utilities/equals";
-import { Board, Color, Cord, Move, Piece, Square } from "./types";
+import { Board, Cord, Move, Piece, Square } from "./types";
 import { getCordFromSquare, getSquareFromCord, inBoundCord } from "./utilities";
 
 // need to make this a class so I can access getPiece properly and not have so many parameter passing outside
@@ -77,6 +77,7 @@ const movementProvider = (
                     continue;
                 }
 
+                // TODO: Do we need to check board here
                 cords.push(cord);
             }
         }

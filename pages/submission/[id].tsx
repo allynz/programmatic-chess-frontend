@@ -39,7 +39,8 @@ export async function getServerSideProps({ req, res, params }: any) {
     // Catch exceptions also
     const doc = await
         getDoc(getDocument(params.id))
-            .then(doc => JSON.stringify(doc.data()) || []);
+            .then(doc => JSON.stringify(doc.data()) || [])
+            .catch(ex => { console.log("exception", ex); return {} });
 
     return {
         props: { code, doc }
@@ -49,7 +50,7 @@ export async function getServerSideProps({ req, res, params }: any) {
 // TODO: Have to handle all cases
 const fetchCode = async (id: string) => {
     const res = await
-        fetch(`http://localhost:8080/submissionCode?id=${id}`)
+        fetch(`https://programmatic-chess.uc.r.appspot.com/submissionCode?id=${id}`)
             .then(res => res.json())
             .catch(err => {
                 console.log(err); // remove it from user

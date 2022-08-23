@@ -2,10 +2,10 @@ import { eq } from "../utilities/equals";
 import checkBoard from "./boardChecker";
 import { BoardState } from "./boardState";
 import { SQUARES, Status } from "./config";
-import { Board, Move, Piece, Square } from "./types";
-import { boardAfterMove, getCordFromSquare, nextTurn } from "./utilities";
+import { Move, Piece, Square } from "./types";
+import { boardAfterMove, nextTurn } from "./utilities";
 
-// don't go for afncy stuff right now, just do it and then we'll optimise later. Board is small only
+// don't go for fancy stuff right now, just do it and then we'll optimise later. Board is small only
 // structured this class to place most used function at the bottom
 // right now I'm mostly using functional programming, see if OO is better here(or can be in the future)
 // a lot of refactoring work may be needed

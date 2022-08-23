@@ -28,7 +28,7 @@ const NavElement = ({ navKeys, isSolved }: Props) => {
             }
             {
                 isSolved ?
-                    <div><CheckCircleFill height={40} size={30} color={'green'} /></div>
+                    <div style={{ marginLeft: "1rem" }}><CheckCircleFill height={40} size={30} color={'green'} /></div>
                     :
                     <></>
             }

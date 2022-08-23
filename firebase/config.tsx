@@ -36,6 +36,12 @@ export function getDocument(documentId: string) {
     return doc(db, 'Submissions', documentId);
 }
 
+export function getProblemDocument(documentId: string) {
+    console.log("docId Problem", documentId);
+
+    return doc(db, 'Problems', documentId);
+}
+
 export function getSolvedProblemsDocument(documentId: string) {
     return doc(db, 'SolvedProblems', documentId);
 }

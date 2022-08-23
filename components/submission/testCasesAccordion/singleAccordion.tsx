@@ -1,5 +1,8 @@
 import { useContext } from "react";
 import { Accordion, AccordionContext } from "react-bootstrap";
+import { Board, Piece } from "../../../chess/types";
+import { getFen } from "../../../chess/utilities";
+import { eq } from "../../../utilities/equals";
 import MovesBoardDisplay from "../../chessboard/movesboard/movesBoardDisplay";
 import MovesLog from "./movesLog";
 import TestCaseHeader from "./testCaseHeader";
@@ -27,6 +30,7 @@ const SingleAccordion = ({
             <div>
                 <TestCaseHeader idx={idx} doc={doc} />
                 <Accordion.Body>
+                    {/* Make lengths equal for moves and grader moves - seems length is off for both, make it constant */}
                     <MovesLog doc={doc} />
                 </Accordion.Body>
             </div>
@@ -41,7 +45,7 @@ const SingleAccordion = ({
                         <MovesBoardWrapper
                             input={doc.input}
                             output={doc.output}
-                            startFen={''} />
+                            boardString={doc.board} />
                         :
                         <></>
                 }
@@ -58,20 +62,84 @@ export default SingleAccordion;
 const MovesBoardWrapper = ({
     input,
     output,
-    startFen
+    boardString
 }: {
     input: Array<string>,
     output: Array<string>,
-    startFen: string
+    boardString: string
 }) => {
-    // write a program and check it
+    if (eq(boardString, undefined) || eq(boardString, "") || eq(boardString, " ")) {
+        return (<></>);
+    }
+
+    const board = boardString.split(" ").filter(piece => {
+        const isEmpty: boolean = eq(piece, undefined) || eq(piece, "") || eq(piece, " ");
+        return !isEmpty;
+    });
+
+    const convertBoard = (): Board => {
+        let res: Board = [...Array(8)].map(e => Array(8));
+        let counter = 0;
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                let curr: Piece | undefined;
+                const piece: string | undefined = board.at(counter);
+
+                //console.log("piece", piece);
+
+                if (eq(piece, "X")) {
+                    curr = undefined;
+                } else if (eq(piece, "Q")) {
+                    curr = { type: "q", color: "w" };
+                } else if (eq(piece, "K")) {
+                    curr = { type: "k", color: "w" };
+                } else if (eq(piece, "P")) {
+                    curr = { type: "p", color: "w" };
+                } else if (eq(piece, "B")) {
+                    curr = { type: "b", color: "w" };
+                } else if (eq(piece, "N")) {
+                    curr = { type: "n", color: "w" };
+                } else if (eq(piece, "R")) {
+                    curr = { type: "r", color: "w" };
+                } else if (eq(piece, "BQ")) {
+                    curr = { type: "q", color: "b" };
+                } else if (eq(piece, "BK")) {
+                    curr = { type: "k", color: "b" };
+                } else if (eq(piece, "BP")) {
+                    curr = { type: "p", color: "b" };
+                } else if (eq(piece, "BB")) {
+                    curr = { type: "b", color: "b" };
+                } else if (eq(piece, "BN")) {
+                    curr = { type: "n", color: "b" };
+                } else if (eq(piece, "BR")) {
+                    curr = { type: "r", color: "b" };
+                }
+
+                res[i][j] = curr;
+
+                counter += 1;
+            }
+        }
+
+        return res;
+    }
+
+    // TODO: Fix startFen and this logic too chekc it, added for tutorial problems, so moves board won't be displayed
+    const startFen: string = getFen(convertBoard());
+    console.log("startFen", startFen);
+
+    if (!startFen || eq(startFen, "")) {
+        return (<></>);
+    }
+
+    // TODO: see if status is displayed correctly
     const moves = ['start'];
     for (let
         i = 0;
-        input && input[i] && output && output[i];
+        output[i] || input[i];
         i++) {
-        moves.push(input[i]);
-        moves.push(output[i]);
+        if (output[i]) moves.push(output[i]);
+        if (input[i]) moves.push(input[i]);
     }
 
     return (

@@ -7,7 +7,8 @@ export type TestCaseDocument = {
     memory: number,
     message: string,
     status: string,
-    time: number
+    time: number,
+    board: string
 }
 
 type Props = {

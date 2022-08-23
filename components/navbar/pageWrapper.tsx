@@ -21,9 +21,7 @@ const PageWrapNav = ({
                 <ViewportConstrain>
                     <TopNavBar sticky />
                     {/* make sure children is just 1 element or wrap with div for safety, but see div sizing if wrapped, works for now */}
-                    <div>
-                        {children}
-                    </div>
+                    {children}
                 </ViewportConstrain>
             </>);
         } else {
@@ -36,10 +34,8 @@ const PageWrapNav = ({
         return (<>
             <ViewportConstrain>
                 <TopNavBar />
-                {/* make sure children is just 1 element or wrap with div for safety */}
-                <div>
-                    {children}
-                </div>
+                {/* make sure children is just 1 element or wrap with div for safety but wrapping with div causes other issues so left for now */}
+                {children}
             </ViewportConstrain>
         </>);
     } else {
@@ -61,10 +57,11 @@ const ViewportConstrain = ({ children }: any) => {
                 height: "100vh",
                 width: "100vw",
                 overflow: "clip",
-                display: "grid",
+                display: "flex",
+                flexDirection: "column"
                 // sizing of elements depend on the container so have to provide percentages
-                gridTemplateRows: "10% 90%", // also adjust with non constrained Nav so that Nav height remains same across pages
-                gridTemplateColumns: "100%"
+                //gridTemplateRows: "auto 90%", // also adjust with non constrained Nav so that Nav height remains same across pages
+                //gridTemplateColumns: "100%"
                 // have elements handle their overflow on their own, like in submissions page, although this is constrained viewport so ideally that shouldn't happen
             }}>
             {children}

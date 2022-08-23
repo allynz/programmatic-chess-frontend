@@ -86,7 +86,19 @@ const submissionMap = (submission: any):
         {
             // Problem name seems better but ok for now
             key: 'Problem Id',
-            value: () => <>{submission.problemId}</>
+            value: () => {
+                const id = submission.problemId;
+                return (
+                    <Link href={"/problem/" + id}>
+                        {/* Wrapping in <a> is imp otherwise wont behave like a link */}
+                        <a>
+                            <p className={styles.submissionId}>
+                                {id}
+                            </p>
+                        </a>
+                    </Link>
+                );
+            }
         },
         {
             key: 'Submission Time',

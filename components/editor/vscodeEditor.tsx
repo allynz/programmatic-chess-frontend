@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Spinner } from "react-bootstrap";
 
 // There is a command palette already in editor with few customization functionalities, so when you add any customization, keep that in mind
-const VSCodeEditor = ({ updateSubmissionCode, code }: any) => {
+const VSCodeEditor = ({ updateSubmissionCode, code, onEditorMount }: any) => {
     const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
     return (<>
@@ -21,6 +21,7 @@ const VSCodeEditor = ({ updateSubmissionCode, code }: any) => {
             loading={<Spinner animation={"border"} />}
             onMount={
                 (editor, monaco) => {
+                    onEditorMount();
                     // WOW!!! very cool, but do it inside here only, as outside it is causing some CSS error, test this also in multiple browsers
                     editor.addCommand(
                         monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,

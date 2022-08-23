@@ -3,7 +3,7 @@
     height: 100%;
     width: auto;
     // Kept visible for now to show nav visibility but if horizontal overflow occurs, we can clip to disable scrolling
-    overflow: visible;
+    overflow: clip;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

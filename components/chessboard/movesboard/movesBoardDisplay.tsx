@@ -38,7 +38,10 @@ const MovesBoardDisplay = ({ startFen, movesList }: any) => {
                 lodingParentStateFalse={() => setLoading(false)}
                 movesList={movesList}
                 idx={idx} />
-            <Board startFen={startFen} movesList={movesList} idx={idx} />
+            <Board
+                startFen={startFen}
+                movesList={movesList}
+                idx={idx} />
             {/* make sure there is space in between them, anyways above will be clipped so button will be usable */}
             <ButtonControl
                 moveLeft={moveLeft}

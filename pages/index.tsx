@@ -1,18 +1,15 @@
-import type { NextPage } from 'next'
-import IndexEditorDisplay from '../components/editor/indexEditorDisplay'
-import ProblemDisplay from '../components/information/problemDisplay'
-import { reducedDataMap } from '../components/information/problemDisplayData'
-import PageWrapNav from '../components/navbar/pageWrapper'
+import type { NextPage } from 'next';
+import PageBottom from '../components/landingpage/pageBottom';
+import PageTop from '../components/landingpage/pageTop';
+import TutorialEditor from '../components/landingpage/tutorialEditor';
+import PageWrapNav from '../components/navbar/pageWrapper';
 
 // literally a flex grid this is!!
 const Home: NextPage = ({ problemList }: any) => {
   return (<>
     <PageWrapNav>
-      <div>
-        Wecome to App
-
-        If the solution fails, make sure to read the submission guidelines [here](link to About page #Submission Guidelines)
-      </div>
+      <PageTop />
+      If any error, please read submission guidelines
       {
         problemList
         &&
@@ -23,41 +20,30 @@ const Home: NextPage = ({ problemList }: any) => {
           </div>
         ))
       }
-
+      <PageBottom />
+      <Footer />
     </PageWrapNav>
   </>)
 }
 
 export default Home;
 
-// submit them to a different faster queue
-const TutorialEditor = ({ problem }: any) => {
-  console.log(problem);
-
+const Footer = () => {
   return (<>
     <div
       style={{
-        display: "grid",
-        height: "30rem",
-        gridTemplateRows: "100%",
-        gridTemplateColumns: "7% 40% 5% 40% 7%"
+        height: "10rem",
+        width: "100%",
+        backgroundColor: "aqua"
       }}>
-      <br></br>
-      <ProblemDisplay
-        problem={problem}
-        createDataMap={reducedDataMap}
-        // keep false here
-        isSolved={false} />
-      <br></br>
-      {/* Have a bouncing tooltip on Submit to draw attention */}
-      <IndexEditorDisplay problemId={problem.id} defaultCode={problem.defaultCode} />
-      <br></br>
+
     </div>
   </>);
 }
 
 export async function getStaticProps() {
   const tutorialProblems = [1000, 1001, 1002];
+  // these functions can be used at multiple places - combine them at 1
   const list = await Promise.all(
     tutorialProblems
       .map(async (id) => await fetchProblem(id))
@@ -72,7 +58,7 @@ export async function getStaticProps() {
 // resolve error scenarios
 async function fetchProblem(id: number) {
   try {
-    const res = await fetch(`http://localhost:8080/problem?id=${id}`)
+    const res = await fetch(`https://programmatic-chess.uc.r.appspot.com/problem?id=${id}`)
     return await res.json()
   } catch (error) {
     return {}

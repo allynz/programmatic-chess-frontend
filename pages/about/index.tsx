@@ -1,9 +1,10 @@
-import ReactMarkdown from "react-markdown";
+import AboutPlatform from "../../components/aboutpage/aboutPlatform";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 
+// manage spacing between elements, it seems off
 const About = () => {
     return (<>
-        <PageWrapNav constrainToViewport stickyNav>
+        <PageWrapNav>
             <div
                 style={{
                     display: "grid",
@@ -12,11 +13,7 @@ const About = () => {
                     paddingBottom: "2rem"
                 }}>
                 <br></br>
-                <div>
-                    <ReactMarkdown>
-                        {aboutString}
-                    </ReactMarkdown>
-                </div>
+                <AboutPlatform />
                 <br></br>
             </div>
         </PageWrapNav>
@@ -53,4 +50,7 @@ Need a place where people can post and discuss errors/bugs etc. - Reddit/Twitlon
 
 ## FAQ
 Non-saved submissions are not saved, so submit
+No ML solutions - only procedural
+Each submission may take around 2 minutes to process
+Must use permission from site admin before re-using the questions or any code
 `;

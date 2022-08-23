@@ -25,6 +25,7 @@ const Board = ({ startFen, movesList, idx }: any) => {
                 // don't highlight last move, it may have issues
                 // make config global so it is smae for all, the non-required fields atleast
                 {
+                    fen: startFen,
                     coordinates: true,
                     viewOnly: true,
                     highlight: {
