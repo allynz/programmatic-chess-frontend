@@ -9,7 +9,7 @@ import { eq } from "../../utilities/equals";
 // TODO: Fix prop type
 const Problem = ({ problem }: any) => {
     const solvedProblems: Array<number> = useSolvedProblemsList();
-    console.log("solved Problems", solvedProblems);
+    //console.log("solved Problems", solvedProblems);
 
     const ProblemDisplayWrap = (minWidth: string) => {
         return (
@@ -62,7 +62,7 @@ export default Problem;
 // watch out for any security issues in URL, and data fetching, access control - prob not as users might not see it, it only runs on server
 export async function getStaticProps({ params }: { params: any }) {
 
-    console.log("params", params);
+    //console.log("params", params);
 
     // convert data to required types here only
     // can we change this to a bulk API?
@@ -84,7 +84,7 @@ export async function getStaticPaths() {
         fetch('https://programmatic-chess.uc.r.appspot.com/problems')
             .then(res => res.json())
             .catch(error => {
-                console.log(error);
+                //console.log(error);
                 return [];
             }); // it's size should be reasonable enough that build times are less
 

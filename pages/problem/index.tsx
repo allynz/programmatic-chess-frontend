@@ -109,7 +109,7 @@ export async function getServerSideProps() {
         fetch('https://programmatic-chess.uc.r.appspot.com/problems')
             .then(res => res.json())
             .catch(error => {
-                console.log(error);
+                //console.log(error);
                 return [];
             });
     const list = await

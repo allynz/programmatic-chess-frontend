@@ -19,7 +19,7 @@ type Props = {
 // TODO: Fix problem type in Props
 // TODO: Update UI for solved problems
 const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
-    console.log(isSolved);
+    //console.log(isSolved);
 
     const user = useContext(UserContext);
     const dataMap = createDataMap(problem);

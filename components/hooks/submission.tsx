@@ -8,7 +8,7 @@ const Submission = (submissionId: string) => {
     const [value, loading, error] = useDocumentData(getDocument(submissionId));
 
     const content = ({ status }: { status: string }) => {
-        console.log(status);
+        //console.log(status);
 
         if (eq(status, "SUCCESS")) {
             return (

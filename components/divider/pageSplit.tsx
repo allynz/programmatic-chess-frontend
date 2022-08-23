@@ -16,7 +16,7 @@ const PageSplitWrapper = ({ panels }: { panels: Array<any> }) => {
     const resetMinWidths = () => setElementMinWidth(minWidthDefault);
     const disableMinWidths = () => setElementMinWidth("0rem");
 
-    console.log(elementMinWidth);
+    //console.log(elementMinWidth);
 
     return (<>
         <HorizontalPageSplit

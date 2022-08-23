@@ -53,7 +53,7 @@ const fetchCode = async (id: string) => {
         fetch(`https://programmatic-chess.uc.r.appspot.com/submissionCode?id=${id}`)
             .then(res => res.json())
             .catch(err => {
-                console.log(err); // remove it from user
+                //console.log(err); // remove it from user
                 return { code: "" };
             });
 

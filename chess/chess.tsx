@@ -49,7 +49,7 @@ export class Chess {
         // dont really need to check it in playground as we only display valid moves beforehand
         if (!skipValidityCheck) {
             const isMoveValid = this.boardState.isValidMove(orig, dest);
-            console.log("isMoveValid", isMoveValid);
+            //console.log("isMoveValid", isMoveValid);
             if (!isMoveValid) {
                 return false;
             }
@@ -61,7 +61,7 @@ export class Chess {
         if (this.history.length > Chess.HISTORY_LIMIT) this.history.shift(); // check if this is in place
         this.boardState.move(orig, dest);
 
-        console.log("moved" + orig + dest);
+        //console.log("moved" + orig + dest);
 
         return true;
     }

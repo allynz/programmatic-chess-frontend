@@ -10,7 +10,7 @@ const TestCases = ({ arr }: { arr: Array<any> }) => {
                 flush={true}>
                 {
                     arr.map((doc, idx) => {
-                        console.log(doc);
+                        //console.log(doc);
                         const eventKey = idx.toString();
                         return (
                             <SingleAccordion

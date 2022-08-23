@@ -1,4 +1,3 @@
-import { getgid } from "process";
 
 const Page = () => {
 
@@ -11,11 +10,11 @@ const Page = () => {
     }
     let bb: string = "bbb";
     const test = async () => {
-        console.log("before", bb);
+        //console.log("before", bb);
 
         bb = await tt();
 
-        console.log("later", bb);
+        //console.log("later", bb);
     };
 
     const mn = test();

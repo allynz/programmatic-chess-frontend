@@ -4,8 +4,8 @@ import { Chess } from "../../../chess";
 import { Status } from "../../../chess/config";
 import { Move, Square } from "../../../chess/types";
 import ChessboardInternal from "./boardInternal";
-import StatusDisplay from "./statusDisplay";
 import styles from "./Chessboard.module.scss";
+import StatusDisplay from "./statusDisplay";
 
 type Props = {
     startFen: string,
@@ -64,7 +64,7 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
 
         const randomIdx = Math.floor(Math.random() * possibleMoves.length);
         moved = chess.move(possibleMoves[randomIdx].orig, possibleMoves[randomIdx].dest, true);
-        console.log(moved);
+        //console.log(moved);
         if (!moved) {
             return;
         }
@@ -91,7 +91,7 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
                 <button
                     disabled={state.fen === startFen}
                     onClick={() => {
-                        console.log(gameStatus);
+                        //console.log(gameStatus);
                         // check more on this condition
                         if ([Status.CHECKMATE, Status.STALEMATE]
                             .find(status => status === gameStatus)) {

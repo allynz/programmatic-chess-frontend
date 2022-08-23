@@ -126,7 +126,7 @@ const MovesBoardWrapper = ({
 
     // TODO: Fix startFen and this logic too chekc it, added for tutorial problems, so moves board won't be displayed
     const startFen: string = getFen(convertBoard());
-    console.log("startFen", startFen);
+    //console.log("startFen", startFen);
 
     if (!startFen || eq(startFen, "")) {
         return (<></>);

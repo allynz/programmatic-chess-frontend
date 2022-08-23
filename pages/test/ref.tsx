@@ -4,9 +4,9 @@ const Page = () => {
     const ref = useRef<HTMLDivElement>();
 
     useEffect(() => {
-        console.log(ref.current);
+        //console.log(ref.current);
         if (ref.current?.style.backgroundColor) {
-            console.log(ref.current?.style.backgroundColor);
+            //console.log(ref.current?.style.backgroundColor);
         }
     }, []);
 

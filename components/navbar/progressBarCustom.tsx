@@ -9,7 +9,7 @@ const ProgressBarCustom = () => {
     useEffect(() => {
         const interval = setInterval(
             () => {
-                console.log("yoooy");
+                //console.log("yoooy");
                 // what is the diff betn setState(p=>p+1) and setState(p+1);
                 setP(p => Math.min(100, p + 1));
             },

@@ -62,7 +62,7 @@ const SingleAccordion = ({
         'start', 'e2-e3', 'e7-e5', 'g1-f3', 'b8-c6'//, 'Bc4', 'Bc5', 'b4', 'Bxb4', 'c3', 'Ba5'
     ];
 
-    console.log(shouldShowBoard + " " + eventKey);
+    //console.log(shouldShowBoard + " " + eventKey);
 
     const { activeEventKey } = useContext(AccordionContext);
     const isActive: boolean = activeEventKey?.includes(eventKey) || false;

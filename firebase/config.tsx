@@ -37,8 +37,7 @@ export function getDocument(documentId: string) {
 }
 
 export function getProblemDocument(documentId: string) {
-    console.log("docId Problem", documentId);
-
+    //console.log("docId Problem", documentId);
     return doc(db, 'Problems', documentId);
 }
 
@@ -49,7 +48,7 @@ export function getSolvedProblemsDocument(documentId: string) {
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 export const authenticate = () => {
-    console.log("here");
+    //console.log("here");
     // can we have sign in again with new user? dosen't seem to work directly
     signInWithPopup(auth, provider)
         .then((result) => {
@@ -58,7 +57,7 @@ export const authenticate = () => {
             const token = credential?.accessToken;
             // The signed-in user info.
             const user = result.user;
-            console.log(user);
+            //console.log(user);
             // ...
         }).catch((error) => {
             // Handle Errors here.
@@ -75,9 +74,9 @@ export const authenticate = () => {
 export const logout = () => {
     signOut(auth)
         .then((result) => {
-            console.log("Signed out");
+            //console.log("Signed out");
         }).catch((err) => {
-            console.log("error");
+            //console.log("error");
         });
 }
 
