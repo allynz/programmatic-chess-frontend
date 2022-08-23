@@ -33,3 +33,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+### VS Code ### - Hmm, see if we should add it in git
+.vscode/
