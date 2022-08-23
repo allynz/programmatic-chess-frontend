@@ -32,7 +32,7 @@ const Board = ({ startFen, movesList, idx }: any) => {
                         lastMove: false
                     }
                 })); // see if we need to highlight here so changing config accordingly
-    }, [movesList]); // moveList may ensure that this block is run only once, but checking could take time so find a faster way(key prop?)
+    }, [movesList, boardId, startFen]); // moveList may ensure that this block is run only once, but checking could take time so find a faster way(key prop?)
 
     // moves both back and forward
     // idx < movesList size is not checked
@@ -64,7 +64,7 @@ const Board = ({ startFen, movesList, idx }: any) => {
     // capturing distorts the board so just keep that in mind
     useEffect(() => {
         moveToIdx(idx);
-    }, [idx]);
+    }, [idx, moveToIdx]); // apparently warning during build to add moveToIdx as well in dependency array, TODO: learn more about it, it is like c++ lambda captures?
 
     return (<>
         {/* Width should be same as of the carousel */}

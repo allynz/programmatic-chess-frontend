@@ -1,4 +1,5 @@
 import { getDoc } from "firebase/firestore";
+import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -69,7 +70,8 @@ const DisplayBoard = ({ problemNumber, isSolved }: { problemNumber: number, isSo
             <Link href={"/problem/" + problemNumber?.toString()}>
                 {/* Image from next/link is not expanding, see what's the issue there */}
                 <a>
-                    <img
+                    <Image
+                        alt={problemNumber?.toString()}
                         style={{
                             boxShadow: isSolved ? "0 0 5px 5px green" : ""
                         }}

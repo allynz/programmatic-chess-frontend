@@ -3,7 +3,7 @@ import { Api } from "chessground/api";
 import { Config } from "chessground/config";
 import { Dests, Key } from "chessground/types";
 import { useEffect, useId, useState } from "react";
-import styles from './Chessboard.module.scss'
+import styles from './Chessboard.module.scss';
 
 const ChessboardInternal = ({
     fen,
@@ -27,11 +27,11 @@ const ChessboardInternal = ({
                 config
             ));
         ground?.setAutoShapes([]);
-    }, []);
+    }, []); // See if I should add deps here as in warning
 
     // Do we need useEffect? Can we just update it after config initialisation itself, what about first render, ground will not be available then, but be careful of stateful variables
     useEffect(() => {
-        console.log("used effect");
+        //console.log("used effect");
         ground?.set(config);
     }, [fen, validMoves, moveFunction]); // see if complete props update is fine here
 

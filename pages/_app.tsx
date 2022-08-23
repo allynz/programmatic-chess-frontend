@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         setLoading(false);
       }
     });
-  }, [loading]);
+  }, [loading]); // react was giving warning for `loading` deps not added, so added it
 
   if (loading) {
     return (<>

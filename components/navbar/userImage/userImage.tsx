@@ -19,6 +19,7 @@ export const UserImage = () => {
         <div className={styles.outer}>
             <div className={styles.inner}>
                 <Image
+                    alt={`User Image`}
                     src={user?.photoURL || defaultImage}
                     width={"100%"}
                     height={"100%"}

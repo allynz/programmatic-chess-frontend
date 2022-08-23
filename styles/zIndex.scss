@@ -1,11 +1,13 @@
+// % is scss means variables and not selectors
+
 %nav-zindex {
     z-index: 1000;
 }
 
-.editor-auth-backdrop-zindex {
+%editor-auth-backdrop-zindex {
     z-index: 100;
 }
 
-.divider-button-zindex {
+%divider-button-zindex {
     z-index: 200;
 }
