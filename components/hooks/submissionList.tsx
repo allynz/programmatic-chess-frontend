@@ -23,8 +23,8 @@ const SubmissionList = (problemId: string) => {
                 // also check for if time present or not
                 list.sort((a, b) => {
                     const
-                        t1 = a.timestamp.submitted,
-                        t2 = b.timestamp.submitted;
+                        t1 = a.timestamp?.submitted,
+                        t2 = b.timestamp?.submitted;
                     if (t1 > t2) {
                         return -1;
                     } else if (t2 == t2) {
