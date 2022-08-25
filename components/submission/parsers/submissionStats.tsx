@@ -1,4 +1,5 @@
 import { DocumentData } from "firebase/firestore";
+import { eq } from "lodash";
 import { TimeDisplay } from "../../information/submissionTable";
 
 // add links to goto respective links like problem page etc.
@@ -61,6 +62,12 @@ export const parseSubmissionStats = (data: DocumentData) => {
 
 // TODO: Find a better way for these calculations
 const getPassedTestCases = (testCasesData: any): number => {
+    if (!testCasesData
+        || eq(testCasesData, undefined)
+        || eq(testCasesData, null)) {
+        return 0;
+    }
+
     let cnt = 0;
     let i = 1;
     while (true) {
@@ -76,6 +83,12 @@ const getPassedTestCases = (testCasesData: any): number => {
 };
 
 const getFailedTestCases = (testCasesData: any): number => {
+    if (!testCasesData
+        || eq(testCasesData, undefined)
+        || eq(testCasesData, null)) {
+        return 0;
+    }
+
     let cnt = 0;
     let i = 1;
     while (true) {

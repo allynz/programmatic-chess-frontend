@@ -18,7 +18,7 @@ type Props = {
 // TODO: Add Test case status detail also in wrapper
 const TestCasesWrapper = ({ doc }: Props) => {
     const testCases: Array<TestCaseDocument> =
-        getTestCaseList(doc.testCaseDetails);
+        doc.testCaseDetails ? getTestCaseList(doc.testCaseDetails) : [];
 
     return (<>
         <div
