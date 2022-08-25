@@ -106,7 +106,7 @@ const submissionMap = (submission: any):
         },
         {
             key: 'Completion time',
-            value: () => <TimeDisplay time={submission.timestamp.completed} />
+            value: () => <TimeDisplay time={submission.timestamp?.completed} />
         }
     ];
 

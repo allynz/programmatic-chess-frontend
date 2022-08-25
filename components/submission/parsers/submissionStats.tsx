@@ -18,7 +18,7 @@ export const parseSubmissionStats = (data: DocumentData) => {
         },
         {
             key: "Completed On",
-            val: <TimeDisplay time={data.timestamp.completed} />
+            val: <TimeDisplay time={data.timestamp?.completed} />
         },
         {
             key: "Time Taken",
