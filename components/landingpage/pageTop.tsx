@@ -1,3 +1,4 @@
+import AnimatedBoardWrapper from "../chessboard/animated/animatedBoardWrapper";
 
 const PageTop = () => {
     return (
@@ -46,11 +47,12 @@ const SiteDetailsIntro = () => {
                 style={{
                 }}>
                 {/* Should I make this animated or just plain? Main thing is no distraction */}
-                <img
+                {/* <img
                     alt={`Random Chessboard`}
                     height="20%"
                     width="20%"
-                    src="/images/randomChessboard.png" />
+                    src="/images/randomChessboard.png" /> */}
+                <AnimatedBoardWrapper />
                 Hello, this is an image
             </p>
             <div

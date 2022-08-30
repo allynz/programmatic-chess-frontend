@@ -3,24 +3,29 @@ import { Api } from "chessground/api";
 import { Config } from "chessground/config";
 import { Dests, Key } from "chessground/types";
 import { useEffect, useId, useState } from "react";
-import styles from './Chessboard.module.scss';
+// TODO: Fix this style import, it should be accessible easily
+import styles from '../playground/Chessboard.module.scss';
 
-const ChessboardInternal = ({
+// The problem with these chessboards is just don't resize it? As pieces may lose connectivity
+const AnimatedBoardInternal = ({
     fen,
     validMoves,
-    moveFunction
+    moveFunction,
+    moveMade
 }: any) => {
+    console.log("fen", fen);
     const config: Config = getConfig(
         fen,
         validMoves,
         // will run on every move, programmatically or dragged, so be careful, but maybe if we just set new fen, it won't move. THe programmitically one is ground.move
         // check if we can drag multiple times or not, prob will be fine but take care of capture square as that can be dragged multiple times
-        (orig: Key, dest: Key) => moveFunction(orig, dest)
+        (orig: Key, dest: Key) => moveFunction()
     );
     const boardId: Readonly<string> = useId();
 
     const [ground, setGround] = useState<Api>();
     useEffect(() => {
+        console.log("use Effect called");
         setGround(
             Chessground(
                 document.getElementById(boardId) || document.body,
@@ -31,8 +36,13 @@ const ChessboardInternal = ({
 
     // Do we need useEffect? Can we just update it after config initialisation itself, what about first render, ground will not be available then, but be careful of stateful variables
     useEffect(() => {
+        console.log("used effect f");
         ground?.set(config);
     }, [fen, validMoves, moveFunction]); // see if complete props update is fine here
+
+    useEffect(() => {
+        //ground?.move(moveMade.orig, moveMade.dest);
+    }, [moveMade]);
 
     return (<>
         <div className={styles.chessboardWrap}>
@@ -45,7 +55,7 @@ const ChessboardInternal = ({
     </>);
 }
 
-export default ChessboardInternal;
+export default AnimatedBoardInternal;
 
 // TODO: make king capture false, although avoid that condition entirely
 const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
@@ -71,7 +81,10 @@ const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
         },
         events: {
             // stop any more moves after a new move is made
-            move: (orig, dest, capturedPiece) => moveFunction(orig, dest)
+            move: (orig, dest, capturedPiece) => {
+                console.log("moved");
+                moveFunction();
+            }
         }
     };
 

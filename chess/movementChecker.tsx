@@ -1,5 +1,6 @@
 import { eq } from "../utilities/equals";
 import { Board, Cord, Piece } from "./types";
+import { inBoundCord } from "./utilities";
 
 // without any piece checks, just check movement
 // piece needs to be present at the start cord, later refactor if function is crashing with stateless methodology - we can't keep checking everywhere
@@ -42,7 +43,10 @@ const isRawValidMovement = (
 export default isRawValidMovement;
 
 // also can just return the required piece movement from here
-const movementProvider = (board: Readonly<Board>, startCord: Readonly<Cord>, endCord: Readonly<Cord>) => {
+const movementProvider = (
+    board: Readonly<Board>,
+    startCord: Readonly<Cord>,
+    endCord: Readonly<Cord>) => {
     // not checking if cord is in bound, although can return null if that's the case
     const piece = (cord: Cord): Piece | undefined => {
         return board[cord[0]][cord[1]];
@@ -87,6 +91,8 @@ const movementProvider = (board: Readonly<Board>, startCord: Readonly<Cord>, end
             return false; // seems we can return false at the end adn just check for returning true
         }
     };
+
+    // TODO: Check this again, animated board si having issues
     const bishopMovement = () => {
         const
             startSum: number = startCord[0] + startCord[1],
@@ -104,7 +110,7 @@ const movementProvider = (board: Readonly<Board>, startCord: Readonly<Cord>, end
                 !eq(cord, endCord);
                 cord[0] -= diff, cord[1] += diff) {
 
-                if (piece(cord) !== undefined) {
+                if (!inBoundCord(cord) || piece(cord) !== undefined) {
                     return false;
                 }
             }
@@ -118,7 +124,7 @@ const movementProvider = (board: Readonly<Board>, startCord: Readonly<Cord>, end
                 !eq(cord, endCord);
                 cord[0] += diff, cord[1] += diff) {
 
-                if (piece(cord) !== undefined) {
+                if (!inBoundCord(cord) || piece(cord) !== undefined) {
                     return false;
                 }
             }

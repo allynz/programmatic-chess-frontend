@@ -47,7 +47,10 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
 
     const moveFunction = (orig: Key, dest: Key) => {
         // Keep on playing even with insufficient material
-        if (!moveAllowed || gameStatus in [Status.CHECKMATE, Status.STALEMATE]) return;
+        if (!moveAllowed
+            || gameStatus in [Status.CHECKMATE, Status.STALEMATE]) {
+            return;
+        }
 
         // dont need to check validity here as we had only allowed valid moves, but its fine for now in general
         let moved = chess.move(orig as Square, dest as Square);
