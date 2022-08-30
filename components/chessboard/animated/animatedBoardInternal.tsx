@@ -13,7 +13,6 @@ const AnimatedBoardInternal = ({
     moveFunction,
     moveMade
 }: any) => {
-    console.log("fen", fen);
     const config: Config = getConfig(
         fen,
         validMoves,
@@ -25,7 +24,6 @@ const AnimatedBoardInternal = ({
 
     const [ground, setGround] = useState<Api>();
     useEffect(() => {
-        console.log("use Effect called");
         setGround(
             Chessground(
                 document.getElementById(boardId) || document.body,
@@ -36,7 +34,6 @@ const AnimatedBoardInternal = ({
 
     // Do we need useEffect? Can we just update it after config initialisation itself, what about first render, ground will not be available then, but be careful of stateful variables
     useEffect(() => {
-        console.log("used effect f");
         ground?.set(config);
     }, [fen, validMoves, moveFunction]); // see if complete props update is fine here
 
@@ -82,7 +79,6 @@ const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
         events: {
             // stop any more moves after a new move is made
             move: (orig, dest, capturedPiece) => {
-                console.log("moved");
                 moveFunction();
             }
         }

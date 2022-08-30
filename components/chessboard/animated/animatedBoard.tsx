@@ -10,7 +10,6 @@ const AnimatedBoard = ({ startFen, resetFen }: any) => {
     const moveFunction = () => {
         const possibleMoves = chess.validMoves();
         if (possibleMoves.length === 0) {
-            console.log("no more moves");
             return;
         }
 
@@ -32,7 +31,6 @@ const AnimatedBoard = ({ startFen, resetFen }: any) => {
         useState({ orig: "", dest: "" });
 
     useEffect(() => {
-        console.log("wohooo");
         setChess(new Chess(startFen));
         setMoveMade({ orig: "", dest: "" });
         setFen("");
@@ -40,10 +38,8 @@ const AnimatedBoard = ({ startFen, resetFen }: any) => {
     }, [startFen]);
 
     useEffect(() => {
-        console.log("nopers");
         const interval = setInterval(
             () => {
-                console.log("going");
                 if (chess.validMoves().length > 0) {
                     moveFunction();
                 } else {
@@ -56,7 +52,6 @@ const AnimatedBoard = ({ startFen, resetFen }: any) => {
 
         return () => {
             clearInterval(interval);
-            console.log("cleanup");
             //resetFen();
         }
     }, [chess]); // good idea to depend on chess as it changes just once after setState has happened for startFen, otherwise multiple boards were coming in

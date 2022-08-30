@@ -41,7 +41,6 @@ const AnimatedBoardWrapper = () => {
             <AnimatedBoard
                 startFen={fen1}
                 resetFen={() => {
-                    console.log("reset fn called");
                     setFen1(findRandomPosition(pieces));
                 }} />
         </div>
