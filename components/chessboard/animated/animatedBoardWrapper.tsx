@@ -36,7 +36,8 @@ const AnimatedBoardWrapper = () => {
         <div
             style={{
                 height: "22rem",
-                width: "22rem"
+                width: "22rem",
+                pointerEvents: "none"
             }}>
             <AnimatedBoard
                 startFen={fen1}

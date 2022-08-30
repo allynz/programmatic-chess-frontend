@@ -60,7 +60,7 @@ const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
     // make castling false, as well as autocastle config
     const config: Config = {
         selected: undefined, // fixing annoying square shown when new pos generated bug
-        viewOnly: false,
+        viewOnly: true,
         fen: fen,
         coordinates: true,
         autoCastle: false,

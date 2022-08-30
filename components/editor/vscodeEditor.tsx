@@ -1,3 +1,4 @@
+// I like these imports, all referencing package, no relative paths needed, try to make files like this
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import { useRef } from "react";

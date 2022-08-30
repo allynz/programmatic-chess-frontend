@@ -1,4 +1,5 @@
 import AnimatedBoardWrapper from "../chessboard/animated/animatedBoardWrapper";
+import AnimatedEditor from "../editor/animatedEditor";
 
 const PageTop = () => {
     return (
@@ -61,12 +62,13 @@ const SiteDetailsIntro = () => {
                 }}>
                 Hello, this is an image I like
                 {/* Show code editor here, can add animating code or empty editor etc. */}
-                <img
+                {/* <img
                     alt={`Random Code`}
                     style={{
                         maxHeight: "20rem"
                     }}
-                    src="/images/randomCode.png" />
+                    src="/images/randomCode.png" /> */}
+                <AnimatedEditor fullCode="fdsfsd" />
             </div>
         </div>
     );
