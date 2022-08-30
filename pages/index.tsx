@@ -53,11 +53,11 @@ export async function getStaticProps() {
 
   // TODO: Later see for randomizing pieces/code also
   const displayChessboardPieces =
-    await fetch(`http://localhost:8080/displayPieces`)
+    await fetch(`https://programmatic-chess.uc.r.appspot.com/displayPieces`)
       .then(res => res.json())
       .then(res => JSON.parse(res));
   const displayCode: string =
-    await fetch(`http://localhost:8080/displayCode`)
+    await fetch(`https://programmatic-chess.uc.r.appspot.com/displayCode`)
       .then(res => res.json());
 
   return {
