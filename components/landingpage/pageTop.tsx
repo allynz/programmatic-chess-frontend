@@ -1,7 +1,7 @@
 import AnimatedBoardWrapper from "../chessboard/animated/animatedBoardWrapper";
 import AnimatedEditor from "../editor/animatedEditor";
 
-const PageTop = () => {
+const PageTop = ({ pieces, code }: any) => {
     return (
         <div
             style={{
@@ -9,7 +9,9 @@ const PageTop = () => {
                 paddingRight: "10%"
             }}>
             <Intro />
-            <SiteDetailsIntro />
+            <SiteDetailsIntro
+                pieces={pieces}
+                code={code} />
             <HowToUseIt />
         </div>
     );
@@ -37,14 +39,14 @@ const Intro = () => {
 };
 
 // less text, more images
-const SiteDetailsIntro = () => {
+const SiteDetailsIntro = ({ pieces, code }: any) => {
     return (
         <div
             style={{
                 clear: "both"
             }}>
             {/* No need for heading, it is intuitive */}
-            <p
+            <div
                 style={{
                 }}>
                 {/* Should I make this animated or just plain? Main thing is no distraction */}
@@ -53,9 +55,9 @@ const SiteDetailsIntro = () => {
                     height="20%"
                     width="20%"
                     src="/images/randomChessboard.png" /> */}
-                <AnimatedBoardWrapper />
+                <AnimatedBoardWrapper pieces={pieces} />
                 Hello, this is an image
-            </p>
+            </div>
             <div
                 style={{
                     textAlign: "right"
@@ -68,7 +70,7 @@ const SiteDetailsIntro = () => {
                         maxHeight: "20rem"
                     }}
                     src="/images/randomCode.png" /> */}
-                <AnimatedEditor fullCode="fdsfsd" />
+                <AnimatedEditor fullCode={code} />
             </div>
         </div>
     );

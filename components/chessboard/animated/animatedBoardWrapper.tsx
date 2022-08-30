@@ -1,35 +1,9 @@
 import { useState } from "react";
 import { findRandomPosition } from "../../../chess/positionFinder";
-import { Piece } from "../../../chess/types";
 import AnimatedBoard from "./animatedBoard";
 
-const AnimatedBoardWrapper = () => {
-    const pieces: Array<Piece> = [
-        {
-            type: 'k',
-            color: 'b'
-        },
-        {
-            type: 'r',
-            color: 'w'
-        },
-        {
-            type: 'r',
-            color: 'w'
-        },
-        {
-            type: 'q',
-            color: 'b'
-        },
-        {
-            type: 'b',
-            color: 'b'
-        },
-        {
-            type: 'b',
-            color: 'w'
-        }
-    ];
+// TODO: There is some issue in code, the king also gets taken sometimes, specially by bishop
+const AnimatedBoardWrapper = ({ pieces }: any) => {
     const [fen1, setFen1] = useState(findRandomPosition(pieces));
 
     return (
