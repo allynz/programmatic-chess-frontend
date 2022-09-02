@@ -9,10 +9,11 @@ const AnimatedEditorWrapper = ({ fullCode }: any) => {
     return (
         <div
             style={{
-                height: "20rem",
-                width: "40rem",
                 // WOHOOOO
-                pointerEvents: "none"
+                pointerEvents: "none",
+                height: "100%",
+                width: "100%",
+                overflow: "clip"
             }}>
             <AnimatedEditor
                 fullCode={fullCode} />
@@ -24,13 +25,18 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
     const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
     const [code, setCode] = useState("");
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        if (!mounted) return;
+
         let res: string = "";
         let idx = 0;
 
         const interval = setInterval(
             () => {
+                if (!mounted) return;
+
                 if (idx < fullCode.length) {
                     res += fullCode.at(idx);
                     idx++;
@@ -48,10 +54,15 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
                             text: fullCode.at(idx) || null
                         }
                     ]);
-                    //editorRef.current?.getModel()?.setValue(res);
-                    editorRef.current?.revealLine(
-                        editorRef.current
-                            .getModel()?.getLineCount() || 0);
+                    // reveals both row and col
+                    editorRef.current?.revealPosition(
+                        {
+                            lineNumber: editorRef.current
+                                .getModel()?.getLineCount() || 0,
+                            column: editorRef.current
+                                .getModel()?.getLineLength(editorRef.current
+                                    .getModel()?.getLineCount() || 0) || 0
+                        });
                 } else {
                     idx = 0;
                     res = "";
@@ -61,7 +72,7 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
         );
 
         return () => clearInterval(interval);
-    }, []);
+    }, [mounted]);
 
     return (<>
         <Editor
@@ -69,10 +80,14 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
             options={{
                 fontSize: 17,
                 readOnly: true,
+                lineNumbers: 'off',
+                minimap: { enabled: false },
                 scrollbar: {
-                    // TODO: Stop any interaction, no scrolling
-                    // seems not working for vscodeEditor, maybe it has a parent above?
-                    //alwaysConsumeMouseWheel: true
+                    vertical: "hidden",
+                    horizontal: "hidden",
+                    horizontalSliderSize: 0,
+                    verticalSliderSize: 0,
+                    arrowSize: 0
                 }
             }}
             language="cpp"
@@ -84,6 +99,8 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
                         monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS,
                         function () { });
                     editorRef.current = editor; // doesnt matter before or after addCommand, prob because change is in place
+
+                    setMounted(true); // used so that the initial few text doesn't get scrapped off
                 }
             }
             value={code}

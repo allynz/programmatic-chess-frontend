@@ -11,7 +11,7 @@ const Home: NextPage = ({ problemList, pieces, displayCode }: any) => {
       <PageTop
         pieces={pieces}
         code={displayCode} />
-      If any error, please read submission guidelines
+      <SubmissionStart />
       {
         problemList
         &&
@@ -42,6 +42,27 @@ const Footer = () => {
     </div>
   </>);
 }
+
+const SubmissionStart = () => {
+  return (<>
+    <div
+      style={{
+        paddingLeft: "10%",
+        paddingRight: "10%",
+
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
+      <h1>
+        Submission
+      </h1>
+      <p>Few example submissions below to get you started!</p>
+      <p>If any error, please read submission guidelines</p>
+    </div>
+  </>);
+};
 
 export async function getStaticProps() {
   const tutorialProblems = [1000, 1001, 1002];

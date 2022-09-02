@@ -1,5 +1,6 @@
+import { XDiamondFill } from "react-bootstrap-icons";
 import AnimatedBoardWrapper from "../chessboard/animated/animatedBoardWrapper";
-import AnimatedEditor from "../editor/animatedEditor";
+import AnimatedEditorWrapper from "../editor/animatedEditor";
 
 const PageTop = ({ pieces, code }: any) => {
     return (
@@ -9,9 +10,11 @@ const PageTop = ({ pieces, code }: any) => {
                 paddingRight: "10%"
             }}>
             <Intro />
+            <br />
             <SiteDetailsIntro
                 pieces={pieces}
                 code={code} />
+            <br />
             <HowToUseIt />
         </div>
     );
@@ -41,44 +44,66 @@ const Intro = () => {
 // less text, more images
 const SiteDetailsIntro = ({ pieces, code }: any) => {
     return (
+        // just using simple for now as grid items expand with the content
+        // can't find a good way to suppress that
         <div
             style={{
-                clear: "both"
+                display: "grid",
+
+                gridTemplateColumns: "40% 60%",
+                gridTemplateRows: "100%"
             }}>
-            {/* No need for heading, it is intuitive */}
             <div
                 style={{
+                    display: "grid",
+                    gridTemplateRows: "80% 20%",
+                    gridTemplateColumns: "100%",
+                    backgroundColor: "red"
                 }}>
-                {/* Should I make this animated or just plain? Main thing is no distraction */}
-                {/* <img
-                    alt={`Random Chessboard`}
-                    height="20%"
-                    width="20%"
-                    src="/images/randomChessboard.png" /> */}
-                <AnimatedBoardWrapper pieces={pieces} />
-                Hello, this is an image
+                <AnimatedBoardWrapper
+                    pieces={pieces} />
+                <p>Solve Chess</p>
             </div>
             <div
                 style={{
-                    textAlign: "right"
+                    display: "grid",
+                    gridTemplateRows: "20% 80%",
+                    gridTemplateColumns: "100%",
+                    backgroundColor: "green"
                 }}>
-                Hello, this is an image I like
-                {/* Show code editor here, can add animating code or empty editor etc. */}
-                {/* <img
-                    alt={`Random Code`}
-                    style={{
-                        maxHeight: "20rem"
-                    }}
-                    src="/images/randomCode.png" /> */}
-                <AnimatedEditor fullCode={code} />
+                <p>Using Code</p>
+                <AnimatedEditorWrapper
+                    fullCode={code} />
             </div>
         </div>
     );
 };
 
 const HowToUseIt = () => {
+    const Diamonds = () => {
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-evenly"
+                }}>
+                {
+                    [...Array(6)]
+                        .map(
+                            k =>
+                            (<XDiamondFill
+                                key={k}
+                                color="royalblue"
+                                size={100} />))
+                }
+
+            </div>
+        );
+    };
+
     return (
         <div>
+            <Diamonds />
             <h1
                 style={{
                     textAlign: "center"
@@ -92,6 +117,7 @@ const HowToUseIt = () => {
                 We can submit solution to the problem
                 More details can be found in the About section of this site
             </p>
+            <Diamonds />
         </div>
     );
 };
