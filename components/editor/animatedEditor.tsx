@@ -13,7 +13,8 @@ const AnimatedEditorWrapper = ({ fullCode }: any) => {
                 pointerEvents: "none",
                 height: "100%",
                 width: "100%",
-                overflow: "clip"
+                overflow: "clip",
+                backgroundColor: "black" // nice hack for now
             }}>
             <AnimatedEditor
                 fullCode={fullCode} />
@@ -92,7 +93,7 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
             }}
             language="cpp"
             // TODO: See if you can remove this loading, atleast for landing page
-            loading={<Spinner animation={"border"} />}
+            loading={<Spinner animation={"border"} />} // probably using UserContext we can keep global state as loading
             onMount={
                 (editor, monaco) => {
                     // WOW!!! very cool, but do it inside here only, as outside it is causing some CSS error, test this also in multiple browsers
