@@ -56,6 +56,14 @@ const ViewportConstrain = ({ children }: any) => {
             style={{
                 height: "100vh",
                 width: "100vw",
+
+                // min dimensions needed as resizing can happen
+                // guess I need to add here separately also for it to work correctly
+                // TODO: somehow combine this and top level dimensions, maybe css property would be a good start
+                minHeight: "40rem",
+                // tested all pages to set correct field
+                minWidth: "90rem",
+
                 overflow: "clip",
                 display: "flex",
                 flexDirection: "column"

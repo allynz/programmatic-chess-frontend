@@ -1,20 +1,76 @@
-import AboutPlatform from "../../components/aboutpage/aboutPlatform";
+import fs from 'fs';
+import ReactMarkdown from "react-markdown";
+import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
+import rehypeRaw from 'rehype-raw';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
+import remarkToc from 'remark-toc';
 import PageWrapNav from "../../components/navbar/pageWrapper";
 
+// Markdown TOC generator: https://ecotrust-canada.github.io/markdown-toc/
 // manage spacing between elements, it seems off
-const About = () => {
+const About = ({ markdownText }: any) => {
+    // prob. we can get TOC directly from that website API or make your own npm package - parse AST and generate tree, look at implementation of remark-toc
+    const mText = `
+## Table Of Contents
+
+- [About Coding Chess](#about-coding-chess)
+- [Pages](#pages)
+    * [Homepage](#homepage)
+    * [Problems](#problems)
+        + [Specific Problem Page](#specific-problem-page)
+    * [My Submissions](#my-submissions)
+        + [Submission Details Page](#submission-details-page)
+    * [About Page](#about-page)
+- [Submission Guidelines](#submission-guidelines)
+    * [Interaction With Grader](#interaction-with-grader)
+- [Misc](#misc)
+    * [Helpful Snippets](#helpful-snippets)
+    * [Platforms](#platforms)
+    * [Data Security](#data-security)
+- [FAQ](#faq)
+- [Contact Details](#contact-details)
+    `;
+
     return (<>
         <PageWrapNav>
+            {/* See if I can highlight the required heading in TOC when on that while scrolling */}
             <div
                 style={{
-                    display: "grid",
-                    gridTemplateColumns: "20% 60% 20%",
-                    paddingTop: "2rem",
-                    paddingBottom: "2rem"
+                    position: "sticky",
+                    top: "0",
+                    maxWidth: "max-content",
+                    backgroundColor: "aqua",
+                    padding: "2rem",
+                    float: "left" // check other strategies, like flex/grid
                 }}>
-                <br></br>
-                <AboutPlatform />
-                <br></br>
+                <ReactMarkdown>
+                    {mText}
+                </ReactMarkdown>
+            </div>
+            <div
+                style={{
+                    paddingTop: "2rem",
+                    paddingBottom: "2rem",
+                    paddingLeft: "25%",
+                    paddingRight: "20%"
+                }}>
+                {/* WHAT? https://stackoverflow.com/questions/33191744/how-to-add-new-line-in-markdown-presentation, make an auto plugin for this */}
+                {/* TODO: Adding numbered headings: https://talk.commonmark.org/t/heading-number-and-table-of-content-extension/3645, https://gist.github.com/patik/89ee6092c72a9e39950445c01598517a */}
+                {/* Also see tabbed/indented headings if it's possible */}
+                <ReactMarkdown
+                    rehypePlugins={[
+                        rehypeRaw,
+                        rehypeAutoLinkHeadings,
+                        rehypeSlug
+                    ]}
+                    remarkPlugins={[
+                        remarkGfm,
+                        [remarkToc, { tight: true }]
+                    ]} >
+                    {markdownText}
+                </ReactMarkdown>
+
             </div>
         </PageWrapNav>
     </>);
@@ -22,35 +78,13 @@ const About = () => {
 
 export default About;
 
-const aboutString: string = `
-# Welcome to CodingChess
+// can only use absolute URLs using `fetch` here
+export async function getStaticProps() {
+    const markdownText =
+        // seems I have to put it in public directory
+        fs.readFileSync('public/aboutString.md', 'utf-8'); // See if utf-8 conflicts with any markdown syntax, prob. not
 
-Hi! I'm your first Markdown file in **StackEdit**. If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
-
-
-# Files
-
-StackEdit stores your files in your browser, which means
-
-## Create files and folders
-
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
-
-## Switch to another file
-
-## Interacting with Grader
-Add endl to your print statements
-
-## Platforms
-Desktop - best viewed on 13 inch monitor
-Browsers - all modern browsers
-
-##Forum
-Need a place where people can post and discuss errors/bugs etc. - Reddit/Twitlonger - see something that can be ported easily into your platform
-
-## FAQ
-Non-saved submissions are not saved, so submit
-No ML solutions - only procedural
-Each submission may take around 2 minutes to process
-Must use permission from site admin before re-using the questions or any code
-`;
+    return {
+        props: { markdownText: markdownText }
+    }
+}

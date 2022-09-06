@@ -29,13 +29,15 @@ const Intro = () => {
                 style={{
                     textAlign: "center"
                 }}>
-                Welcome to App
+                Welcome to Coding Chess
             </h1>
             <p
                 style={{
                     textAlign: "center"
                 }}>
-                A coding platform with interactive problems focused around the game of chess
+                A platform to improve your programming skills by solving interactive problems
+                <br />
+                Solve chess-related problems to improve your coding abilities
             </p>
         </div>
     );
@@ -62,7 +64,7 @@ const SiteDetailsIntro = ({ pieces, code }: any) => {
                 }}>
                 <AnimatedBoardWrapper
                     pieces={pieces} />
-                <p>Solve Chess</p>
+                <p>Solve Chess Puzzles</p>
             </div>
             <div
                 style={{
@@ -71,7 +73,7 @@ const SiteDetailsIntro = ({ pieces, code }: any) => {
                     gridTemplateColumns: "100%",
                     backgroundColor: "green"
                 }}>
-                <p>Using Code</p>
+                <p>Improve Coding Skills</p>
                 <AnimatedEditorWrapper
                     fullCode={code} />
             </div>
@@ -91,12 +93,12 @@ const HowToUseIt = () => {
                     [...Array(6)]
                         .map(
                             k =>
+                            // replace this with chess pieces?
                             (<XDiamondFill
                                 key={k}
                                 color="royalblue"
                                 size={100} />))
                 }
-
             </div>
         );
     };
@@ -104,19 +106,32 @@ const HowToUseIt = () => {
     return (
         <div>
             <Diamonds />
-            <h1
+            <div
                 style={{
-                    textAlign: "center"
+                    display: "grid",
+                    gridTemplateRows: "100%",
+                    gridTemplateColumns: "40% 60%"
                 }}>
-                How to use the site
-            </h1>
-            <p
-                style={{
-                    textAlign: "center"
-                }}>
-                We can submit solution to the problem
-                More details can be found in the About section of this site
-            </p>
+                <div>
+                    [Simple image here, use uncode/unsplash prob.]
+                </div>
+                <div>
+                    <h1
+                        style={{
+                        }}>
+                        Become a better programmer
+                    </h1>
+                    <p
+                        style={{
+                        }}>
+                        Submit code to solve interesting problems<br />
+                        Access an organized library of problems [here](problems page)<br />
+                        For starters, submit a solution to [this problem](hello world problem), view solution if stuck<br />
+                        Check more details about the platform [here](about page)<br />
+                        Access different pages easily using the Navbar at the top of the page
+                    </p>
+                </div>
+            </div>
             <Diamonds />
         </div>
     );

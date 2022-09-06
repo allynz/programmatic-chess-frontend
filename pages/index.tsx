@@ -11,7 +11,7 @@ const Home: NextPage = ({ problemList, pieces, displayCode }: any) => {
       <PageTop
         pieces={pieces}
         code={displayCode} />
-      <SubmissionStart />
+      <Examples />
       {
         problemList
         &&
@@ -38,12 +38,12 @@ const Footer = () => {
         width: "100%",
         backgroundColor: "aqua"
       }}>
-
+      [Insert infinte chess image here]
     </div>
   </>);
 }
 
-const SubmissionStart = () => {
+const Examples = () => {
   return (<>
     <div
       style={{
@@ -56,10 +56,15 @@ const SubmissionStart = () => {
         alignItems: "center"
       }}>
       <h1>
-        Submission
+        Example Problems
       </h1>
-      <p>Few example submissions below to get you started!</p>
-      <p>If any error, please read submission guidelines</p>
+      <p style={{
+      }}>
+        Below are few problems below to get you started <br />
+        Write solution code on the editor given on right hand side of the problem <br />
+        Log in to submit solution directly! <br />
+        If you encounter any error/incorrect submissions, be sure to read read submission guidelines on [about Page]
+      </p>
     </div>
   </>);
 };

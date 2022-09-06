@@ -34,16 +34,24 @@ function MyApp({ Component, pageProps }: AppProps) {
       </div>
     </>);
   } else {
-    return (<>
-      {/* TODO: Check wrapper for all pages config for minWidth and minHeight
+    return (
+      <div
+        style={{
+          // min dimensions needed as resizing can happen
+          // nice, I guess height also adjusts automatically when width is set
+          minHeight: "40rem",
+          minWidth: "90rem"
+        }}>
+        {/* TODO: Check wrapper for all pages config for minWidth and minHeight
       As scrolling is not allowed on all pages, that could be an issue
       Leave for now I guess
       Probably set minWidth and minHeight for each page respectively and test like that only
        */}
-      <UserContext.Provider value={user} >
-        <Component {...pageProps} />
-      </UserContext.Provider>
-    </>);
+        <UserContext.Provider value={user} >
+          <Component {...pageProps} />
+        </UserContext.Provider>
+      </div>
+    );
   }
 }
 

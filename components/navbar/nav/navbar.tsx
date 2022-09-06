@@ -22,8 +22,7 @@ const NavElement = () => {
 
     return (<>
         <Navbar
-            className={styles.navbar}
-            sticky='top'>
+            className={styles.navbar}>
             {/* Crazy flex & grid sizing below. Should we use CSS for such sizing? */}
             <Container
                 // for some reason, grid % not working in styles

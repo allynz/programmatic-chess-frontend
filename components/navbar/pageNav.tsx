@@ -7,7 +7,10 @@ type Props = {
 };
 
 const TopNavBar = ({ sticky }: Props) => {
-    const cssClasses = `${styles.navbarWrap}` + ` ` + (sticky ? `${styles.sticky}` : ``);
+    const cssClasses =
+        `${styles.navbarWrap}` +
+        ` ` +
+        (sticky ? `${styles.sticky}` : ``);
 
     return (
         <div className={cssClasses}>

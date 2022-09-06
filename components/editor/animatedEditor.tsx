@@ -91,6 +91,7 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
                 }
             }}
             language="cpp"
+            // TODO: See if you can remove this loading, atleast for landing page
             loading={<Spinner animation={"border"} />}
             onMount={
                 (editor, monaco) => {
