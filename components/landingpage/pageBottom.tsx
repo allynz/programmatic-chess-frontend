@@ -88,7 +88,7 @@ const FAQ = () => {
 
 const NextLinks = () => {
     return (<>
-        <h1>What's Next?</h1>
+        <h1>Whats Next?</h1>
         <div>
             <p>Head over to the problems library to view the full list of available problems [here](problems page)</p>
             <p>Read about rules and guidelines in the about section [here](about)</p>
