@@ -35,8 +35,6 @@ const TestCaseHeader = ({
                         gridTemplateRows: "100%"
                     }}>
                     <div>Status: {doc.status}</div>
-                    <div>Time(ms): {doc.time}</div>
-                    <div>Memory(KB): {doc.memory}</div>
                 </div>
             </div>
         </Accordion.Header>

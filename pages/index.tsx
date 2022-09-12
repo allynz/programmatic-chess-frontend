@@ -58,9 +58,8 @@ const Examples = () => {
       <h1>
         Example Problems
       </h1>
-      <p style={{
-      }}>
-        Below are few problems below to get you started <br />
+      <p>
+        Below are few problems to get you started <br />
         Write solution code on the editor given on right hand side of the problem <br />
         Log in to submit solution directly! <br />
         If you encounter any error/incorrect submissions, be sure to read read submission guidelines on [about Page]
