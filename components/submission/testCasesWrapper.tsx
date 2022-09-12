@@ -4,10 +4,8 @@ import TestCases from "./testCasesAccordion/testCases";
 export type TestCaseDocument = {
     input: Array<string>,
     output: Array<string>,
-    memory: number,
     message: string,
     status: string,
-    time: number,
     board: string
 }
 
