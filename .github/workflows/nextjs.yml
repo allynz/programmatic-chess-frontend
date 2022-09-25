@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 14 # ok, 14 workd but we need it to work with 16, anyway it works on AWS, see why if need to look more into it, for now is fine, dont look here only, just look on Amplify. Also see if we can use MacOs runners on gihub actions and what difference would that make
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Restore cache
         uses: actions/cache@v3
