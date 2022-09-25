@@ -138,9 +138,14 @@ const submitForm = async (
                 status: "Success",
                 id: jsonValue
             }
+        } else if (await response.text()) {
+            return {
+                status: await response.text(),
+                id: ""
+            }
         } else {
             return {
-                status: "Internal error, please try again after some time",
+                status: "Error, please try again after some time",
                 id: ""
             }
         }

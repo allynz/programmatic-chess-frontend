@@ -8,11 +8,11 @@ const Test = () => {
             color: 'b'
         },
         {
-            type: 'r',
+            type: 'q',
             color: 'w'
         },
         {
-            type: 'r',
+            type: 'q',
             color: 'w'
         }
     ];

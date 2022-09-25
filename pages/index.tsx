@@ -1,10 +1,15 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
+import { XDiamondFill } from 'react-bootstrap-icons';
+import ChessSquareBackground from '../components/chessSquareBackground/chessSquareBackground';
 import PageBottom from '../components/landingpage/pageBottom';
 import PageTop from '../components/landingpage/pageTop';
 import TutorialEditor from '../components/landingpage/tutorialEditor';
 import PageWrapNav from '../components/navbar/pageWrapper';
 
 // literally a flex grid this is!!
+// TODO: See how other sites do large screens, keep your content width fixed, and let padding on left and right be automatic depending on screen
+// Can also add scroll animations with css
 const Home: NextPage = ({ problemList, pieces, displayCode }: any) => {
   return (<>
     <PageWrapNav>
@@ -31,22 +36,63 @@ const Home: NextPage = ({ problemList, pieces, displayCode }: any) => {
 export default Home;
 
 const Footer = () => {
+  const Diamonds = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          overflow: "clip"
+        }}>
+        {
+          [...Array(100)]
+            .map(
+              k =>
+              // replace this with chess pieces?
+              (
+                // <Square
+                //   style={{
+                //     flexShrink: "0",
+                //     padding: "0.5px"
+                //   }}
+                //   key={k}
+                //   color={random(1) == 0 ? 'red' : 'purple'}
+                //   size={100} />
+                <div
+                  style={{
+                    flexShrink: "0",
+                    padding: "0.5px"
+                  }}>
+                  <ChessSquareBackground />
+                </div>
+              ))
+        }
+      </div>
+    );
+  };
+
+  // Can add more interactivity to this element, but fine for now
   return (<>
     <div
       style={{
-        height: "10rem",
+        marginTop: "10rem", // this is better than padding as height considers padding as well
+        height: "20rem",
         width: "100%",
-        backgroundColor: "aqua"
+        backgroundColor: "lightgreen",
+        overflow: "clip"
       }}>
-      [Insert infinte chess image here]
+      {[...Array(6)].map(arr => (<Diamonds />))}
     </div>
   </>);
 }
 
+// The editors know the symbols and variables in the context of the page
+// so it will prompt to autocomplete those things as well, see if we can remedy that
 const Examples = () => {
   return (<>
     <div
       style={{
+        paddingTop: "15rem",
         paddingLeft: "10%",
         paddingRight: "10%",
 
@@ -55,14 +101,35 @@ const Examples = () => {
         justifyContent: "center",
         alignItems: "center"
       }}>
-      <h1>
-        Example Problems
+      <h1
+        style={{
+          fontSize: "3rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+        {[...Array(3)].map(arr => (
+          <XDiamondFill color='royalblue' size={70} />
+        ))}
+        <p
+          style={{
+            paddingLeft: "2rem",
+            paddingRight: "2rem"
+          }}>
+          Example Problems
+        </p>
+        {[...Array(3)].map(arr => (
+          <XDiamondFill color='royalblue' size={70} />
+        ))}
       </h1>
-      <p>
+      <p
+        style={{
+          textAlign: "center"
+        }}>
         Below are few problems to get you started <br />
         Write solution code on the editor given on right hand side of the problem <br />
         Log in to submit solution directly! <br />
-        If you encounter any error/incorrect submissions, be sure to read read submission guidelines on [about Page]
+        If you encounter any error/incorrect submissions, be sure to read read submission guidelines on [<Link href={`/about`}>About Page</Link>]
       </p>
     </div>
   </>);

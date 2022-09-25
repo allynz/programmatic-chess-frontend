@@ -48,7 +48,8 @@ export class Chess {
         //debugger;
         // dont really need to check it in playground as we only display valid moves beforehand
         if (!skipValidityCheck) {
-            const isMoveValid = this.boardState.isValidMove(orig, dest);
+            const isMoveValid =
+                this.boardState.isValidMove(orig, dest);
             //console.log("isMoveValid", isMoveValid);
             if (!isMoveValid) {
                 return false;

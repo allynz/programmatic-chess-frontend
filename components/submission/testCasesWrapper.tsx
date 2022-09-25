@@ -7,7 +7,7 @@ export type TestCaseDocument = {
     message: string,
     status: string,
     board: string
-}
+};
 
 type Props = {
     doc: DocumentData;
@@ -16,7 +16,9 @@ type Props = {
 // TODO: Add Test case status detail also in wrapper
 const TestCasesWrapper = ({ doc }: Props) => {
     const testCases: Array<TestCaseDocument> =
-        doc.testCaseDetails ? getTestCaseList(doc.testCaseDetails) : [];
+        doc.testCaseDetails ? 
+        getTestCaseList(doc.testCaseDetails) : 
+        [];
 
     return (<>
         <div

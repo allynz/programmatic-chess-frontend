@@ -1,0 +1,12 @@
+/* TODO: Use this font sizing globally, but then evrything expands so no, use only at selected places */
+.reactMarkdown {
+    font-size: 1.3rem;
+}
+
+.reactMarkdown h1 {
+    font-size: 3rem;
+}
+
+.reactMarkdown h2 {
+    font-size: 2rem;
+}

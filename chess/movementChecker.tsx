@@ -102,7 +102,8 @@ const movementProvider = (
             endDiff: number = endCord[0] - endCord[1];
 
         if (startSum === endSum) {
-            const diff = (startCord[0] < endCord[0] ? 1 : -1);
+            // make this more readable
+            const diff = (startCord[0] < endCord[0] ? -1 : +1);
 
             // improve these kind of loops, they are hard to read
             for (let
@@ -110,7 +111,8 @@ const movementProvider = (
                 !eq(cord, endCord);
                 cord[0] -= diff, cord[1] += diff) {
 
-                if (!inBoundCord(cord) || piece(cord) !== undefined) {
+                if (!inBoundCord(cord)
+                    || piece(cord) !== undefined) {
                     return false;
                 }
             }
@@ -124,7 +126,8 @@ const movementProvider = (
                 !eq(cord, endCord);
                 cord[0] += diff, cord[1] += diff) {
 
-                if (!inBoundCord(cord) || piece(cord) !== undefined) {
+                if (!inBoundCord(cord)
+                    || piece(cord) !== undefined) {
                     return false;
                 }
             }

@@ -9,6 +9,7 @@ import PageWrapNav from "../../components/navbar/pageWrapper";
 
 // Markdown TOC generator: https://ecotrust-canada.github.io/markdown-toc/
 // manage spacing between elements, it seems off
+// TODO: Add login data privacy details too
 const About = ({ markdownText }: any) => {
     // prob. we can get TOC directly from that website API or make your own npm package - parse AST and generate tree, look at implementation of remark-toc
     const mText = `
