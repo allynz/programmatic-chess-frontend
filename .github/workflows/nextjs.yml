@@ -40,7 +40,7 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Run npm 
         run: |
-          npm ci
+          npm ci --force
           npm test
       - name: Restore cache
         uses: actions/cache@v3
