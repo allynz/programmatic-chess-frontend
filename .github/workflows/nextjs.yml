@@ -13,6 +13,9 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14, 16, 18 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,12 +39,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-      - name: Run npm 
-        run: |
-          npm ci --force
-          npm test
       - name: Restore cache
         uses: actions/cache@v3
         with:
