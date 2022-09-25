@@ -3,10 +3,6 @@ import { findRandomPosition } from "../../../chess/positionFinder";
 import Chessboard from "./boardLayout";
 import styles from './Chessboard.module.scss';
 
-// TODO: Bug in it for the moves, not the playground UI
-// Some issue in 2 queens playgorund with moves
-// some wrong moves in Q+R when queen put in front of king
-// makes wrong moves in Q+K when check in corner
 const PlaygroundBoard = ({ pieces }: any) => {
     const generateNewPosition = () => {
         const randomFen = findRandomPosition(pieces);

@@ -58,11 +58,8 @@ const Chessboard = ({ startFen, newPositionGeneration }: Props) => {
             return;
         }
 
-        console.log("gangsta");
-
         // if its not a valid move then undo, but from ground as 'chess' has not even made the move, how though?
         const possibleMoves = chess.validMoves();
-        console.log("possible moves", possibleMoves);
         if (possibleMoves.length === 0) {
             updateStateOnMove(0);
             return;
@@ -137,8 +134,5 @@ const convertMoveToMap = (moves: Array<Move>): Dests => {
     // TODO: see if we can update map in place
     moves.forEach(
         move => mp.set(move.orig, [...mp.get(move.orig)!, move.dest]));
-
-    console.log("move1s", mp);
-
     return mp;
 }

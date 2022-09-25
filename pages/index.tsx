@@ -59,6 +59,7 @@ const Footer = () => {
                 //   color={random(1) == 0 ? 'red' : 'purple'}
                 //   size={100} />
                 <div
+                  key={k}
                   style={{
                     flexShrink: "0",
                     padding: "0.5px"
@@ -81,7 +82,7 @@ const Footer = () => {
         backgroundColor: "lightgreen",
         overflow: "clip"
       }}>
-      {[...Array(6)].map(arr => (<Diamonds />))}
+      {[...Array(6)].map(num => (<Diamonds key={num} />))}
     </div>
   </>);
 }
@@ -108,8 +109,8 @@ const Examples = () => {
           justifyContent: "center",
           alignItems: "center"
         }}>
-        {[...Array(3)].map(arr => (
-          <XDiamondFill color='royalblue' size={70} />
+        {[...Array(3)].map(num => (
+          <XDiamondFill key={num} color='royalblue' size={70} />
         ))}
         <p
           style={{
@@ -118,8 +119,8 @@ const Examples = () => {
           }}>
           Example Problems
         </p>
-        {[...Array(3)].map(arr => (
-          <XDiamondFill color='royalblue' size={70} />
+        {[...Array(3)].map(num => (
+          <XDiamondFill key={num} color='royalblue' size={70} />
         ))}
       </h1>
       <p
