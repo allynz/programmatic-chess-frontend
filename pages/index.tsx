@@ -6,6 +6,7 @@ import PageBottom from '../components/landingpage/pageBottom';
 import PageTop from '../components/landingpage/pageTop';
 import TutorialEditor from '../components/landingpage/tutorialEditor';
 import PageWrapNav from '../components/navbar/pageWrapper';
+import BACKEND from '../configs/hostConfig';
 
 // literally a flex grid this is!!
 // TODO: See how other sites do large screens, keep your content width fixed, and let padding on left and right be automatic depending on screen
@@ -110,17 +111,31 @@ const Examples = () => {
           alignItems: "center"
         }}>
         {[...Array(3)].map(num => (
-          <XDiamondFill key={num} color='royalblue' size={70} />
+          <XDiamondFill
+            key={num}
+            color='royalblue'
+            size={70}
+            style={{
+              padding: "1px"
+            }} />
         ))}
-        <p
+        {/* <p> cannot align in center correctly */}
+        <div
           style={{
             paddingLeft: "2rem",
-            paddingRight: "2rem"
+            paddingRight: "2rem",
+            alignSelf: "center"
           }}>
           Example Problems
-        </p>
+        </div>
         {[...Array(3)].map(num => (
-          <XDiamondFill key={num} color='royalblue' size={70} />
+          <XDiamondFill
+            key={num}
+            color='royalblue'
+            size={70}
+            style={{
+              padding: "1px"
+            }} />
         ))}
       </h1>
       <p
@@ -146,11 +161,11 @@ export async function getStaticProps() {
 
   // TODO: Later see for randomizing pieces/code also
   const displayChessboardPieces =
-    await fetch(`https://programmatic-chess.uc.r.appspot.com/displayPieces`)
+    await fetch(BACKEND + `/displayPieces`)
       .then(res => res.json())
       .then(res => JSON.parse(res));
   const displayCode: string =
-    await fetch(`https://programmatic-chess.uc.r.appspot.com/displayCode`)
+    await fetch(BACKEND + `/displayCode`)
       .then(res => res.json());
 
   return {
@@ -166,7 +181,7 @@ export async function getStaticProps() {
 // resolve error scenarios
 async function fetchProblem(id: number) {
   try {
-    const res = await fetch(`https://programmatic-chess.uc.r.appspot.com/problem?id=${id}`)
+    const res = await fetch(BACKEND + `/problem?id=${id}`)
     return await res.json();
   } catch (error) {
     return {};

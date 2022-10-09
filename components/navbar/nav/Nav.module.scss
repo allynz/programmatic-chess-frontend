@@ -6,3 +6,23 @@
     background-color: lightgreen;
     box-shadow: 0px 0px 5px 3px green;
 }
+
+.title {
+    font-size: x-large;
+}
+
+.title:hover {
+    text-shadow: 0px 0px 5px aqua;
+    color: black;
+    cursor: pointer;
+}
+
+.menu {
+    font-size: large;
+}
+
+.menu:hover {
+    text-shadow: 0px 0px 0.5px black;
+    color: black;
+    cursor: pointer;
+}

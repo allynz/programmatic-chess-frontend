@@ -9,13 +9,13 @@ const NavElement = () => {
     const Links = () => {
         return (<>
             <Link href='/problem'>
-                <a>PROBLEMS</a>
+                <a className={styles.menu}>PROBLEMS</a>
             </Link>
             <Link href="/submission">
-                <a>MY SUBMISSIONS</a>
+                <a className={styles.menu}>MY SUBMISSIONS</a>
             </Link>
             <Link href="/about">
-                <a>ABOUT</a>
+                <a className={styles.menu}>ABOUT</a>
             </Link>
         </>);
     }
@@ -33,10 +33,13 @@ const NavElement = () => {
                     gridTemplateRows: "100%",
                     gridTemplateColumns: "10% 90%"
                 }}>
-                <Navbar.Brand className='centered-container'>
+                <Navbar.Brand
+                    className={'centered-container'}>
                     {/* Most simple to read, write, and understand. Stop highlight on hover here but keep hand cursor */}
                     <Link href={"/"}>
-                        CodingChess
+                        <a className={styles.title}>
+                            CodingChess
+                        </a>
                     </Link>
                 </Navbar.Brand>
                 <div

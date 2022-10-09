@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSolvedProblemsList } from "../../components/hooks/useSolvedProblemsList";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import Tag from "../../components/tag/tag";
+import BACKEND from "../../configs/hostConfig";
 import { getProblemDocument } from "../../firebase/config";
 import styles from '../../styles/Problem.module.scss';
 
@@ -72,15 +73,18 @@ const ProblemsWithParents = ({ problems, solvedIds }: { problems: Array<any>, so
 
 const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
     // see 
+    // TODO: sort by tags, and by id then for order. Or find another way for ordering in same tags
     const sortingPriority = ['easy', 'medium', 'hard'];
     const sortedProblems: Array<any> =
         problems.sort((p1: any, p2: any) => {
             const p1Index: number =
+                p1.tags &&
                 p1.tags
                     .map((tag: string) => sortingPriority.indexOf(tag))
                     .filter((idx: number) => idx >= 0)
                     ?.at(0) || -1;
             const p2Index: number =
+                p2.tags &&
                 p2.tags
                     .map((tag: string) => sortingPriority.indexOf(tag))
                     .filter((idx: number) => idx >= 0)
@@ -166,7 +170,7 @@ const DisplayBoard = ({ problemNumber, isSolved, tags, imageSource }:
 // not static props as it is diff for all users - is it though? solved problems can be rendered client side - see how to do in nextJS. ISG?
 export async function getServerSideProps() {
     const data: Array<number> = await
-        fetch('https://programmatic-chess.uc.r.appspot.com/problems')
+        fetch(BACKEND + '/problems')
             .then(res => res.json())
             .catch(error => {
                 //console.log(error);

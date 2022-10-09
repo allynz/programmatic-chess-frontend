@@ -1,5 +1,6 @@
 import { User } from "firebase/auth";
 import { useContext, useState } from "react";
+import BACKEND from "../../configs/hostConfig";
 import UserContext from "../../contexts/UserContext";
 import AuthenticationWrapper from "../auth/authentication";
 import SubmissionCode from "../submission/code";
@@ -124,7 +125,7 @@ const submitForm = async (
     formData.append('problemId', problemId);
 
     const res = await fetch(
-        'https://programmatic-chess.uc.r.appspot.com/submitCode',
+        BACKEND + '/submitCode',
         {
             // directly adding formData has some issues as webkit adds it's own headers in payload
             // use RequestParam in server to resolve this

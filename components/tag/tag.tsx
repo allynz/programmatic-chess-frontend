@@ -21,6 +21,7 @@ const Tag = ({ name }: any) => {
                     name={name}
                     color={`white`}
                     backgroundColor={`#cc0000`} />);
+        // TODO: Can we detect new based on the timestamp of addition or something, that way I don't manually tag them
         case 'new':
             return (
                 <p className={styles.animation}>

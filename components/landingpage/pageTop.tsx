@@ -74,10 +74,12 @@ const SiteDetailsIntro = ({ pieces, code }: any) => {
                 <p
                     style={{
                         fontSize: "2rem",
-
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "center"
+                        // alignItems different from improve coding skills text coz it's looking good this way
+                        alignItems: "flex-end",
+                        fontFamily: "rockwell",
+                        textShadow: "0px 0px 2px gray"
                     }}>
                     SOLVE CHESS PUZZLES
                 </p>
@@ -94,7 +96,9 @@ const SiteDetailsIntro = ({ pieces, code }: any) => {
 
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "center"
+                        alignItems: "center",
+                        fontFamily: "rockwell",
+                        textShadow: "0px 0px 2px gray"
                     }}>
                     IMPROVE CODING SKILLS
                 </p>

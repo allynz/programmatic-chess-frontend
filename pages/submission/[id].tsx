@@ -1,6 +1,7 @@
 import { DocumentData, getDoc } from "firebase/firestore";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import SubmissionDisplay from "../../components/submission/submissionDisplay";
+import BACKEND from "../../configs/hostConfig";
 import { getDocument } from "../../firebase/config";
 
 type Props = {
@@ -50,7 +51,7 @@ export async function getServerSideProps({ req, res, params }: any) {
 // TODO: Have to handle all cases
 const fetchCode = async (id: string) => {
     const res = await
-        fetch(`https://programmatic-chess.uc.r.appspot.com/submissionCode?id=${id}`)
+        fetch(BACKEND + `/submissionCode?id=${id}`)
             .then(res => res.json())
             .catch(err => {
                 //console.log(err); // remove it from user

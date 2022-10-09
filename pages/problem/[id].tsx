@@ -4,6 +4,7 @@ import { useDataMap } from "../../components/hooks/useDataMap";
 import { useSolvedProblemsList } from "../../components/hooks/useSolvedProblemsList";
 import ProblemDisplay from "../../components/information/problemDisplay";
 import PageWrapNav from "../../components/navbar/pageWrapper";
+import BACKEND from "../../configs/hostConfig";
 import { eq } from "../../utilities/equals";
 
 // TODO: Fix prop type
@@ -67,7 +68,7 @@ export async function getStaticProps({ params }: { params: any }) {
     // convert data to required types here only
     // can we change this to a bulk API?
     const data = await
-        fetch(`https://programmatic-chess.uc.r.appspot.com/problem?id=${params.id}`)
+        fetch(BACKEND + `/problem?id=${params.id}`)
             .then(res => res.json())
             .catch(error => {
                 return {};
@@ -81,7 +82,7 @@ export async function getStaticProps({ params }: { params: any }) {
 // TODO: fix it before releasing to production, also check behaviour when internet not present
 export async function getStaticPaths() {
     const data: Array<number> = await
-        fetch('https://programmatic-chess.uc.r.appspot.com/problems')
+        fetch(BACKEND + '/problems')
             .then(res => res.json())
             .catch(error => {
                 //console.log(error);
