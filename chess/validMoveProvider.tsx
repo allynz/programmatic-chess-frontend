@@ -58,7 +58,8 @@ const movementProvider = (
 
     // in the case of king, it's always true
     const filterAndTransform = (cords: Readonly<Array<Cord>>) => {
-        return cords.map(cord => getSquareFromCord(cord) as Square);
+        return cords
+            .map(cord => getSquareFromCord(cord) as Square);
     };
 
     // use attackGrid here to filter in_check sqaures
@@ -69,11 +70,14 @@ const movementProvider = (
 
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
-                const cord: Cord = [startCord[0] + i, startCord[1] + j];
+                const cord: Cord =
+                    [startCord[0] + i, startCord[1] + j];
                 if (eq(cord, startCord)
                     || !inBoundCord(cord)
                     || (piece(cord)
-                        && eq(piece(cord)?.color, piece(startCord)?.color))) {
+                        &&
+                        eq(piece(cord)?.color,
+                            piece(startCord)?.color))) {
                     continue;
                 }
 

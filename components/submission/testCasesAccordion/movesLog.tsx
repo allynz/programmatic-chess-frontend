@@ -11,7 +11,7 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
             }}>
 
             <div id="moves">
-                <>Moves</>
+                <>Moves: </>
                 <ListGroupElement list={doc.output} />
             </div>
 
@@ -20,7 +20,7 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
             {/* TODO: See if you want to add indexes to items or have them stack together, one above and below */}
             {/* TODO: Make sure in backed I don't recieve large strings or large array */}
             <div id="mover">
-                <>Grader Moves</>
+                <>Grader Moves: </>
                 {/* Can add option to view full as it is without scroll in future */}
                 <ListGroupElement list={doc.input} />
             </div>
@@ -36,6 +36,11 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
 export default MovesLog;
 
 const ListGroupElement = ({ list }: { list: Array<string> }) => {
+    if (!list || list.length == 0) {
+        // nice solution
+        return (<></>);
+    }
+
     return (
         <div
             style={{

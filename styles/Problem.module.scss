@@ -13,30 +13,33 @@
     gap: 3rem 3rem;
 }
 
-$height: 10rem;
+$containerHeight: 17rem;
+$chessboardHeight: 10rem;
 
 .gridItem {
-    height: $height;
-    width: $height;
+    height: $containerHeight;
+    width: 10rem;
+    //overflow: hidden; // apparently cannot switch betn x and y to have one hidden and other not: https://stackoverflow.com/a/6433475 
+    //background-color: aqua;
 }
 
 .expanding {
-    height: $height;
-    width: auto;
+    height: $chessboardHeight;
+    width: auto; // TODO: can set this same to height to avoid changing dimensions when image is loading
     overflow: hidden;
-    position: absolute;
+    //position: absolute;
     border-radius: 1rem;
     cursor: pointer;
 }
 
 .expanding:hover {
     opacity: 0.9;
-    height: $height + 2rem;
+    height: $chessboardHeight + 2rem;
     width: auto;
     border-radius: 1rem;
     border-top: 1rem;
     border-color: red;
-    position: absolute;
+    //position: absolute;
 
     display: flex;
     justify-content: center;

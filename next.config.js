@@ -9,7 +9,8 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'images.unsplash.com',
       'cdn.pixabay.com',
-      'upload.wikimedia.org'
+      'upload.wikimedia.org',
+      'programmatic-chess-images.s3.amazonaws.com'
     ]
   }
 }

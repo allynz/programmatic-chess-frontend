@@ -49,7 +49,7 @@ const ProblemsWithParents = ({ problems, solvedIds }: { problems: Array<any>, so
                 const problemFiltered =
                     // see if there is better filtering like in Java
                     problems
-                        .filter(problem => problem.parent == parent);
+                        .filter(problem => problem.parent == parent); // for testing multiple problems on a grid UI, remove this filter
                 const solvedIdsFiltered =
                     solvedIds.filter(id => problemFiltered.some(problem => problem.id == id));
                 return (
@@ -110,6 +110,7 @@ const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
                 sortedProblems.map(
                     (problem: any) => (
                         <DisplayBoard
+                            statement={problem.statement || ""}
                             key={problem.id}
                             problemNumber={problem.id}
                             isSolved={
@@ -125,8 +126,8 @@ const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
 };
 
 // TODO: Add a black border to images, it does not look good right now for non-signed users
-const DisplayBoard = ({ problemNumber, isSolved, tags, imageSource }:
-    { problemNumber: number, isSolved: boolean, tags: Array<string>, imageSource: string }) => {
+const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
+    { statement: string, problemNumber: number, isSolved: boolean, tags: Array<string>, imageSource: string }) => {
     const imageAddress =
         "https://images.unsplash.com/photo-1654793182455-83e2a50f3494?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80";
 
@@ -137,13 +138,15 @@ const DisplayBoard = ({ problemNumber, isSolved, tags, imageSource }:
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    gap: "0.3rem"
+                    gap: "0.3rem" // this gap is when there are multiple tags
                 }}>
                 {/* TODO: Trim tags later as there can be many of them, have it scrollable */}
                 {tags && tags.map(tag => (<Tag key={tag} name={tag} />))}
             </div>
             {/* Need to add Link in the bottom most element, not at top */}
-            <Link href={"/problem/" + problemNumber?.toString()}>
+            <Link
+                href={"/problem/" + problemNumber?.toString()}
+                className={styles.expanding}>
                 {/* TODO: Image from next/link is not expanding, see what's the issue there, 
                 maybe add expanding class on `<a>` element instead? and keep `Image` element just separate */}
                 <a>
@@ -153,15 +156,32 @@ const DisplayBoard = ({ problemNumber, isSolved, tags, imageSource }:
                             overflow: "clip",
                             objectFit: "fill",
                             border: isSolved ? "" : "5px solid black",
-                            boxShadow: isSolved ? "0 0 5px 5px green" : ""
+                            boxShadow: isSolved ? "0 0 5px 5px green" : "",
+                            // maxHeight: "5rem",
+                            // maxWidth: "5rem"
                         }}
                         className={styles.expanding}
                         height="100%"
                         width="100%"
                         // not able to contain if big, so reduced sizes of all pics (dimensions)
-                        src={imageSource || '/images/88888888.png'} />
+                        src={imageSource || '/images/88888888.png'}
+                        loading="lazy"
+                    />
                 </a>
             </Link>
+            <div style={{
+                paddingTop: "1rem",
+                overflow: "scroll",
+                maxHeight: "5rem"
+            }}>
+                {/* try to have max 2 lines */}
+                <p
+                    style={{
+                        //textAlign: "center"
+                    }}>
+                    {statement}
+                </p>
+            </div>
         </div>
     </>);
 }
@@ -189,3 +209,4 @@ export async function getServerSideProps() {
 async function fetchProblem(id: number) {
     return await getDoc(getProblemDocument(id.toString()));
 }
+

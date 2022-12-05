@@ -140,6 +140,7 @@ const submitForm = async (
                 id: jsonValue
             }
         } else {
+            // TODO: Check this errorText, it should not be obscure which happens sometimes from server when it itse;f throws exception
             const errorText: string = await response.text();
             if (errorText.length > 0) {
                 return {

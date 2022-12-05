@@ -7,6 +7,7 @@ import MovesBoardDisplay from "../../chessboard/movesboard/movesBoardDisplay";
 import MovesLog from "./movesLog";
 import TestCaseHeader from "./testCaseHeader";
 
+// !!! TODO: Bug in this it seems, in large no. of test cases, the accordions other than the one selected also opens(specially for last test case selection)
 // checks every single accordion on any update, I guess this may be the problem with react, in jquery we have more control on this to go directly there -- is this true though, doesn't seaching for selector also takes time? prob it will be indexed
 const SingleAccordion = ({
     idx, doc, eventKey

@@ -67,6 +67,11 @@ export class Chess {
         return true;
     }
 
+    // A dirty way to change turn but fine for now if not much changes are made in internal details
+    changeTurn(): void {
+        this.boardState.updateBoard(this.boardState.getGrid());
+    }
+
     // checkmate, stalemate, be careful of king in check condition
     // store this as a variable so we don't compute it again and again
     // TODO: can we get this faster, like whenever we find a valid move, then return, for now is fine, see if we can do that kind of architecture, streaming data, prob can be done by sending a function as param
@@ -126,7 +131,7 @@ export class Chess {
         // no valid moves left - king in check or not
 
         if (this.validMoves().length === 0) {
-            console.log("getting status");
+            //console.log("getting status");
             const pieces: Array<Piece> = this.boardState.getPieces(this.boardState.getTurn());
             if (pieces.length === 0) {
                 // insufficient material

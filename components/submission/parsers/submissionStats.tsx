@@ -1,5 +1,6 @@
 import { DocumentData } from "firebase/firestore";
 import { eq } from "lodash";
+import Link from "next/link";
 import { TimeDisplay } from "../../information/submissionTable";
 
 // add links to goto respective links like problem page etc.
@@ -8,18 +9,15 @@ export const parseSubmissionStats = (data: DocumentData) => {
     // make sure to have spaces in values so overflow can be handles easily
     // TODO: Later See if we can add hooks here, without overflowing read/write limits
     // TODO: Have a spinner next to waiting status, also same in Submissions Table
+    // TODO: Have same structure for this and `My Submissions` page, and better design for that
     const res = [
         {
             key: "Submission Id",
             val: data.id
         },
         {
-            key: "Submitted On",
-            val: <TimeDisplay time={data.timestamp?.submitted} />
-        },
-        {
-            key: "Completed On",
-            val: <TimeDisplay time={data.timestamp?.completed} />
+            key: "Status",
+            val: data.status // maybe we can have a link to the about section?
         },
         {
             key: "Time Taken",
@@ -30,8 +28,23 @@ export const parseSubmissionStats = (data: DocumentData) => {
             val: data.memory
         },
         {
-            key: "Status",
-            val: data.status
+            key: "Problem Id",
+            val: (
+                <Link href={"/problem/" + data.problemId}>
+                    {/* Wrapping in <a> is imp otherwise wont behave like a link */}
+                    <a>
+                        {data.problemId}
+                    </a>
+                </Link>
+            )
+        },
+        {
+            key: "Submitted On",
+            val: <TimeDisplay time={data.timestamp?.submitted} />
+        },
+        {
+            key: "Completed On",
+            val: <TimeDisplay time={data.timestamp?.completed} />
         },
         {
             // hide sensitive info in compilation error etc.
@@ -43,6 +56,7 @@ export const parseSubmissionStats = (data: DocumentData) => {
                         width: "100%",
                         height: "100%"
                     }}
+                    // TODO: Check if this is correct or not, should be just `message`?
                     value={data.errorMessage}>
                 </textarea>
             )

@@ -8,7 +8,9 @@ const Test = () => {
 
     return (<>
         <div style={{ margin: "10rem", height: "30rem", width: "30rem" }}>
-            <MovesBoardDisplay movesList={moveList} startFen={STARTING_POSITION} />
+            <MovesBoardDisplay
+                movesList={moveList}
+                startFen={STARTING_POSITION} />
         </div>
     </>);
 }
