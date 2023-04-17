@@ -36,3 +36,6 @@ yarn-error.log*
 
 ### VS Code ### - Hmm, see if we should add it in git
 .vscode/
+
+### IntelliJ
+.idea/*
