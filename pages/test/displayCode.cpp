@@ -4,7 +4,6 @@ using pii = pair<int, int>;
 using pp = pair<pii, pii>;
 using vpp = vector<pair<pii, pii>>;
 
-// TODO: Can we use const here?
 struct Coordinates {
     pii queen;
     pii king;
@@ -627,7 +626,6 @@ class QueenCornerPositioner {
         return res;
     }
 
-    // TODO: prove that this exists w/out stalemate
     pp findAnyValidMove(
         const vpp origMoves) const {
         // check if moves.first = queen or moves.second == queen etc.
@@ -924,7 +922,6 @@ class FinalBlowProvider {
     }
 
     void cornerOpponentKing() const {
-        // TODO: combine with above
         const pii parallelDirection = getParallelDirection();
 
         while(!CoordinateHelper::isCorner(bk())) {
@@ -1057,7 +1054,6 @@ class ConstraintChecker {
     }
 };
 
-// TODO: Use transformed cords only
 class RookAligner {
     const Transformer transformer;
 
@@ -1070,7 +1066,6 @@ class RookAligner {
         if (moveForwardRook()) {
             return true;
         } else {
-            // TODO: See if we should move king if it isn't really possible later, or will it be fine?
             if (moveForwardKing()) {
                 if (moveForwardRook()) {
                     return true;
@@ -1200,7 +1195,7 @@ class KingToQueenAligner {
 
                 if (!CoordinateHelper::isInBound(curr)) continue;
                 if (curr == q) continue;
-                if (curr == k) continue; // TODO: or whatever I guess, can stay here also, check it
+                if (curr == k) continue;
                 if (Utility::distanceFromKing(q, curr) != 1) continue;
                 if (!ConstraintChecker::check(curr)) continue;
                 if (StalemateChecker::isStalemate(q, curr, bk)) continue;

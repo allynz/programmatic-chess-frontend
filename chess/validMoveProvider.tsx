@@ -49,7 +49,7 @@ export default function getRawValidMovesForSquare(
 // remove ? checks here, it looks ugly
 // cannot provide undefined param, as it will see it as undefined and use undefined val
 // make sure board is not being modified
-// !!!TODO: if king is in check, you have to check board no matter what
+// LATER: if king is in check, you have to check board no matter what? Isn't that true for evry piece? also this is just raw movement
 const movementProvider = (
     board: Readonly<Board>) => {
     const piece = (cord: Readonly<Cord>): Piece | undefined => {
@@ -81,7 +81,7 @@ const movementProvider = (
                     continue;
                 }
 
-                // TODO: Do we need to check board here
+                // LATER: Do we need to check board here? Isn't then we should check for evry piece?
                 cords.push(cord);
             }
         }

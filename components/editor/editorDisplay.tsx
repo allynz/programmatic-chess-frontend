@@ -8,16 +8,17 @@ import SubmissionButton from "./submissionButton";
 import LastSubmissionDisplay from "./submissionStatusDisplay";
 import VSCodeEditor from "./vscodeEditor";
 
-// TODO: Improve waiting symbol in Last submission display - make it loader
+// LATER: Improve waiting symbol in Last submission display - make it loader. Now is also fine
 // If error in solution, mail to my email id
-// TODO: See if the submission button should not be visible until editor is loaded
 function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
+    const EMPTY_SUBMISSION_ID: Readonly<string> = "empty document";
+
     const user: User | null = useContext(UserContext);
 
     const [editerMounted, setEditorMounted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     // just don't keep it empty as that throws error
-    const [submissionId, setSubmissionId] = useState("empty document");
+    const [submissionId, setSubmissionId] = useState(EMPTY_SUBMISSION_ID);
 
     // set a size limit probably otherwise it will overflow
     const [submissionCode, setSubmissionCode] = useState(defaultCode || "");
@@ -57,7 +58,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                             setSubmissionId(subIdResult.id);
                         } else {
                             setDisplayError(subIdResult.status);
-                            setSubmissionId('dummy'); // TODO: Don't set to empty, otherwise firebase will throw error
+                            setSubmissionId('dummy'); // find a good value for this // CHECK: Don't set to empty, otherwise firebase will throw error
                         }
 
                         setIsSubmitting(false);
@@ -140,7 +141,7 @@ const submitForm = async (
                 id: jsonValue
             }
         } else {
-            // TODO: Check this errorText, it should not be obscure which happens sometimes from server when it itse;f throws exception
+            // LATER: Check this errorText, it should not be obscure which happens sometimes from server when it itself throws exception. Probably we can tokenize on frontend
             const errorText: string = await response.text();
             if (errorText.length > 0) {
                 return {

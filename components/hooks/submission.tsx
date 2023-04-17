@@ -14,7 +14,11 @@ const Submission = (submissionId: string) => {
             return (
                 <Link
                     href={"/submission/" + submissionId}>
-                    <a style={{ color: "green" }}>
+                    <a
+                        style={{
+                            color: "green",
+                            textDecoration: "underline"
+                        }}>
                         {status}
                     </a>
                 </Link>
@@ -23,7 +27,11 @@ const Submission = (submissionId: string) => {
             return (
                 <Link
                     href={"/submission/" + submissionId}>
-                    <a style={{ color: "black" }}>
+                    <a
+                        style={{
+                            color: "black",
+                            textDecoration: "underline"
+                        }}>
                         {status}
                     </a>
                 </Link>
@@ -32,7 +40,11 @@ const Submission = (submissionId: string) => {
             return (
                 <Link
                     href={"/submission/" + submissionId}>
-                    <a style={{ color: "red" }}>
+                    <a
+                        style={{
+                            color: "red",
+                            textDecoration: "underline"
+                        }}>
                         {status}
                     </a>
                 </Link>

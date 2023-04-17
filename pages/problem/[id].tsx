@@ -7,7 +7,7 @@ import PageWrapNav from "../../components/navbar/pageWrapper";
 import BACKEND from "../../configs/hostConfig";
 import { eq } from "../../utilities/equals";
 
-// TODO: Fix prop type
+// LATER: Fix prop type
 const Problem = ({ problem }: any) => {
     const solvedProblems: Array<number> = useSolvedProblemsList();
     //console.log("solved Problems", solvedProblems);
@@ -67,19 +67,20 @@ export async function getStaticProps({ params }: { params: any }) {
 
     // convert data to required types here only
     // can we change this to a bulk API?
+    // make sure the values for frontend are fine for size limits if lots of problems are added
     const data = await
         fetch(BACKEND + `/problem?id=${params.id}`)
             .then(res => res.json())
             .catch(error => {
                 return {};
-            }); // TODO: watch out for any security issues here, while passing params
+            });
+    //console.log("problemData", data);
 
     return {
         props: { problem: data }
     }
 }
 
-// TODO: fix it before releasing to production, also check behaviour when internet not present
 export async function getStaticPaths() {
     const data: Array<number> = await
         fetch(BACKEND + '/problems')
@@ -87,7 +88,7 @@ export async function getStaticPaths() {
             .catch(error => {
                 //console.log(error);
                 return [];
-            }); // it's size should be reasonable enough that build times are less
+            }); // it's size should be reasonable enough that build times are less, which it is for now
 
     const paths = data.map((problem: number) => {
         return {

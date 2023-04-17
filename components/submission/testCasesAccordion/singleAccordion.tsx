@@ -1,13 +1,11 @@
 import { useContext } from "react";
 import { Accordion, AccordionContext } from "react-bootstrap";
-import { Board, Piece } from "../../../chess/types";
-import { getFen } from "../../../chess/utilities";
+import { convertBackendBoardToFrontend, getFen } from "../../../chess/utilities";
 import { eq } from "../../../utilities/equals";
 import MovesBoardDisplay from "../../chessboard/movesboard/movesBoardDisplay";
 import MovesLog from "./movesLog";
 import TestCaseHeader from "./testCaseHeader";
 
-// !!! TODO: Bug in this it seems, in large no. of test cases, the accordions other than the one selected also opens(specially for last test case selection)
 // checks every single accordion on any update, I guess this may be the problem with react, in jquery we have more control on this to go directly there -- is this true though, doesn't seaching for selector also takes time? prob it will be indexed
 const SingleAccordion = ({
     idx, doc, eventKey
@@ -18,7 +16,10 @@ const SingleAccordion = ({
     ];
 
     const { activeEventKey } = useContext(AccordionContext);
-    const isActive: boolean = activeEventKey?.includes(eventKey) || false;
+    // be careful of `includes`, as it will match substring also, as it's not always array, mostly string, although from type it can be array also
+    const isActive: boolean =
+        // activeEventKey can be array also so keep this in mind but for now is fine hack
+        (activeEventKey === eventKey) || false;
 
     return (<>
         <Accordion.Item eventKey={eventKey}
@@ -59,7 +60,6 @@ export default SingleAccordion;
 
 // show spinner if loading is there, it wont take much time though as it is not network call
 // create moves board here itself from i/p and o/p. Think of all the possible scenarios so I can handle in backend
-// TODO: Remove pointer from movesBoard
 const MovesBoardWrapper = ({
     input,
     output,
@@ -69,7 +69,9 @@ const MovesBoardWrapper = ({
     output: Array<string>,
     boardString: string
 }) => {
-    if (eq(boardString, undefined) || eq(boardString, "") || eq(boardString, " ")) {
+    if (eq(boardString, undefined)
+        || eq(boardString, "")
+        || eq(boardString, " ")) {
         return (<></>);
     }
 
@@ -78,62 +80,13 @@ const MovesBoardWrapper = ({
         return !isEmpty;
     });
 
-    const convertBoard = (): Board => {
-        let res: Board = [...Array(8)].map(e => Array(8));
-        let counter = 0;
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
-                let curr: Piece | undefined;
-                const piece: string | undefined = board.at(counter);
-
-                //console.log("piece", piece);
-
-                if (eq(piece, "X")) {
-                    curr = undefined;
-                } else if (eq(piece, "Q")) {
-                    curr = { type: "q", color: "w" };
-                } else if (eq(piece, "K")) {
-                    curr = { type: "k", color: "w" };
-                } else if (eq(piece, "P")) {
-                    curr = { type: "p", color: "w" };
-                } else if (eq(piece, "B")) {
-                    curr = { type: "b", color: "w" };
-                } else if (eq(piece, "N")) {
-                    curr = { type: "n", color: "w" };
-                } else if (eq(piece, "R")) {
-                    curr = { type: "r", color: "w" };
-                } else if (eq(piece, "BQ")) {
-                    curr = { type: "q", color: "b" };
-                } else if (eq(piece, "BK")) {
-                    curr = { type: "k", color: "b" };
-                } else if (eq(piece, "BP")) {
-                    curr = { type: "p", color: "b" };
-                } else if (eq(piece, "BB")) {
-                    curr = { type: "b", color: "b" };
-                } else if (eq(piece, "BN")) {
-                    curr = { type: "n", color: "b" };
-                } else if (eq(piece, "BR")) {
-                    curr = { type: "r", color: "b" };
-                }
-
-                res[i][j] = curr;
-
-                counter += 1;
-            }
-        }
-
-        return res;
-    }
-
-    // TODO: Fix startFen and this logic too chekc it, added for tutorial problems, so moves board won't be displayed
-    const startFen: string = getFen(convertBoard());
+    const startFen: string = getFen(convertBackendBoardToFrontend(board));
     //console.log("startFen", startFen);
 
     if (!startFen || eq(startFen, "")) {
         return (<></>);
     }
 
-    // TODO: see if status is displayed correctly
     const moves = ['start'];
     for (let
         i = 0;

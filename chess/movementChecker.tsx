@@ -92,7 +92,6 @@ const movementProvider = (
         }
     };
 
-    // TODO: Check this again, animated board si having issues
     const bishopMovement = () => {
         const
             startSum: number = startCord[0] + startCord[1],

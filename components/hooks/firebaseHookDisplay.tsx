@@ -1,6 +1,6 @@
 import Loading from "../general/loading";
 
-// TODO: Fix types
+// LATER: Fix types. Seems `any` is good here
 const FirebaseHookDisplay = ({
     value,
     error,

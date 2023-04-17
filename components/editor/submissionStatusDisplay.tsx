@@ -7,7 +7,9 @@ type Props = {
     displayError: string
 };
 
-// TODO: Fix the spinner bug when firebase hook is in loading, just dont show it
+// LATER: Make it global across all files
+const EMPTY_SUBMISSION_ID: Readonly<string> = "empty document";
+
 const LastSubmissionDisplay = ({ submissionId, displayError }: Props) => {
     return (
         <div
@@ -31,7 +33,7 @@ const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
     const user = useContext(UserContext);
 
     // need to persist hook even if user is not present as on sign in the hook must be present
-    const hook = Submission(user ? submissionId : "empty document");
+    const hook = Submission(user ? submissionId : EMPTY_SUBMISSION_ID);
 
     if (user) {
         if (displayError && displayError.length > 0) {
@@ -40,7 +42,7 @@ const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
             </>
             );
         } else {
-            if (submissionId === "empty document") {
+            if (submissionId === EMPTY_SUBMISSION_ID) {
                 return (
                     <>
                         Current submission status will be shown here

@@ -5,12 +5,16 @@ const Page = () => {
   [
     {
       "input": [
-        "STATUS:INVALID_MOVE"
+        "g1-h1",
+        "h1-g1",
+        "g1-h1"
       ],
       "output": [
-        "b8-b1"
+        "g3-f3",
+        "f3-g4",
+        "g4-g3"
       ],
-      "board": "X R X X X X X X BK X X X X X X X X X X X X X X X X X X X X X X X X K X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+      "board": "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X K X X X X X X R X X X X X X X X BK X",
       "message": "INVALID_MOVE"
     }
   ]
@@ -20,3 +24,12 @@ const Page = () => {
 };
 
 export default Page;
+
+// X X X X X X X X 
+// X X X X X X X X 
+// X X X X X X X X 
+// X X X X X X X X 
+// X X X X X X X X 
+// X X X X X X X X 
+// X X X X X X X X 
+// X X X X X X X X

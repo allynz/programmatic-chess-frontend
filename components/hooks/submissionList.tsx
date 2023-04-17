@@ -6,7 +6,7 @@ import { getCollection } from "../../firebase/config";
 import { SubmissionTable } from "../information/submissionTable";
 import FirebaseHookDisplay from "./firebaseHookDisplay";
 
-const SubmissionList = (problemId: string) => {
+const SubmissionList = (problemId: number) => {
     const userId = useContext(UserContext)?.uid || "dummy";
     const [value, loading, error] =
         // See why where and orderBy cannot be combined easily, do I need to create indexes?

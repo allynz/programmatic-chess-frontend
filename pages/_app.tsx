@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           minHeight: "40rem",
           minWidth: "90rem"
         }}>
-        {/* TODO: Check wrapper for all pages config for minWidth and minHeight
+        {/* LATER: Check wrapper for all pages config for minWidth and minHeight
       As scrolling is not allowed on all pages, that could be an issue
       Leave for now I guess
       Probably set minWidth and minHeight for each page respectively and test like that only

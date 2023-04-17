@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 
 // goes to slide idx directly, no need to add extra logic
 // https://stackoverflow.com/questions/66136068/how-to-have-a-loading-screen-until-all-my-components-are-mounted-in-react
-// TODO: make width equal to length of 3 child divs, have childs handle padding, then it centers correctly, can do this resizing using stateful variables also but whatever
+// LATER: make width equal to length of 3 child divs, have childs handle padding, then it centers correctly, can do this resizing using stateful variables also but whatever
 // In general, we should not have any useState for the variables of this class as it will re-render the Board, or make the Board separate from inside Carousel
 const CarouselWrapper = ({ lodingParentState, lodingParentStateFalse, movesList, idx }: any) => {
     //const prevIdx: number = usePrevious(idx) || idx; // should we shift this inside useEffect?, doesnt seem necessary
@@ -58,6 +58,7 @@ const CarouselWrapper = ({ lodingParentState, lodingParentStateFalse, movesList,
                         <div
                             key={index} // this is fine as it will not change later on
                             style={{
+                                minWidth: "fit-content", // for status message and long texts
                                 fontSize: "small",
                                 height: "auto",
                                 backgroundColor: index == idx ? "aqua" : "grey",

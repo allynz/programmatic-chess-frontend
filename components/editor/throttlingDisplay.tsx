@@ -1,5 +1,5 @@
 
-// TODO: Fix after rate limiting thinking is done
+// LATER: Fix after rate limiting thinking is done. Not using now so it's fine
 const ThrottlingDisplay = () => {
     return (<>
         <div

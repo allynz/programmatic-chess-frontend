@@ -9,7 +9,6 @@ import PageWrapNav from "../../components/navbar/pageWrapper";
 
 // Markdown TOC generator: https://ecotrust-canada.github.io/markdown-toc/
 // manage spacing between elements, it seems off
-// TODO: Add login data privacy details too
 const About = ({ markdownText }: any) => {
     // prob. we can get TOC directly from that website API or make your own npm package - parse AST and generate tree, look at implementation of remark-toc
     const mText = `
@@ -57,7 +56,7 @@ const About = ({ markdownText }: any) => {
                     paddingRight: "20%"
                 }}>
                 {/* WHAT? https://stackoverflow.com/questions/33191744/how-to-add-new-line-in-markdown-presentation, make an auto plugin for this */}
-                {/* TODO: Adding numbered headings: https://talk.commonmark.org/t/heading-number-and-table-of-content-extension/3645, https://gist.github.com/patik/89ee6092c72a9e39950445c01598517a */}
+                {/* CHECK: Adding numbered headings: https://talk.commonmark.org/t/heading-number-and-table-of-content-extension/3645, https://gist.github.com/patik/89ee6092c72a9e39950445c01598517a */}
                 {/* Also see tabbed/indented headings if it's possible */}
                 <ReactMarkdown
                     rehypePlugins={[

@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import ReactMarkdown from "react-markdown";
 import UserContext from "../../contexts/UserContext";
+import { Problem } from "../../types/global";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
 import SubmissionList from "./submissionList";
 
 // should be a functional component or react hook, as it is using user data - which we can pass from caller if needed
-export const useDataMap = (problem: any):
+export const useDataMap = (problem: Problem):
     // it is modifiable hence not readonly
     Array<{
         key: string,
@@ -20,11 +21,23 @@ export const useDataMap = (problem: any):
     const dataMap = [
         {
             key: "problem",
-            renderContent: <ReactMarkdown>{problem.statement}</ReactMarkdown>
+            renderContent: (<div style={{
+                borderRadius: "1rem",
+                padding: "1rem",
+                backgroundColor: "#f2f2f2"
+            }}><ReactMarkdown>{problem.statement}</ReactMarkdown></div>)
         },
         {
             key: "solution",
-            renderContent: <ReactMarkdown>{problem.solution}</ReactMarkdown>
+            renderContent: (
+                <div style={{
+                    borderRadius: "1rem",
+                    padding: "1rem",
+                    backgroundColor: "#f2f2f2"
+                }}>
+                    <ReactMarkdown>{problem.solution}</ReactMarkdown>
+                </div>
+            )
         }
     ];
 
@@ -32,7 +45,10 @@ export const useDataMap = (problem: any):
         dataMap.push(
             {
                 key: "playground",
-                renderContent: <PlaygroundBoard pieces={problem.pieces} />
+                renderContent:
+                    <PlaygroundBoard
+                        pieces={problem.pieces}
+                        board={problem.randomValidBoards} />
             }
         );
     }

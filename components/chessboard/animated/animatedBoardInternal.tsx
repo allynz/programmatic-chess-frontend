@@ -3,7 +3,7 @@ import { Api } from "chessground/api";
 import { Config } from "chessground/config";
 import { Dests, Key } from "chessground/types";
 import { useEffect, useId, useState } from "react";
-// TODO: Fix this style import, it should be accessible easily
+// LATER: Fix this style import, it should be accessible easily
 import styles from '../playground/Chessboard.module.scss';
 
 // The problem with these chessboards is just don't resize it? As pieces may lose connectivity
@@ -54,7 +54,7 @@ const AnimatedBoardInternal = ({
 
 export default AnimatedBoardInternal;
 
-// TODO: make king capture false, although avoid that condition entirely
+// LATER: make king capture false, although avoid that condition entirely. Currently seems that it is avoided in playground
 const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
     // add check config also later
     // make castling false, as well as autocastle config

@@ -1,12 +1,12 @@
 import { Chessground } from 'chessground';
 import { Api } from 'chessground/api';
 import { useEffect, useId, useState } from 'react';
-// TODO: Find correct stylesheet, important to render though - https://github.com/lichess-org/chessground
+// CHECK: Find correct stylesheet, important to render though - https://github.com/lichess-org/chessground
 import { Square } from '../../../chess/types';
 
 // https://blog.logrocket.com/accessing-previous-props-state-react-hooks/ - create own usePreviousState hook
 // Block cursor on board
-// TODO: Don't render too many chessboards at once, it will eat up your js, make it faster though as we only need this for viewing - basically keep track of only the fen's at various moments - use a stack to save space
+// LATER: Don't render too many chessboards at once, it will eat up your js, make it faster though as we only need this for viewing - basically keep track of only the fen's at various moments - use a stack to save space
 // This is a static board so startFen and movesList won't change, if they do, then use useEffect to update
 // See if movesList is properly handled, especially if it contains last status
 const Board = ({ startFen, movesList, idx }: any) => {
@@ -64,7 +64,7 @@ const Board = ({ startFen, movesList, idx }: any) => {
     // capturing distorts the board so just keep that in mind
     useEffect(() => {
         moveToIdx(idx);
-    }, [idx, moveToIdx]); // apparently warning during build to add moveToIdx as well in dependency array, TODO: learn more about it, it is like c++ lambda captures?
+    }, [idx, moveToIdx]); // apparently warning during build to add moveToIdx as well in dependency array, LATER: learn more about it, it is like c++ lambda captures?
 
     return (<>
         {/* Width should be same as of the carousel */}

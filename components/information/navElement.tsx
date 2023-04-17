@@ -15,7 +15,7 @@ const NavElement = ({ navKeys, isSolved }: Props) => {
             {
                 navKeys?.map((navKey: string) =>
                 (
-                    // TODO: check spacing between Navs, improve it if poss
+                    // LATER: check spacing between Nav items in specific Problem page, improve it if poss. For now seems fine
                     <NavItem
                         key={navKey}
                         className={`pointer`}>

@@ -13,12 +13,16 @@ type Props = {
     doc: DocumentData;
 };
 
-// TODO: Add Test case status detail also in wrapper
+// LATER: Add Test case status detail also in wrapper. Seems extra right now
 const TestCasesWrapper = ({ doc }: Props) => {
     const testCases: Array<TestCaseDocument> =
-        doc.testCaseDetails ? 
-        getTestCaseList(doc.testCaseDetails) : 
-        [];
+        doc.testCaseDetails ?
+            getTestCaseList(doc.testCaseDetails) :
+            [];
+
+    if (!testCases || testCases.length == 0) {
+        return (<></>);
+    }
 
     return (<>
         <div
@@ -26,7 +30,18 @@ const TestCasesWrapper = ({ doc }: Props) => {
                 backgroundColor: "white",
                 width: "100%"
             }}>
-            <div>Test Case Details</div>
+            <div
+                style={{
+                    backgroundColor: "green",
+                    color: "white",
+                    fontSize: "large",
+                    textAlign: "center",
+                    paddingTop: "0.2rem",
+                    paddingBottom: "0.2rem",
+                    fontWeight: "500"
+                }}>
+                Test Case Details
+            </div>
             <TestCases arr={testCases} />
         </div>
 

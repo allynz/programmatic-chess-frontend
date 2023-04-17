@@ -11,7 +11,7 @@ export const findRandomPosition = (pieceList: Array<Piece>) => {
 
 // returns new fen
 // keep pieces size low so that random generation is possible easily
-// TODO: make sure that draw condition is not valid here - 50 move rule
+// CHECK: make sure that draw condition is not valid here - 50 move rule
 // try to improve this logic later on with matrix and pieces placement
 const newPos = (pieces: Array<Piece>): string => {
     let board: Board = [...Array(8)].map(e => Array(8)); // need default val

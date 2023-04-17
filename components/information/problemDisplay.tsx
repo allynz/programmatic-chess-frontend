@@ -16,11 +16,9 @@ type Props = {
     isSolved: boolean
 }
 
-// TODO: Fix problem type in Props
-// TODO: Update UI for solved problems
+// LATER: Fix problem type in Props. Fine for now, later do for all cases where it is used
 const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
     //console.log(isSolved);
-
     const user = useContext(UserContext);
     const dataMap = createDataMap(problem);
 

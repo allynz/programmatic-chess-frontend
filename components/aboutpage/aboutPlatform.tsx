@@ -6,7 +6,7 @@ import AboutPagesInfo from "./aboutPagesInfo";
 import ContactDetails from "./contactDetails";
 import SubmissionGuidelines from "./submissionGuidelines";
 
-// TODO: Have font sizes adjusted as per page headings 
+// LATER: Have font sizes adjusted as per page headings. For now, just default is fine
 const AboutPlatform = () => {
     return (<>
         <div>

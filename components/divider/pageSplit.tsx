@@ -12,7 +12,7 @@ const PageSplitWrapper = ({ panels }: { panels: Array<any> }) => {
     const [elementMinWidth, setElementMinWidth] = useState<string>(minWidthDefault);
     const [widths, setWidths] = useState<PageSplitPanelSize[]>(['', '']);
 
-    // TODO: Better make it absolute widths as viewport size can be reduced with opening console and resizing
+    // LATER: Better make it absolute widths as viewport size can be reduced with opening console and resizing. Top minWidth are set so don't worry about it
     const resetMinWidths = () => setElementMinWidth(minWidthDefault);
     const disableMinWidths = () => setElementMinWidth("0rem");
 

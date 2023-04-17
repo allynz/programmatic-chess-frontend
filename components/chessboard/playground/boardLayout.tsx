@@ -131,7 +131,7 @@ const convertMoveToMap = (moves: Array<Move>): Dests => {
     const mp = new Map<Key, Array<Key>>();
     moves.forEach(
         move => mp.set(move.orig, []));
-    // TODO: see if we can update map in place
+    // LATER: see if we can update map in place
     moves.forEach(
         move => mp.set(move.orig, [...mp.get(move.orig)!, move.dest]));
     return mp;

@@ -22,7 +22,7 @@ export default function CustomDivider({
     return (
         <div
             style={{
-                // TODO: manage it through config
+                // LATER: manage it through config
                 zIndex: "40"
             }}
             className={classNames}

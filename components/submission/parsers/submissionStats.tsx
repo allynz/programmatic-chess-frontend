@@ -7,9 +7,9 @@ import { TimeDisplay } from "../../information/submissionTable";
 export const parseSubmissionStats = (data: DocumentData) => {
 
     // make sure to have spaces in values so overflow can be handles easily
-    // TODO: Later See if we can add hooks here, without overflowing read/write limits
-    // TODO: Have a spinner next to waiting status, also same in Submissions Table
-    // TODO: Have same structure for this and `My Submissions` page, and better design for that
+    // LATER: Later See if we can add hooks here, without overflowing read/write limits
+    // LATER: Have a spinner next to waiting status, also same in Submissions Table. For now is fine
+    // LATER: Have same structure for this and `My Submissions` page, and better design for that
     const res = [
         {
             key: "Submission Id",
@@ -32,7 +32,10 @@ export const parseSubmissionStats = (data: DocumentData) => {
             val: (
                 <Link href={"/problem/" + data.problemId}>
                     {/* Wrapping in <a> is imp otherwise wont behave like a link */}
-                    <a>
+                    <a style={{
+                        color: "blue",
+                        textDecoration: "underline"
+                    }}>
                         {data.problemId}
                     </a>
                 </Link>
@@ -56,8 +59,8 @@ export const parseSubmissionStats = (data: DocumentData) => {
                         width: "100%",
                         height: "100%"
                     }}
-                    // TODO: Check if this is correct or not, should be just `message`?
-                    value={data.errorMessage}>
+                    // TODO: Check if this is correct or not, should be just `message`? Check with backend
+                    value={data.errorMessage || data.message}>
                 </textarea>
             )
         },
@@ -74,7 +77,7 @@ export const parseSubmissionStats = (data: DocumentData) => {
     return res;
 };
 
-// TODO: Find a better way for these calculations
+// LATER: Find a better way for these calculations
 const getPassedTestCases = (testCasesData: any): number => {
     if (!testCasesData
         || eq(testCasesData, undefined)

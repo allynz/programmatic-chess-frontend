@@ -1,6 +1,5 @@
 import styles from '../../styles/easyTagAnimation.module.scss';
 
-// TODO: also need to sort by tag for problems
 const Tag = ({ name }: any) => {
     switch (name) {
         case 'easy':
@@ -21,7 +20,7 @@ const Tag = ({ name }: any) => {
                     name={name}
                     color={`white`}
                     backgroundColor={`#cc0000`} />);
-        // TODO: Can we detect new based on the timestamp of addition or something, that way I don't manually tag them
+        // LATER: Can we detect new based on the timestamp of addition or something, that way I don't manually tag them
         case 'new':
             return (
                 <p className={styles.animation}>

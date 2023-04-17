@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
 import { collection, doc, getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
+// LATER: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -37,7 +37,7 @@ export function getDocument(documentId: string) {
 }
 
 export function getProblemDocument(documentId: string) {
-    //console.log("docId Problem", documentId);
+    // console.log("docId Problem", documentId);
     return doc(db, 'Problems', documentId);
 }
 
@@ -57,7 +57,7 @@ export const authenticate = () => {
             const token = credential?.accessToken;
             // The signed-in user info.
             const user = result.user;
-            //console.log(user);
+            // console.log(user);
             // ...
         }).catch((error) => {
             // Handle Errors here.

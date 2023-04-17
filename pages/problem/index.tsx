@@ -7,10 +7,8 @@ import BACKEND from "../../configs/hostConfig";
 import { getProblemDocument } from "../../firebase/config";
 import styles from '../../styles/Problem.module.scss';
 
-// TODO: See if this file makes sense to have here, the url path should be "problems", not "problem"
+// LATER: See if this file makes sense to have here, the url path should be "problems", not "problem". For now is fine
 // See if we can use Cards
-// TODO: Update UI for solved problems
-// TODO: Make a problem model
 export default function ProblemList({ problems }: { problems: Array<any> }) {
     const solvedProblemIds: Array<number> = useSolvedProblemsList();
     return (
@@ -39,7 +37,7 @@ export default function ProblemList({ problems }: { problems: Array<any> }) {
 
 const ProblemsWithParents = ({ problems, solvedIds }: { problems: Array<any>, solvedIds: Array<number> }) => {
     const parents: Set<string> = new Set();
-    const problemParents = problems.forEach(
+    problems.forEach(
         (problem: any) => parents.add(problem.parent));
 
     // just display it however, doesn't really matter right now, later we can improve after launch
@@ -72,23 +70,10 @@ const ProblemsWithParents = ({ problems, solvedIds }: { problems: Array<any>, so
 }
 
 const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
-    // see 
-    // TODO: sort by tags, and by id then for order. Or find another way for ordering in same tags
-    const sortingPriority = ['easy', 'medium', 'hard'];
     const sortedProblems: Array<any> =
         problems.sort((p1: any, p2: any) => {
-            const p1Index: number =
-                p1.tags &&
-                p1.tags
-                    .map((tag: string) => sortingPriority.indexOf(tag))
-                    .filter((idx: number) => idx >= 0)
-                    ?.at(0) || -1;
-            const p2Index: number =
-                p2.tags &&
-                p2.tags
-                    .map((tag: string) => sortingPriority.indexOf(tag))
-                    .filter((idx: number) => idx >= 0)
-                    ?.at(0) || -1;
+            const p1Index: number = p1.parentIndex;
+            const p2Index: number = p2.parentIndex;
 
             if (p1Index > p2Index) {
                 return 1;
@@ -125,7 +110,6 @@ const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
     </>);
 };
 
-// TODO: Add a black border to images, it does not look good right now for non-signed users
 const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
     { statement: string, problemNumber: number, isSolved: boolean, tags: Array<string>, imageSource: string }) => {
     const imageAddress =
@@ -140,14 +124,14 @@ const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
                     justifyContent: "flex-start",
                     gap: "0.3rem" // this gap is when there are multiple tags
                 }}>
-                {/* TODO: Trim tags later as there can be many of them, have it scrollable */}
+                {/* LATER: Trim tags later as there can be many of them, have it scrollable */}
                 {tags && tags.map(tag => (<Tag key={tag} name={tag} />))}
             </div>
             {/* Need to add Link in the bottom most element, not at top */}
             <Link
                 href={"/problem/" + problemNumber?.toString()}
                 className={styles.expanding}>
-                {/* TODO: Image from next/link is not expanding, see what's the issue there, 
+                {/* LATER: Image from next/link is not expanding, see what's the issue there, 
                 maybe add expanding class on `<a>` element instead? and keep `Image` element just separate */}
                 <a>
                     <img
@@ -206,7 +190,12 @@ export async function getServerSideProps() {
     }
 }
 
+// firebase may have auth error here: https://stackoverflow.com/questions/69511029/firebase-throws-insufficient-permissions-when-using-getserversideprops-in-my-nex
+// so just be careful while setting up firebase fetches whether u need auth or nots
+// also cannot use use context here easily: https://stackoverflow.com/questions/72211596/how-can-i-use-context-api-and-getserversideprops-in-next-js
 async function fetchProblem(id: number) {
-    return await getDoc(getProblemDocument(id.toString()));
+    //console.log("fetching data");
+    const res = await getDoc(getProblemDocument(id.toString()));
+    return res;
 }
 

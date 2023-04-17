@@ -24,8 +24,9 @@ $chessboardHeight: 10rem;
 }
 
 .expanding {
+    transition: all 100ms linear;
     height: $chessboardHeight;
-    width: auto; // TODO: can set this same to height to avoid changing dimensions when image is loading
+    width: auto; // LATER: can set this same to height to avoid changing dimensions when image is loading
     overflow: hidden;
     //position: absolute;
     border-radius: 1rem;

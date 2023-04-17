@@ -93,7 +93,7 @@ Enjoy!
     // );
 
     return (
-        // TODO: make this a custom render for all markdown
+        // LATER: make this a custom render for all markdown
         <ReactMarkdown
             rehypePlugins={[
                 rehypeRaw,

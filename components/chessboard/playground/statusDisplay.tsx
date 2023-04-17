@@ -1,7 +1,7 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Status } from "../../../chess/config";
 
-// TODO: Add colors to it to show correct/failure status
+// LATER: Add colors to it to show correct/failure status
 const StatusDisplay = ({ status }: { status: string }) => {
     const statusMap = new Map<string, any>([
         [

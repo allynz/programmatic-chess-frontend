@@ -74,7 +74,7 @@ export class Chess {
 
     // checkmate, stalemate, be careful of king in check condition
     // store this as a variable so we don't compute it again and again
-    // TODO: can we get this faster, like whenever we find a valid move, then return, for now is fine, see if we can do that kind of architecture, streaming data, prob can be done by sending a function as param
+    // LATER: can we get this faster, like whenever we find a valid move, then return, for now is fine, see if we can do that kind of architecture, streaming data, prob can be done by sending a function as param
     isGameOver(): boolean {
         //debugger;
         // current turn side have valid moves possible
@@ -114,7 +114,7 @@ export class Chess {
         else return true;
     }
 
-    // TODO: complete later
+    // LATER: complete later
     undo() {
         //console.log("undo");
         if (this.can_undo()) {
@@ -124,7 +124,7 @@ export class Chess {
     }
 
     // if no valid move, what is the status
-    // TODO: cache this, or make a variable to be updated after each move
+    // LATER: cache this, or make a variable to be updated after each move
     getStatus(): Status {
         // no pieces of opponent left - insufficient material
         // no king
@@ -150,7 +150,7 @@ export class Chess {
         } else {
             // have ability to bend the rules sometimes, like single queen can checkmate - stalemate is checkmate etc.
 
-            // TODO: Make questions so that you need all the pieces for checkmate - mostly, not necessary though
+            // LATER: Make questions so that you need all the pieces for checkmate - mostly, not necessary though
             const canCheckMate = (): boolean => {
                 // K vs a single piece, and other conditions
                 const pieces: Array<Piece> = this.boardState.getPieces(this.boardState.getTurn());

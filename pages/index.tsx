@@ -9,7 +9,7 @@ import PageWrapNav from '../components/navbar/pageWrapper';
 import BACKEND from '../configs/hostConfig';
 
 // literally a flex grid this is!!
-// TODO: See how other sites do large screens, keep your content width fixed, and let padding on left and right be automatic depending on screen
+// LATER: See how other sites do large screens, keep your content width fixed, and let padding on left and right be automatic depending on screen
 // Can also add scroll animations with css
 const Home: NextPage = ({ problemList, pieces, displayCode }: any) => {
   return (<>
@@ -159,7 +159,13 @@ export async function getStaticProps() {
       .map(async (id) => await fetchProblem(id))
   );
 
-  // TODO: Later see for randomizing pieces/code also
+  const filteredProblemsList =
+    list.filter(problem => (
+      // from: https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
+      problem && (Object.keys(problem).length > 0)
+    ));
+
+  // LATER: Later see for randomizing pieces/code also
   const displayChessboardPieces =
     await fetch(BACKEND + `/displayPieces`)
       .then(res => res.json())
@@ -170,15 +176,15 @@ export async function getStaticProps() {
 
   return {
     props: {
-      problemList: list,
+      problemList: filteredProblemsList,
       pieces: displayChessboardPieces,
       displayCode: displayCode
     }
   }
 }
 
-// TODO: Make bulk API later
-// resolve error scenarios
+// LATER: Make bulk API later
+// LATER: resolve error scenarios, for now sending empty is fine, just see that it is ignored
 async function fetchProblem(id: number) {
   try {
     const res = await fetch(BACKEND + `/problem?id=${id}`)

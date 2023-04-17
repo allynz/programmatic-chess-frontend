@@ -3,7 +3,7 @@ import { useDataMap } from "../hooks/useDataMap";
 import ProblemDisplay from "../information/problemDisplay";
 
 // submit them to a different faster queue
-// TODO: See if you want to enable outside scrolling on this editor, yeah, it's a menace when scrolling
+// LATER: See if you want to enable outside scrolling on this editor, yeah, it's a menace when scrolling, so no
 const TutorialEditor = ({ problem }: any) => {
     return (<>
         <div

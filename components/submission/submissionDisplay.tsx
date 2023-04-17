@@ -55,9 +55,14 @@ const Display = ({ text, children }: any) => {
             <div
                 style={{
                     width: "fit-content",
-                    backgroundColor: "red",
+                    color: "white",
+                    fontSize: "large",
+                    fontWeight: "500",
+                    backgroundColor: "green",
                     textAlign: "center",
-                    marginLeft: "1rem"
+                    marginLeft: "1rem",
+                    paddingLeft: "1rem",
+                    paddingRight: "1rem"
                 }}>
                 {text}
             </div>

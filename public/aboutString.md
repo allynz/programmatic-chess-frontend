@@ -59,13 +59,16 @@ It will submit the solution and update the status of submission as and when subm
 
 Details:
 - Languages supported: `C++17` (currently only 1 language is supported, more coming in the future!)
+- `gnu_pbds` library is not supported, only <bits/stdc++.h>
 - Max chars: Less than 10,000
 
 ## Interaction Details
 The submission is judged by a grader  
 <!-- Make this more easy to read for beginners -->
 We interact with the grader using `stdin`/`stdout` streams, in C++ this mostly done using `cin`/`cout` or `scanf`/`printf` (Read more about i/p output for c++ [here])  
-The grader reads input from `stdout` and submits input to the `stdin` stream  
+The grader reads input from `stdout` and submits input to the `stdin` stream 
+In the end, you need to input Success or Failure from the grader 
+There is a move limit for every problem at 200 moves
 
 ### Interactive Problem Details
 Most of the problems are interactive in nature hence require special interaction  
@@ -106,6 +109,7 @@ Browsers - all modern browsers
 
 ## Data Security
 Public code, but cannot view right now other's code
+Login data storage, and privacy details [to be added]
 
 # FAQ
 Non-saved submissions are not saved, so submit No ML solutions - only procedural Each submission may take around 2 minutes to process Must use permission from site admin before re-using the questions or any code
@@ -116,7 +120,5 @@ FAX. There are limit to problem submissions
 site@site.com
 
 Responses may take around a week for genuine issues If you find an issue in the platform or with a problem etc., please do email on the above mail-id
-
-<!-- TODO: DO we add to not use code/data from this site? Prob. for data yes, for code also prob. yes. Ask for consult should be fine for code, but not for data -->
 
 Social media links

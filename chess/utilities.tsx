@@ -1,7 +1,8 @@
 // can also make const vars here - can we make functions here static, or does static in js even make sense?
 import { Chess } from "chess.js";
-import { Board, Color, Cord, Move, Piece, Square } from "./types";
 import { cloneDeep } from 'lodash';
+import { eq } from "../utilities/equals";
+import { Board, Color, Cord, Move, Piece, Square } from "./types";
 
 // general Utilities //
 
@@ -97,4 +98,102 @@ export const getPieceSquares = (
     });
 
     return squares;
+}
+
+export const getRandomInt = (maxValue: number) => {
+    return Math.floor(Math.random() * maxValue);
+}
+
+export const convertBackendBoardToFrontend1 = (board: Array<Array<string>>): Board => {
+    let res: Board = [...Array(8)].map(e => Array(8));
+    let counter = 0;
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            let curr: Piece | undefined;
+            const piece: string | undefined = board.at(i)?.at(j);
+
+            //console.log("piece", piece);
+
+            if (eq(piece, "X")) {
+                curr = undefined;
+            } else if (eq(piece, "Q")) {
+                curr = { type: "q", color: "w" };
+            } else if (eq(piece, "K")) {
+                curr = { type: "k", color: "w" };
+            } else if (eq(piece, "P")) {
+                curr = { type: "p", color: "w" };
+            } else if (eq(piece, "B")) {
+                curr = { type: "b", color: "w" };
+            } else if (eq(piece, "N")) {
+                curr = { type: "n", color: "w" };
+            } else if (eq(piece, "R")) {
+                curr = { type: "r", color: "w" };
+            } else if (eq(piece, "BQ")) {
+                curr = { type: "q", color: "b" };
+            } else if (eq(piece, "BK")) {
+                curr = { type: "k", color: "b" };
+            } else if (eq(piece, "BP")) {
+                curr = { type: "p", color: "b" };
+            } else if (eq(piece, "BB")) {
+                curr = { type: "b", color: "b" };
+            } else if (eq(piece, "BN")) {
+                curr = { type: "n", color: "b" };
+            } else if (eq(piece, "BR")) {
+                curr = { type: "r", color: "b" };
+            }
+
+            res[i][j] = curr;
+
+            counter += 1;
+        }
+    }
+
+    return res;
+}
+
+export const convertBackendBoardToFrontend = (board: string[]): Board => {
+    let res: Board = [...Array(8)].map(e => Array(8));
+    let counter = 0;
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            let curr: Piece | undefined;
+            const piece: string | undefined = board.at(counter);
+
+            //console.log("piece", piece);
+
+            if (eq(piece, "X")) {
+                curr = undefined;
+            } else if (eq(piece, "Q")) {
+                curr = { type: "q", color: "w" };
+            } else if (eq(piece, "K")) {
+                curr = { type: "k", color: "w" };
+            } else if (eq(piece, "P")) {
+                curr = { type: "p", color: "w" };
+            } else if (eq(piece, "B")) {
+                curr = { type: "b", color: "w" };
+            } else if (eq(piece, "N")) {
+                curr = { type: "n", color: "w" };
+            } else if (eq(piece, "R")) {
+                curr = { type: "r", color: "w" };
+            } else if (eq(piece, "BQ")) {
+                curr = { type: "q", color: "b" };
+            } else if (eq(piece, "BK")) {
+                curr = { type: "k", color: "b" };
+            } else if (eq(piece, "BP")) {
+                curr = { type: "p", color: "b" };
+            } else if (eq(piece, "BB")) {
+                curr = { type: "b", color: "b" };
+            } else if (eq(piece, "BN")) {
+                curr = { type: "n", color: "b" };
+            } else if (eq(piece, "BR")) {
+                curr = { type: "r", color: "b" };
+            }
+
+            res[i][j] = curr;
+
+            counter += 1;
+        }
+    }
+
+    return res;
 }

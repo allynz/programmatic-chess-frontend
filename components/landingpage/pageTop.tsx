@@ -68,7 +68,7 @@ const SiteDetailsIntro = ({ pieces, code }: any) => {
                     gridTemplateRows: "80% 20%",
                     gridTemplateColumns: "100%"
                 }}>
-                {/* TODO: On big screens, board doesn't look good, see what we can do about it, maybe make it's background black? */}
+                {/* LATER: On big screens, board doesn't look good, see what we can do about it, maybe make it's background black? Fine for now. This is about landing page board */}
                 <AnimatedBoardWrapper
                     pieces={pieces} />
                 <p
@@ -146,7 +146,7 @@ const HowToUseIt = () => {
     return (
         <div
             style={{
-                paddingTop: "15rem" // TODO: This stuff should really be handled by the above layer
+                paddingTop: "15rem" // LATER: This stuff should really be handled by the above layer
             }}>
             <Diamonds transform={"rotate(0deg)"} />
             <div

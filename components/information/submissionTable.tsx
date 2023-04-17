@@ -5,7 +5,7 @@ import styles from './Table.module.scss';
 
 // table has some issues with reloading so have to restart it everytime with npm run devs, see if hydration issues will solve it
 // color success in green, and unsuccess in red
-// TODO: Think about pagination or infinite scrolling, as with large no. of submissions I won't be able to keep up
+// LATER: Think about pagination or infinite scrolling, as with large no. of submissions I won't be able to keep up. In beg, it should be fine as there are submission limits too
 export function SubmissionTable({ submissionList }: { submissionList: Array<any> }) {
     if (!submissionList || submissionList.length === 0) {
         return (
@@ -24,7 +24,13 @@ export function SubmissionTable({ submissionList }: { submissionList: Array<any>
                     {
                         // Find a better way than this later
                         submissionMap('').map((vv, idx) =>
-                            (<th key={idx}>{vv.key}</th>))
+                        (<th
+                            key={idx}
+                            style={{
+                                verticalAlign: "top"
+                            }}>
+                            {vv.key}
+                        </th>))
                     }
                 </tr>
             </thead>

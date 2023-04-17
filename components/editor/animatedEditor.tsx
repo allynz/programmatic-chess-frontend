@@ -4,12 +4,11 @@ import { editor } from "monaco-editor";
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
 
-// TODO: There is some cutting off of code in the beginning, but it's fine, fix later
+// LATER: There is some cutting off of code in the beginning, but it's fine, fix later
 const AnimatedEditorWrapper = ({ fullCode }: any) => {
     return (
         <div
             style={{
-                // WOHOOOO
                 pointerEvents: "none",
                 height: "100%",
                 width: "100%",
@@ -92,7 +91,7 @@ const AnimatedEditor = ({ fullCode }: { fullCode: string }) => {
                 }
             }}
             language="cpp"
-            // TODO: See if you can remove this loading, atleast for landing page
+            // LATER: See if you can remove this loading, atleast for landing page
             loading={<Spinner animation={"border"} />} // probably using UserContext we can keep global state as loading
             onMount={
                 (editor, monaco) => {

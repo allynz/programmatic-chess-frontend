@@ -1,4 +1,5 @@
 import { ListGroup } from "react-bootstrap";
+import { eq } from "../../../utilities/equals";
 import { TestCaseDocument } from "../testCasesWrapper";
 
 const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
@@ -17,17 +18,22 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
 
             {/* Can add option to view full as it is without scroll in future */}
             {/* not able to fix scroll issue, tried onWheel - best bet */}
-            {/* TODO: See if you want to add indexes to items or have them stack together, one above and below */}
-            {/* TODO: Make sure in backed I don't recieve large strings or large array */}
+            {/* LATER: See if you want to add indexes to items or have them stack together, one above and below */}
+            {/* CHECK: Make sure in backed I don't recieve large strings or large array */}
             <div id="mover">
                 <>Grader Moves: </>
                 {/* Can add option to view full as it is without scroll in future */}
                 <ListGroupElement list={doc.input} />
             </div>
 
-            <div id="errorMessage">
-                {doc.message}
-            </div>
+            <br></br>
+            {
+                (doc.message && !eq(doc.message, "")) ?
+                    (<div id="errorMessage">
+                        Message: {doc.message}
+                    </div>) :
+                    <></>
+            }
 
         </div>
     </>);

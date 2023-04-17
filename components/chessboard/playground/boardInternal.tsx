@@ -47,7 +47,7 @@ const ChessboardInternal = ({
 
 export default ChessboardInternal;
 
-// TODO: make king capture false, although avoid that condition entirely
+// LATER: make king capture false, although avoid that condition entirely. Seems it is avoided for now
 const getConfig = (fen: string, moves: Dests, moveFunction: any) => {
     // add check config also later
     // make castling false, as well as autocastle config

@@ -1,7 +1,7 @@
 import { DocumentData } from "firebase/firestore";
 import { Table } from "react-bootstrap";
-import styles from './Table.module.scss';
 import { parseSubmissionStats } from "./parsers/submissionStats";
+import styles from './Table.module.scss';
 
 /* For stats of the submission */
 // Add error details also here
@@ -13,7 +13,8 @@ const SubmissionStats = ({ doc }: { doc: DocumentData }) => {
             style={{
                 width: "100%",
                 height: "100%"
-            }}>
+            }}
+            striped bordered hover>
             {/* Important to add tbody as validateDOMNesting issue otherwise */}
             <tbody>
                 {
