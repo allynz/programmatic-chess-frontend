@@ -229,8 +229,6 @@ export async function getStaticProps() {
             imageSource: p.imageSource || ""
         }));
 
-    console.log(castedList);
-
     return {
         props: { problems: castedList }
     }
