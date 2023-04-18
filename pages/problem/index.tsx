@@ -1,4 +1,5 @@
 import { getDoc } from "firebase/firestore";
+import Image from "next/image";
 import Link from "next/link";
 import { useSolvedProblemsList } from "../../components/hooks/useSolvedProblemsList";
 import PageWrapNav from "../../components/navbar/pageWrapper";
@@ -6,6 +7,7 @@ import Tag from "../../components/tag/tag";
 import BACKEND from "../../configs/hostConfig";
 import { getProblemDocument } from "../../firebase/config";
 import styles from '../../styles/Problem.module.scss';
+import { eq } from "../../utilities/equals";
 
 // LATER: See if this file makes sense to have here, the url path should be "problems", not "problem". For now is fine
 // See if we can use Cards
@@ -114,7 +116,6 @@ const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
     { statement: string, problemNumber: number, isSolved: boolean, tags: Array<string>, imageSource: string }) => {
     const imageAddress =
         "https://images.unsplash.com/photo-1654793182455-83e2a50f3494?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80";
-
     return (<>
         {/* Nice trick for hover on the spot, absolute elements inside a relative one */}
         <div className={styles.gridItem}>
@@ -129,28 +130,13 @@ const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
             </div>
             {/* Need to add Link in the bottom most element, not at top */}
             <Link
-                href={"/problem/" + problemNumber?.toString()}
-                className={styles.expanding}>
+                href={"/problem/" + problemNumber?.toString()}>
                 {/* LATER: Image from next/link is not expanding, see what's the issue there, 
                 maybe add expanding class on `<a>` element instead? and keep `Image` element just separate */}
                 <a>
-                    <img
-                        alt={problemNumber?.toString()}
-                        style={{
-                            overflow: "clip",
-                            objectFit: "fill",
-                            border: isSolved ? "" : "5px solid black",
-                            boxShadow: isSolved ? "0 0 5px 5px green" : "",
-                            // maxHeight: "5rem",
-                            // maxWidth: "5rem"
-                        }}
-                        className={styles.expanding}
-                        height="100%"
-                        width="100%"
-                        // not able to contain if big, so reduced sizes of all pics (dimensions)
-                        src={imageSource || '/images/88888888.png'}
-                        loading="lazy"
-                    />
+                    <ProblemImage
+                        imageSource={imageSource}
+                        isSolved={isSolved} />
                 </a>
             </Link>
             <div style={{
@@ -170,9 +156,38 @@ const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
     </>);
 }
 
+const ProblemImage = ({ imageSource, isSolved }:
+    {
+        imageSource: Readonly<string>,
+        isSolved: Readonly<boolean>
+    }) => {
+    const DEFAULT_IMAGE_SOURCE: Readonly<string> = '/images/88888888.png';
+
+    return (
+        <>
+            <div className={styles.imageContainer}>
+                <Image
+                    src={imageSource || DEFAULT_IMAGE_SOURCE}
+                    alt={"chess position image"}
+
+                    width={"100%"}
+                    height={"100%"}
+                    objectFit='cover'
+                    layout='responsive'
+
+                    placeholder="blur"
+                    blurDataURL={DEFAULT_IMAGE_SOURCE}
+
+                    loading="lazy"
+                />
+            </div>
+        </>
+    );
+}
+
 // cannot use useContext here it seems
-// not static props as it is diff for all users - is it though? solved problems can be rendered client side - see how to do in nextJS. ISG?
-export async function getServerSideProps() {
+// not static props as it is diff for all users - is it though? TODO: solved problems can be rendered client side - see how to do in nextJS. ISG?
+export async function getStaticProps() {
     const data: Array<number> = await
         fetch(BACKEND + '/problems')
             .then(res => res.json())
@@ -184,9 +199,8 @@ export async function getServerSideProps() {
     const list = await
         Promise.all(
             data.map(async (id) => (await fetchProblem(id)).data()));
-
     return {
-        props: { problems: list }
+        props: { problems: list.filter((p: any) => !eq(undefined, p.id)) }
     }
 }
 

@@ -14,7 +14,6 @@
 }
 
 $containerHeight: 17rem;
-$chessboardHeight: 10rem;
 
 .gridItem {
     height: $containerHeight;
@@ -23,27 +22,45 @@ $chessboardHeight: 10rem;
     //background-color: aqua;
 }
 
-.expanding {
-    transition: all 100ms linear;
+// .expanding {
+//     transition: all 100ms linear;
+//     height: $chessboardHeight;
+//     width: auto; // LATER: can set this same to height to avoid changing dimensions when image is loading
+//     overflow: hidden;
+//     //position: absolute;
+//     border-radius: 1rem;
+//     cursor: pointer;
+// }
+
+// .expanding:hover {
+//     opacity: 0.9;
+//     height: $chessboardHeight + 2rem;
+//     width: auto;
+//     border-radius: 1rem;
+//     border-top: 1rem;
+//     border-color: red;
+//     //position: absolute;
+
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     margin: -1rem; // wow, autmatically aligns to center
+// }
+
+$chessboardHeight: 10rem;
+
+/* MyImage.module.css */
+.imageContainer {
+    //position: relative;
     height: $chessboardHeight;
-    width: auto; // LATER: can set this same to height to avoid changing dimensions when image is loading
-    overflow: hidden;
-    //position: absolute;
+    width: $chessboardHeight;
+    transition: all 100ms linear;
+
     border-radius: 1rem;
-    cursor: pointer;
+    overflow: clip;
+    box-shadow: 0 0 5px 5px green;
 }
 
-.expanding:hover {
-    opacity: 0.9;
-    height: $chessboardHeight + 2rem;
-    width: auto;
-    border-radius: 1rem;
-    border-top: 1rem;
-    border-color: red;
-    //position: absolute;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: -1rem; // wow, autmatically aligns to center
+.imageContainer:hover {
+    transform: scale(1.2);
 }
