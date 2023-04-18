@@ -20,7 +20,7 @@ type ProblemDisplay = {
 
 // LATER: See if this file makes sense to have here, the url path should be "problems", not "problem". For now is fine
 // See if we can use Cards
-export default function ProblemList({ problems }: { problems: Array<any> }) {
+export default function ProblemList({ problems }: { problems: Array<ProblemDisplay> }) {
     const solvedProblemIds: Array<number> = useSolvedProblemsList();
     return (
         // adjust with flex as that is more responsive
