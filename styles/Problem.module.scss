@@ -54,11 +54,12 @@ $chessboardHeight: 10rem;
     //position: relative;
     height: $chessboardHeight;
     width: $chessboardHeight;
+
     transition: all 100ms linear;
 
+    border: 2px solid black;
     border-radius: 1rem;
     overflow: clip;
-    box-shadow: 0 0 5px 5px green;
 }
 
 .imageContainer:hover {

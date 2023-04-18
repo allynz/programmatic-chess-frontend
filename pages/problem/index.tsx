@@ -9,6 +9,15 @@ import { getProblemDocument } from "../../firebase/config";
 import styles from '../../styles/Problem.module.scss';
 import { eq } from "../../utilities/equals";
 
+type ProblemDisplay = {
+    id: number,
+    parent: string,
+    parentIndex: number,
+    statement: string,
+    tags: Array<string>,
+    imageSource: string
+};
+
 // LATER: See if this file makes sense to have here, the url path should be "problems", not "problem". For now is fine
 // See if we can use Cards
 export default function ProblemList({ problems }: { problems: Array<any> }) {
@@ -37,7 +46,11 @@ export default function ProblemList({ problems }: { problems: Array<any> }) {
     )
 }
 
-const ProblemsWithParents = ({ problems, solvedIds }: { problems: Array<any>, solvedIds: Array<number> }) => {
+const ProblemsWithParents = ({ problems, solvedIds }:
+    {
+        problems: Array<any>,
+        solvedIds: Array<number>
+    }) => {
     const parents: Set<string> = new Set();
     problems.forEach(
         (problem: any) => parents.add(problem.parent));
@@ -165,7 +178,11 @@ const ProblemImage = ({ imageSource, isSolved }:
 
     return (
         <>
-            <div className={styles.imageContainer}>
+            <div
+                style={{
+                    boxShadow: isSolved ? "0 0 5px 5px green" : ""
+                }}
+                className={styles.imageContainer}>
                 <Image
                     src={imageSource || DEFAULT_IMAGE_SOURCE}
                     alt={"chess position image"}
@@ -199,8 +216,23 @@ export async function getStaticProps() {
     const list = await
         Promise.all(
             data.map(async (id) => (await fetchProblem(id)).data()));
+    const filteredList =
+        list.filter((p: any) => !eq(undefined, p.id));
+    const castedList: Array<ProblemDisplay> =
+        filteredList.map((p: any) => ({
+            // LATER: find a better way to use fallback values
+            id: p.id,
+            parent: p.parent || null,
+            parentIndex: p.parentIndex || null,
+            statement: p.statement || "",
+            tags: p.tags || [],
+            imageSource: p.imageSource || ""
+        }));
+
+    console.log(castedList);
+
     return {
-        props: { problems: list.filter((p: any) => !eq(undefined, p.id)) }
+        props: { problems: castedList }
     }
 }
 
