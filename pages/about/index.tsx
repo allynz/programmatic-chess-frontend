@@ -6,6 +6,7 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
 import PageWrapNav from "../../components/navbar/pageWrapper";
+import styles from './about.module.scss';
 
 // Markdown TOC generator: https://ecotrust-canada.github.io/markdown-toc/
 // manage spacing between elements, it seems off
@@ -49,6 +50,7 @@ const About = ({ markdownText }: any) => {
                 </ReactMarkdown>
             </div>
             <div
+                className={styles.yo}
                 style={{
                     paddingTop: "2rem",
                     paddingBottom: "2rem",

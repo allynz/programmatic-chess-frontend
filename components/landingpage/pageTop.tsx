@@ -156,6 +156,7 @@ const HowToUseIt = () => {
                     gridTemplateRows: "100%",
                     gridTemplateColumns: "40% 60%"
                 }}>
+                {/* TODO: Shift it in public folder for insta load */}
                 <Image
                     src={`https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2942&q=80`}
                     width={"100%"}

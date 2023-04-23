@@ -1,3 +1,9 @@
 .floatingToc {
     background-color: blue;
 }
+
+.yo {
+    p:has(+ ul) {
+        margin-bottom: 0;
+    }
+}
