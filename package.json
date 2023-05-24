@@ -21,6 +21,7 @@
     "firebase": "^9.8.2",
     "firebaseui": "^6.0.1",
     "html-loader": "^4.1.0",
+    "html-to-image": "^1.11.11",
     "ii-react-chessboard": "^2.0.3",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",

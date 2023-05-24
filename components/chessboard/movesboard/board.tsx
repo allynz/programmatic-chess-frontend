@@ -72,6 +72,7 @@ const Board = ({ startFen, movesList, idx }: any) => {
         {/* if we put parent div outisde, it won't clip the bottom */}
         {/* do more tinkering to see which all properties are actually needed */}
         <div
+            className='okdude'
             style={{
                 // padding needs to be same for all so we can get a sqaure parent container for board
                 padding: "10px", // can we make this also auto somehow? as screen size increases this may get cropped

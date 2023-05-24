@@ -6,6 +6,7 @@ export type Problem = {
     solution: string,
     pieces: Array<Piece>,
     defaultCode: string,
+    examples: Array<any>,
     // this is the raw backend form, need to be converted in the frontend form to be actually used on client
     randomValidBoards: Array<Array<Array<string>>>
 };
