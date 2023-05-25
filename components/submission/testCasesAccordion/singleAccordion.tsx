@@ -60,8 +60,7 @@ export default SingleAccordion;
 
 // show spinner if loading is there, it wont take much time though as it is not network call
 // create moves board here itself from i/p and o/p. Think of all the possible scenarios so I can handle in backend
-// exported to be used other places as well
-export const MovesBoardWrapper = ({
+const MovesBoardWrapper = ({
     input,
     output,
     boardString
@@ -81,8 +80,8 @@ export const MovesBoardWrapper = ({
         return !isEmpty;
     });
 
-    // can change `fen` here for testing invalid board positions
     const startFen: string = getFen(convertBackendBoardToFrontend(board));
+    //console.log("startFen", startFen);
 
     if (!startFen || eq(startFen, "")) {
         return (<></>);

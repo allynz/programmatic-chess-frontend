@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // TODO: make this true? causing useEffect to run twice
+  reactStrictMode: true,
   images: {
     // to get images from unspash , click on image and copy link address
     // CHECK: make sure that not present url here does not cause page load to fail

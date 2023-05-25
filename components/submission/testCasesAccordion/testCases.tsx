@@ -2,58 +2,6 @@ import { Accordion } from "react-bootstrap";
 import SingleAccordion from "./singleAccordion";
 
 const TestCases = ({ arr }: { arr: Array<any> }) => {
-    const formatForMarkdown = (doc: any) => {
-        let res: string = "";
-
-        const ip = doc.input as Array<string>;
-        const op = doc.output as Array<string>;
-
-        res += "| Input |\n";
-        res += "|-------|\n";
-        res += "| " + doc.board + " |" + "\n";
-        ip.forEach(move => res += "| " + move + " |\n");
-
-        res += "\n";
-        res += "| Output |\n";
-        res += "|-------|\n";
-        op.forEach(move => res += "| " + move + " |\n");
-
-        console.log(res);
-    };
-
-    const formatForAnimation = (doc: any) => {
-        let res: string = "";
-
-        const ip = doc.input as Array<string>;
-        const op = doc.output as Array<string>;
-
-        res += "| Input |\n";
-        ip.forEach(move => res += "\"" + move + "\",\n");
-
-        res += "\n";
-        res += "| Output |\n";
-        op.forEach(move => res += "\"" + move + "\",\n");
-
-
-        console.log(res);
-    };
-
-    let aa: Array<any> = [];
-    arr.map((doc, idx) => {
-        if (doc.input.length >= 1 && doc.input.length >= 2) {
-            aa.push(doc);
-        }
-    });
-
-    aa.sort((a: any, b: any) => (a.input.length <= b.input.length ? -1 : 1));
-
-    aa = aa.slice(0, 4);
-    aa.forEach((doc) => {
-        formatForMarkdown(doc);
-        console.log(JSON.stringify(doc, null, 4));
-        //formatForAnimation(doc);
-    })
-
     return (<>
         <div>
             <Accordion

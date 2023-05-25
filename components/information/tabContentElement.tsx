@@ -1,5 +1,6 @@
 import {
-    TabContent, TabPane
+    TabContent,
+    TabPane
 } from 'react-bootstrap';
 import styles from './Information.module.scss';
 
@@ -16,26 +17,15 @@ const TabContentElement = ({ dataMap }: Props) => {
         <TabContent className={styles.content}>
             {
                 dataMap.map(
-                    (res: any) => {
-                        return (
-                            <TabPane
-                                key={res.key}
-                                eventKey={res.key} >
-                                {res.renderContent}
-                                {/* {
-                                        eq(res.key, 'problem') && document.getElementById('statement-1') != null ?
-                                            createPortal(
-                                                <MovesBoardDisplay startFen='' movesList={[`g1-g5`]} />,
-                                                document.getElementById('statement-1')!
-                                            )
-                                            :
-                                            (<></>)
-                                    } */}
-                            </TabPane>
-                        );
-                    })
+                    (res: any) => (
+                        <TabPane
+                            key={res.key}
+                            eventKey={res.key}>
+                            {res.renderContent}
+                        </TabPane>
+                    ))
             }
-        </TabContent >
+        </TabContent>
     </>);
 };
 
