@@ -1,8 +1,16 @@
 import { useContext } from "react";
+import { createPortal } from "react-dom";
 import ReactMarkdown from "react-markdown";
+import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
+import rehypeRaw from 'rehype-raw';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
+import remarkToc from 'remark-toc';
 import UserContext from "../../contexts/UserContext";
 import { Problem } from "../../types/global";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
+import { MovesBoardWrapper } from "../submission/testCasesAccordion/singleAccordion";
+import styles from "./styles.module.scss";
 import SubmissionList from "./submissionList";
 
 // should be a functional component or react hook, as it is using user data - which we can pass from caller if needed
@@ -21,21 +29,79 @@ export const useDataMap = (problem: Problem):
     const dataMap = [
         {
             key: "problem",
-            renderContent: (<div style={{
-                borderRadius: "1rem",
-                padding: "1rem",
-                backgroundColor: "#f2f2f2"
-            }}><ReactMarkdown>{problem.statement}</ReactMarkdown></div>)
+            renderContent: (
+                <div
+                    style={{
+                        borderRadius: "1rem",
+                        padding: "1rem",
+                        backgroundColor: "#f2f2f2"
+                    }}
+                    className={styles.yo}>
+                    <ReactMarkdown
+                        rehypePlugins={[
+                            rehypeRaw,
+                            rehypeAutoLinkHeadings,
+                            rehypeSlug
+                        ]}
+                        remarkPlugins={[
+                            remarkGfm,
+                            [remarkToc, { tight: true }]
+                        ]}>
+                        {problem.statement}
+                    </ReactMarkdown>
+                    {
+                        (problem.examples).map(
+                            example => {
+                                const element = document.getElementById(example.key);
+                                if (element) element.className = 'example';
+
+                                return element ?
+                                    // css is not working somehow, so have to use inline styling. Try appendChild if external css is needed
+                                    createPortal(
+                                        <div key={example.key} style={{
+                                            backgroundColor: "green",
+                                            maxHeight: "15rem",
+                                            maxWidth: "15rem",
+                                            display: "grid",
+                                            gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
+                                            gridTemplateColumns: "100%",
+                                            overflow: "clip"
+                                        }}>
+                                            <MovesBoardWrapper
+                                                input={example.input}
+                                                output={example.output}
+                                                boardString={example.board} />
+                                        </div>,
+                                        element
+                                    ) :
+                                    (<></>)
+                            }
+                        )
+                    }
+                </div>)
         },
         {
             key: "solution",
             renderContent: (
-                <div style={{
-                    borderRadius: "1rem",
-                    padding: "1rem",
-                    backgroundColor: "#f2f2f2"
-                }}>
-                    <ReactMarkdown>{problem.solution}</ReactMarkdown>
+                <div
+                    style={{
+                        borderRadius: "1rem",
+                        padding: "1rem",
+                        backgroundColor: "#f2f2f2"
+                    }}
+                    className={styles.yo}>
+                    <ReactMarkdown
+                        rehypePlugins={[
+                            rehypeRaw,
+                            rehypeAutoLinkHeadings,
+                            rehypeSlug
+                        ]}
+                        remarkPlugins={[
+                            remarkGfm,
+                            [remarkToc, { tight: true }]
+                        ]}>
+                        {problem.solution}
+                    </ReactMarkdown>
                 </div>
             )
         }

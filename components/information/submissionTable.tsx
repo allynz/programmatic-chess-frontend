@@ -6,7 +6,7 @@ import styles from './Table.module.scss';
 // table has some issues with reloading so have to restart it everytime with npm run devs, see if hydration issues will solve it
 // color success in green, and unsuccess in red
 // LATER: Think about pagination or infinite scrolling, as with large no. of submissions I won't be able to keep up. In beg, it should be fine as there are submission limits too
-export function SubmissionTable({ submissionList }: { submissionList: Array<any> }) {
+export function SubmissionTable({ submissionList }: { submissionList: Array<any> | undefined }) {
     if (!submissionList || submissionList.length === 0) {
         return (
             <strong className={`centered-container fit-container`}>
@@ -51,7 +51,7 @@ export function SubmissionTable({ submissionList }: { submissionList: Array<any>
             </tbody>
         </Table>
     </>);
-}
+};
 
 const submissionMap = (submission: any):
     Array<{

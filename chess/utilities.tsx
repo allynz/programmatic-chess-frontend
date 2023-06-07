@@ -197,3 +197,16 @@ export const convertBackendBoardToFrontend = (board: string[]): Board => {
 
     return res;
 }
+
+export const getObjectDifference = (a: any, b: any) =>
+    Object.fromEntries(
+        Object.entries(b)
+            .filter(([key, val]) => {
+                if (a && b) {
+                    const isFieldEqual =
+                        key in a
+                        && !eq(a[key], val);
+
+                    return isFieldEqual;
+                }
+            }));

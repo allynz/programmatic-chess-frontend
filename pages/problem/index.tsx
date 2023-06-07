@@ -217,7 +217,7 @@ export async function getStaticProps() {
         Promise.all(
             data.map(async (id) => (await fetchProblem(id)).data()));
     const filteredList =
-        list.filter((p: any) => !eq(undefined, p.id));
+        list.filter((p: any) => !eq(undefined, p) && !eq(undefined, p.id));
     const castedList: Array<ProblemDisplay> =
         filteredList.map((p: any) => ({
             // LATER: find a better way to use fallback values

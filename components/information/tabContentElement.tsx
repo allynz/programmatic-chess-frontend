@@ -1,6 +1,5 @@
 import {
-    TabContent,
-    TabPane
+    TabContent, TabPane
 } from 'react-bootstrap';
 import styles from './Information.module.scss';
 
@@ -17,15 +16,17 @@ const TabContentElement = ({ dataMap }: Props) => {
         <TabContent className={styles.content}>
             {
                 dataMap.map(
-                    (res: any) => (
-                        <TabPane
-                            key={res.key}
-                            eventKey={res.key}>
-                            {res.renderContent}
-                        </TabPane>
-                    ))
+                    (res: any) => {
+                        return (
+                            <TabPane
+                                key={res.key}
+                                eventKey={res.key} >
+                                {res.renderContent}
+                            </TabPane>
+                        );
+                    })
             }
-        </TabContent>
+        </TabContent >
     </>);
 };
 

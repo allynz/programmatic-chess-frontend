@@ -21,6 +21,7 @@ const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
     //console.log(isSolved);
     const user = useContext(UserContext);
     const dataMap = createDataMap(problem);
+    const dataMapKeys = dataMap.map(data => data.key);
 
     const defaultActiveKey = dataMap.at(0)?.key;
     const [key, setKey] = useState(defaultActiveKey);
@@ -44,7 +45,7 @@ const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
             {/* this is the actual container of things, see if <Col> can help out in any sizing */}
             <Col className={styles.container}>
                 <NavElement
-                    navKeys={dataMap.map(v => v.key)}
+                    navKeys={dataMapKeys}
                     isSolved={isSolved} />
                 <TabContentElement dataMap={dataMap} />
             </Col>

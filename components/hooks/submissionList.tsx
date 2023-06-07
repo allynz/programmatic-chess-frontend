@@ -1,46 +1,46 @@
 import { query, where } from "@firebase/firestore";
-import { useContext } from "react";
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import UserContext from "../../contexts/UserContext";
+import { endBefore, limit, limitToLast, orderBy, startAfter } from "firebase/firestore";
 import { getCollection } from "../../firebase/config";
-import { SubmissionTable } from "../information/submissionTable";
-import FirebaseHookDisplay from "./firebaseHookDisplay";
+import SubmissionTableHandler from "../information/submissionTable/submissionTableHandler";
 
 const SubmissionList = (problemId: number) => {
-    const userId = useContext(UserContext)?.uid || "dummy";
-    const [value, loading, error] =
-        // See why where and orderBy cannot be combined easily, do I need to create indexes?
-        useCollectionData(
-            query(
-                getCollection('Submissions'),
-                where("userId", "==", userId),
-                where("problemId", "==", String(problemId))
-            ));
-
-    const content = (list: Array<any>) => (
-        <SubmissionTable
-            submissionList={
-                // also check for if time present or not
-                list.sort((a, b) => {
-                    const
-                        t1 = a.timestamp?.submitted,
-                        t2 = b.timestamp?.submitted;
-                    if (t1 > t2) {
-                        return -1;
-                    } else if (t2 == t2) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
-                })
-            } />
+    // console.log("rendered sublist");
+    return (
+        <SubmissionTableHandler
+            queries={Queries({ problemId: problemId })} />
     );
-
-    return <FirebaseHookDisplay
-        value={value}
-        loading={loading}
-        error={error}
-        content={content} />
 }
 
 export default SubmissionList;
+
+const Queries = ({ problemId }: any) => {
+    return {
+        FIRST_PAGE_HOOK:
+            ({ userId, limitValue }: any) =>
+                query(
+                    getCollection('Submissions'),
+                    where("userId", "==", userId),
+                    where("problemId", "==", String(problemId)),
+                    orderBy("timestamp.submitted", "desc"),
+                    limit(limitValue)),
+        FETCH_NEXT_QUERY:
+            ({ userId, limitValue }: any) => ({ lastDocument }: any) => {
+                return query(
+                    getCollection('Submissions'),
+                    where("userId", "==", userId),
+                    where("problemId", "==", String(problemId)),
+                    orderBy("timestamp.submitted", "desc"), // TODO: Check if this is working as it was a nested field
+                    startAfter(lastDocument),
+                    limit(limitValue))
+            },
+        FETCH_PREV_QUERY:
+            ({ userId, limitValue }: any) => ({ firstDocument }: any) =>
+                query(
+                    getCollection('Submissions'),
+                    where("userId", "==", userId),
+                    where("problemId", "==", String(problemId)),
+                    orderBy("timestamp.submitted", "desc"), // TODO: Check if this is working as it was a nested field
+                    endBefore(firstDocument),
+                    limitToLast(limitValue))
+    }
+};

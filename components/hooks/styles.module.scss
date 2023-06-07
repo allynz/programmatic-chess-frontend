@@ -1,0 +1,41 @@
+.yo {
+    img {
+        max-width: 15rem;
+        max-height: 15rem;
+        margin: 0.25rem;
+        border: 2px solid black;
+        // display: block; // multiple images also come in separate lines
+    }
+
+    a {
+        color: blue
+    }
+
+    table,
+    th,
+    thead {
+        border: 1px solid;
+    }
+
+    table {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+
+    td {
+        padding-left: 0.3rem;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: lightblue;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: lightgoldenrodyellow;
+    }
+
+    tbody tr:hover {
+        background-color: thistle;
+    }
+}
