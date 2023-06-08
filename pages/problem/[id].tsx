@@ -82,7 +82,7 @@ export async function getStaticProps({ params }: { params: any }) {
 }
 
 export async function getStaticPaths() {
-    const data: Array<number> = await
+    const problemData = await
         fetch(BACKEND + '/problems')
             .then(res => res.json())
             .catch(error => {
@@ -90,6 +90,7 @@ export async function getStaticPaths() {
                 return [];
             }); // it's size should be reasonable enough that build times are less, which it is for now
 
+    const { data } = problemData;
     const paths = data.map((problem: number) => {
         return {
             params: {

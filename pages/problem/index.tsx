@@ -20,7 +20,10 @@ type ProblemDisplay = {
 
 // LATER: See if this file makes sense to have here, the url path should be "problems", not "problem". For now is fine
 // See if we can use Cards
-export default function ProblemList({ problems }: { problems: Array<ProblemDisplay> }) {
+export default function ProblemList({ problems, parentOrder }: {
+    problems: Array<ProblemDisplay>,
+    parentOrder: Array<string>
+}) {
     const solvedProblemIds: Array<number> = useSolvedProblemsList();
     return (
         // adjust with flex as that is more responsive
@@ -40,28 +43,28 @@ export default function ProblemList({ problems }: { problems: Array<ProblemDispl
                 </h1>
                 <ProblemsWithParents
                     problems={problems}
-                    solvedIds={solvedProblemIds} />
+                    solvedIds={solvedProblemIds}
+                    parentOrder={parentOrder} />
             </div>
         </PageWrapNav>
     )
 }
 
-const ProblemsWithParents = ({ problems, solvedIds }:
+const ProblemsWithParents = ({ problems, solvedIds, parentOrder }:
     {
         problems: Array<any>,
-        solvedIds: Array<number>
+        solvedIds: Array<number>,
+        parentOrder: Array<string>
     }) => {
-    const parents: Set<string> = new Set();
-    problems.forEach(
-        (problem: any) => parents.add(problem.parent));
-    console.log(parents);
-
     // just display it however, doesn't really matter right now, later we can improve after launch
+    // LATER: should we add problems without parent to it's own miscellaneous tag
+    // also improve parent matching, since it may not be exact string
     return (<>
         {
-            [...parents].map((parent: string, idx: number) => {
+            parentOrder.map((parent: string, idx: number) => {
                 const problemsFiltered =
                     // see if there is better filtering like in Java
+                    // we can improve filtering logic to make it less time complexity, but is fine for now
                     problems
                         .filter(problem => eq(problem.parent, parent)); // for testing multiple problems on a grid UI, remove this filter
                 const solvedIdsFiltered =
@@ -203,16 +206,21 @@ const ProblemImage = ({ imageSource, isSolved }:
     );
 }
 
+type ProblemDataType = {
+    data: Array<number>,
+    parentOrder: Array<string>
+};
 // cannot use useContext here it seems
 // not static props as it is diff for all users - is it though? TODO: solved problems can be rendered client side - see how to do in nextJS. ISG?
 export async function getStaticProps() {
-    const data: Array<number> = await
+    const problemData: ProblemDataType = await
         fetch(BACKEND + '/problems')
             .then(res => res.json())
             .catch(error => {
                 //console.log(error);
                 return [];
             });
+    const { data, parentOrder } = problemData;
     // can we bulk fetch all problems from server?
     const list = await
         Promise.all(
@@ -231,7 +239,10 @@ export async function getStaticProps() {
         }));
 
     return {
-        props: { problems: castedList }
+        props: {
+            problems: castedList,
+            parentOrder: parentOrder
+        }
     }
 }
 
