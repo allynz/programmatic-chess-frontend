@@ -1,4 +1,5 @@
 import { Pagination } from "react-bootstrap";
+import { ArrowClockwise, ArrowLeftCircleFill, ArrowRightCircleFill } from "react-bootstrap-icons";
 
 const PaginationComponent = ({
     isFirstPage,
@@ -16,17 +17,53 @@ const PaginationComponent = ({
             }}>
             <Pagination.First
                 disabled={isFirstPage}
-                onClick={() => setFirstPage()} />
+                onClick={() => setFirstPage()}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                        width: "14rem"
+                    }}>
+                    <ArrowClockwise size={23} />
+                    <div>View latest submissions</div>
+                </div>
+            </Pagination.First>
             {/* using function directly like {prevPage()} causes calling the function directly so use correct syntax by {() => func()} for onclick*/}
             <Pagination.Prev
                 disabled={isFirstPage}
-                onClick={() => prevPage()} />
+                onClick={() => prevPage()}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                        width: "10rem"
+                    }}>
+                    <ArrowLeftCircleFill size={23} />
+                    <div>Previous page</div>
+                </div>
+            </Pagination.Prev>
 
             {/* <Pagination.Item disabled>{currentPageNum}</Pagination.Item> */}
 
             <Pagination.Next
                 disabled={isLastPage}
-                onClick={() => nextPage()} />
+                onClick={() => nextPage()}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                        width: "8rem"
+                    }}>
+                    <div>Next page</div>
+                    <ArrowRightCircleFill size={23} />
+                </div>
+            </Pagination.Next>
         </Pagination>
     </>);
 };

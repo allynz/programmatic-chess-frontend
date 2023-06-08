@@ -32,3 +32,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+IMP: for firebase auth to work in production, add your domains in its authorized domains to whitelist it
+
+Check this is hot module/reload not working: https://stackoverflow.com/questions/61033562/hot-module-reload-is-not-working-on-my-nextjs-app
+Also try restarting browser

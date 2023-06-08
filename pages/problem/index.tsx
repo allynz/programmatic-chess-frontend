@@ -54,17 +54,18 @@ const ProblemsWithParents = ({ problems, solvedIds }:
     const parents: Set<string> = new Set();
     problems.forEach(
         (problem: any) => parents.add(problem.parent));
+    console.log(parents);
 
     // just display it however, doesn't really matter right now, later we can improve after launch
     return (<>
         {
             [...parents].map((parent: string, idx: number) => {
-                const problemFiltered =
+                const problemsFiltered =
                     // see if there is better filtering like in Java
                     problems
-                        .filter(problem => problem.parent == parent); // for testing multiple problems on a grid UI, remove this filter
+                        .filter(problem => eq(problem.parent, parent)); // for testing multiple problems on a grid UI, remove this filter
                 const solvedIdsFiltered =
-                    solvedIds.filter(id => problemFiltered.some(problem => problem.id == id));
+                    solvedIds.filter(id => problemsFiltered.some(problem => problem.id == id));
                 return (
                     <div
                         key={idx}
@@ -74,7 +75,7 @@ const ProblemsWithParents = ({ problems, solvedIds }:
                         }}>
                         <ProblemGroupDisplay
                             title={parent}
-                            problems={problemFiltered}
+                            problems={problemsFiltered}
                             solvedIds={solvedIdsFiltered}
                         />
                     </div>
