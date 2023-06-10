@@ -23,19 +23,23 @@
         width: 100%;
     }
 
+    thead tr th {
+        padding-left: 0.25rem;
+    }
+
     td {
         padding-left: 0.3rem;
     }
 
     tbody tr:nth-child(even) {
-        background-color: lightblue;
+        background-color: rgba(253, 230, 180, 0.4);
     }
 
     tbody tr:nth-child(odd) {
-        background-color: lightgoldenrodyellow;
+        background-color: rgba(253, 230, 180, 0.9);
     }
 
     tbody tr:hover {
-        background-color: thistle;
+        background-color: rgba(216, 191, 216, 0.7);
     }
 }

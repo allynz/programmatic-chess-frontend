@@ -6,7 +6,7 @@
 .table>thead {
     position: sticky;
     top: 0;
-    background-color: grey;
+    background-color: rgb(175, 175, 175); // it cant be transparent, coz the elements beneath are visible on scroll then
     border: 1rem solid;
 }
 

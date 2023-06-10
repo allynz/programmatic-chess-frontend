@@ -43,7 +43,8 @@ const TagBone = ({ name, color, backgroundColor }: any) => {
                 paddingLeft: "0.2rem",
                 paddingRight: "0.2rem",
                 textAlign: "center",
-                fontWeight: "bolder"
+                fontWeight: "bolder",
+                lineHeight: "1.5rem"
             }}>
             {name.toUpperCase()}
         </p>

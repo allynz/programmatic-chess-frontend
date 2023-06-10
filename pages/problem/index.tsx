@@ -158,13 +158,16 @@ const DisplayBoard = ({ statement, problemNumber, isSolved, tags, imageSource }:
             </Link>
             <div style={{
                 paddingTop: "1rem",
-                overflow: "scroll",
-                maxHeight: "5rem"
+                overflow: "visible", // this controls the overflow of <p>
+                maxHeight: "7rem"
             }}>
                 {/* try to have max 2 lines */}
                 <p
                     style={{
-                        //textAlign: "center"
+                        textAlign: "center",
+                        fontWeight: "550",
+                        width: "100%",
+                        textOverflow: "ellipsis"
                     }}>
                     {statement}
                 </p>

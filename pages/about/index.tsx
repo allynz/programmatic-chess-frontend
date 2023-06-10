@@ -39,9 +39,10 @@ const About = ({ markdownText }: any) => {
             <div
                 style={{
                     position: "sticky",
+                    boxShadow: "4px 4px 5px -3px black",
                     top: "0",
                     maxWidth: "max-content",
-                    backgroundColor: "aqua",
+                    backgroundColor: "rgb(71, 246, 255)",
                     padding: "2rem",
                     float: "left" // check other strategies, like flex/grid
                 }}>
