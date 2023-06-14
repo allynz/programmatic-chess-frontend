@@ -212,6 +212,8 @@ export const getObjectDifference = (a: any, b: any) =>
             }));
 
 export const isValidBoardString = (boardString: string) => {
+    if (!boardString) return false;
+
     const pieces = boardString.split(" ");
 
     return pieces

@@ -75,7 +75,11 @@ const ListGroupElement = ({ list }: { list: Array<string> }) => {
                             key={idx}
                             style={{
                                 height: "3rem",
-                                minWidth: "5rem"
+                                width: "fit-content",
+                                minWidth: "5rem",
+                                maxWidth: "20rem",
+                                overflow: "scroll",
+                                flexShrink: "0" // finally, i found this to prevent overflow in flex row!!
                             }}>
                             {val}
                         </ListGroup.Item>

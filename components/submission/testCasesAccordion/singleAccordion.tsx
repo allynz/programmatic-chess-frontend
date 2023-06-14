@@ -77,8 +77,6 @@ export const MovesBoardWrapper = ({
         return (<></>);
     }
 
-    console.log(boardString);
-
     const board = boardString.split(" ").filter(piece => {
         const isEmpty: boolean = eq(piece, undefined) || eq(piece, "") || eq(piece, " ");
         return !isEmpty;
