@@ -1,8 +1,11 @@
 import { ListGroup } from "react-bootstrap";
+import { isValidBoardString } from "../../../chess/utilities";
 import { eq } from "../../../utilities/equals";
 import { TestCaseDocument } from "../testCasesWrapper";
 
 const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
+    const isProblemChessRelated: boolean = isValidBoardString(doc?.board);
+
     return (<>
         <div
             style={{
@@ -12,7 +15,11 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
             }}>
 
             <div id="moves">
-                <>Moves: </>
+                {
+                    isProblemChessRelated ?
+                        <div>Your Moves: </div> :
+                        <div>Your Output: </div>
+                }
                 <ListGroupElement list={doc.output} />
             </div>
 
@@ -21,7 +28,11 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
             {/* LATER: See if you want to add indexes to items or have them stack together, one above and below */}
             {/* CHECK: Make sure in backed I don't recieve large strings or large array */}
             <div id="mover">
-                <>Grader Moves: </>
+                {
+                    isProblemChessRelated ?
+                        <div>Opponent's Moves: </div> :
+                        <div>Grader Output: </div>
+                }
                 {/* Can add option to view full as it is without scroll in future */}
                 <ListGroupElement list={doc.input} />
             </div>

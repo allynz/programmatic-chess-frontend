@@ -210,3 +210,12 @@ export const getObjectDifference = (a: any, b: any) =>
                     return isFieldEqual;
                 }
             }));
+
+export const isValidBoardString = (boardString: string) => {
+    const pieces = boardString.split(" ");
+
+    return pieces
+        && pieces?.length == 64
+        // checks every piece is alphabetic, custom `Piece` type cannot be checked at runtime: https://stackoverflow.com/questions/51528780/typescript-check-typeof-against-custom-type
+        && pieces?.every(piece => piece.match("^[a-zA-Z\(\)]+$"))
+};

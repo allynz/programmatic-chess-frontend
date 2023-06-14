@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Accordion, AccordionContext } from "react-bootstrap";
-import { convertBackendBoardToFrontend, getFen } from "../../../chess/utilities";
+import { convertBackendBoardToFrontend, getFen, isValidBoardString } from "../../../chess/utilities";
 import { eq } from "../../../utilities/equals";
 import MovesBoardDisplay from "../../chessboard/movesboard/movesBoardDisplay";
 import MovesLog from "./movesLog";
@@ -72,9 +72,12 @@ export const MovesBoardWrapper = ({
 }) => {
     if (eq(boardString, undefined)
         || eq(boardString, "")
-        || eq(boardString, " ")) {
+        || eq(boardString, " ")
+        || !isValidBoardString(boardString)) {
         return (<></>);
     }
+
+    console.log(boardString);
 
     const board = boardString.split(" ").filter(piece => {
         const isEmpty: boolean = eq(piece, undefined) || eq(piece, "") || eq(piece, " ");
