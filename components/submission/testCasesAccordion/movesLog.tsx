@@ -17,8 +17,8 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
             <div id="moves">
                 {
                     isProblemChessRelated ?
-                        <div>Your Moves: </div> :
-                        <div>Your Output: </div>
+                        <div>{`Your Moves: `}</div> :
+                        <div>{`Your Output: `}</div>
                 }
                 <ListGroupElement list={doc.output} />
             </div>
@@ -30,8 +30,8 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
             <div id="mover">
                 {
                     isProblemChessRelated ?
-                        <div>Opponent's Moves: </div> :
-                        <div>Grader Output: </div>
+                        <div>{`Opponent's Moves: `}</div> :
+                        <div>{`Grader Output: `}</div>
                 }
                 {/* Can add option to view full as it is without scroll in future */}
                 <ListGroupElement list={doc.input} />
