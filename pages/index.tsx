@@ -11,24 +11,19 @@ import BACKEND from '../configs/hostConfig';
 // literally a flex grid this is!!
 // LATER: See how other sites do large screens, keep your content width fixed, and let padding on left and right be automatic depending on screen
 // Can also add scroll animations with css
-const Home: NextPage = ({ problemList, pieces, displayCode }: any) => {
+const Home: NextPage = ({ problemList, pieces, displayCode, displayFAQ }: any) => {
   return (<>
     <PageWrapNav>
       <PageTop
         pieces={pieces}
         code={displayCode} />
       <Examples />
-      {
-        problemList
-        &&
-        problemList.map((problem: any) => (
-          <div key={problem.id}>
-            <TutorialEditor problem={problem} />
-            <br></br>
-          </div>
-        ))
-      }
-      <PageBottom />
+      <br /><br />
+      <TutorialProblemsDisplay
+        problemList={problemList} />
+      <div style={{ paddingTop: "15rem" }} />
+      <PageBottom
+        displayString={displayFAQ} />
       <Footer />
     </PageWrapNav>
   </>)
@@ -116,7 +111,7 @@ const Examples = () => {
             color='royalblue'
             size={70}
             style={{
-              padding: "1px"
+              padding: "5px"
             }} />
         ))}
         {/* <p> cannot align in center correctly */}
@@ -134,7 +129,7 @@ const Examples = () => {
             color='royalblue'
             size={70}
             style={{
-              padding: "1px"
+              padding: "5px"
             }} />
         ))}
       </h1>
@@ -143,19 +138,36 @@ const Examples = () => {
           textAlign: "center"
         }}>
         Below are few problems to get you started <br />
-        Write solution code on the editor given on right hand side of the problem <br />
+        Write solution code in the editor <br />
         Log in to submit solution directly! <br />
-        If you encounter any error/incorrect submissions, be sure to read read submission guidelines on [<Link href={`/about`}>About Page</Link>]
+        Be sure to read read submission guidelines on <strong>[<Link href={`/about`}>About Page</Link>]</strong>
       </p>
     </div>
   </>);
 };
 
+const TutorialProblemsDisplay = ({ problemList }: any) => {
+  return (<>
+    {
+      problemList
+      &&
+      problemList.map((problem: any) => (
+        <div key={problem.id}
+          style={{
+            paddingBottom: "7rem"
+          }}>
+          <TutorialEditor problem={problem} />
+        </div>
+      ))
+    }
+  </>);
+};
+
 export async function getStaticProps() {
-  const tutorialProblems = [1000, 1001, 1002];
+  const tutorialProblemIds = [1000, 1001, 1002];
   // these functions can be used at multiple places - combine them at 1
   const list = await Promise.all(
-    tutorialProblems
+    tutorialProblemIds
       .map(async (id) => await fetchProblem(id))
   );
 
@@ -173,12 +185,16 @@ export async function getStaticProps() {
   const displayCode: string =
     await fetch(BACKEND + `/displayCode`)
       .then(res => res.json());
+  const displayFAQ =
+    await fetch(BACKEND + `/displayFAQ`)
+      .then(res => res.json());
 
   return {
     props: {
       problemList: filteredProblemsList,
       pieces: displayChessboardPieces,
-      displayCode: displayCode
+      displayCode: displayCode,
+      displayFAQ: displayFAQ
     }
   }
 }

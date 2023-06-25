@@ -163,6 +163,7 @@ const HowToUseIt = () => {
                     height={"100%"}
                     layout="responsive"
                     objectFit="contain"
+                    loading="eager"
                 />
                 <div>
                     <h1>

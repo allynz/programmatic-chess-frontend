@@ -196,7 +196,7 @@ const ProblemImage = ({ imageSource, isSolved }:
 
                     width={"100%"}
                     height={"100%"}
-                    objectFit='cover'
+                    objectFit='cover' // contain or cover? https://nextjs.org/docs/pages/api-reference/components/image
                     layout='responsive'
 
                     placeholder="blur"

@@ -20,11 +20,11 @@ export const parseSubmissionStats = (data: DocumentData) => {
             val: data.status // maybe we can have a link to the about section?
         },
         {
-            key: "Time Taken",
+            key: "Time Taken (ms)",
             val: data.time
         },
         {
-            key: "Memory Used",
+            key: "Memory Used (KB)",
             val: data.memory
         },
         {

@@ -16,22 +16,22 @@ The website consists of multiple pages which are listed below for ease of naviga
 - [Problems page not logged in image]
 
 ### Specific Problem Page
-- This page shows the details of a particular problem, and allows you to submit your solution for the same
-- You can view details like `problem statement`, `solution`, `submission details` (for logged in users) and `playground` on this page 
-- There is an editor on the right of screen where you can write the solution to the problem and submit it for assessment. Submission is only allowed if you are signed in to the website
-- See more information in `Submission guidelines` section for writing a good submission
+- This page shows the details of a particular problem and allows you to submit your solution for the same
+- You can view details like `problem statement`, `solution`, `submission details` (for logged-in users), and `playground` on this page 
+- There is an editor on the right of the screen where you can write the solution to the problem and submit it for assessment. Submission is only allowed if you are signed in to the website
+- See more information in the `Submission guidelines` section for writing a good submission
 - There is an option to resize the screen horizontally as per your preference 
 - [all features gif]
 
 ## My Submissions
-- This page lets you view the details of all your submissions such as `status of submission`, `time taken`, `memory taken` etc.
-- Clicking on the submissionId of any particular submission will take you to that submission's detail page
+- This page lets you view the details of all your submissions such as the `status of submission`, `time taken`, `memory taken` etc.
+- Clicking on the `submission id` of any particular submission will take you to that submission's detail page
 - [gif of scrolling through the list and clicking on submissionId]
 
 ## Submission Details Page
 - This page lets you view the complete details of a particular submission
-- It can be reached through `submissionId` links across the website
-- Few details you can view here are:
+- It can be reached through `submission id` links across the website
+- A few details you can view here are:
     - The submission code
     - Details of submission run like `status`, `time`, `memory`, etc.
     - Details of test cases with i/p and o/p of submission
@@ -55,10 +55,10 @@ The website consists of multiple pages which are listed below for ease of naviga
     - Max submissions per day per user: 30 (TODO: Update)
     - `<bits/stdc++.h>` library is supported for C++
 
-<!-- Make this more easy to read for beginners -->
+<!-- Make this easier to read for beginners -->
 ## Interaction Details
 - Most of the problems are interactive in nature, i.e the submission is judged by a grader program which changes output based on user inputs
-- We interact with the grader using `stdin`/`stdout` streams, in C++ this mostly done using `cin`/`cout` or `scanf`/`printf` (Read more about input/output for C++ [here](https://cplusplus.com/doc/tutorial/basic_io/))
+- We interact with the grader using `stdin`/`stdout` streams, in C++ this is mostly done using `cin`/`cout` or `scanf`/`printf` (Read more about input/output for C++ [here](https://cplusplus.com/doc/tutorial/basic_io/))
 - The grader reads input from `stdout` and submits input to the `stdin` stream (Refer example below for details)
   
 - At the end of program, the grader provides a `success` or `failure` result depending on the program execution. Be sure to input the same and not ignore it
@@ -110,6 +110,8 @@ After your submission is assessed, you will be presented with it's `status` whic
             - output limit exceeded for problems involving moves
         - `INVALID_OUTPUT, INVALID_MOVE`
             - wrong output, output not adhering to requirement etc.
+        - `STALEMATE, INSUFFICIENT PIECES` 
+            - chess game ends but not in a `checkmate` status. Refer [endings] section for more details
         - `UNKNOWN_ERROR`
             - errors other than the ones mentioned 
 
@@ -165,15 +167,12 @@ After your submission is assessed, you will be presented with it's `status` whic
     - `BP` - black pawn
     - `X` - empty square
 
+## Game Endings
+- A chess game can end in many ways, such as `CHECKMATE, STALEMATE, INSUFFICIENT_PIECES`, etc. when played correctly with valid moves
+- Only `CHECKMATE` will be considered as a successful result in problems (unless mentioned otherwise), the rest will result in an unsuccessful result
+- The problem grader may or may not consider a few `draw` scenarios but eventually, it will result in an `UNSUCCESSFUL` status since there is no way to `checkmate` the opponent
+
 # Miscellaneous
-
-## Supported browsers
-The website is supported on almost all modern browsers. It is best viewed on a 13 inch monitor
-
-## Data Security
-- The submitted codes by the user are considered public, able to be seen by other users
-- The website does not collect any personal data of the users
-- TODO: Generate privacy policy
 
 ## FAQ
 Non-saved submissions are not saved, so submit No ML solutions - only procedural Each submission may take around 2 minutes to process Must use permission from site admin before re-using the questions or any code
@@ -182,9 +181,26 @@ Do not abuse the system/malicious code otherwise you will be banned/blacklisted
 
 FAX. There are limit to problem submissions
 
+you need a google acccount for login
+Supported browsers - The website is supported on almost all modern browsers. It is best viewed on a 13 inch monitor
+
+## Privacy Policy
+- This website collects minimal personal data of the users. Its primary use is for authentication and analytics
+- The website requires to have a `Google` account and sign-in/registering using that
+- Detailed privacy policy: [Link](https://www.freeprivacypolicy.com/live/7743c1a3-2b8f-405a-8892-e1441e036a21)
+
+## Terms of Use
+- TODO: Seems i have to write my own as all others are pricey
+- do not use things/data from here to other websites
+- links should be mentioned that it was taken from this site
+- The submitted codes by the user are considered public, able to be seen by other users
+- should not have multiple accounts
+- codechef.com/codeofconduct
+- https://codeforces.com/terms#:~:text=With%20respect%20to%20Your%20Content,on%20any%20third%20party's%20rights.
+
 ## Contact Details
-site@site.com
+Email-id: support@codingchess.com
 
-Responses may take around a week for genuine issues If you find an issue in the platform or with a problem etc., please do email on the above mail-id
+If you wish to contact us, you could do so by sending an email on the above mail-id
+You could also contact us in case you encounter issues with the platform/problems, etc.
 
-Social media links

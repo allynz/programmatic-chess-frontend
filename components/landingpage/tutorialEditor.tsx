@@ -9,7 +9,8 @@ const TutorialEditor = ({ problem }: any) => {
         <div
             style={{
                 display: "grid",
-                height: "30rem",
+                // nice trick to keep problem statement visibility consistent across screens
+                height: "590px",
                 gridTemplateRows: "100%",
                 gridTemplateColumns: "7% 40% 5% 40% 7%"
             }}>
