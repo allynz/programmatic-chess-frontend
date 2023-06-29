@@ -5,7 +5,6 @@ import { LeftButtonDivider, RightButtonDivider } from './buttons';
 
 // Good options: https://michaelbull.github.io/react-page-split/?path=/docs/basic--horizontal, not sure how to use them though
 export default function CustomDivider({
-    pp,
     onLeftButtonClick,
     onRightButtonClick,
     props
