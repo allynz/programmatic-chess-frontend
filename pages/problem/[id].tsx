@@ -5,12 +5,11 @@ import { useSolvedProblemsList } from "../../components/hooks/useSolvedProblemsL
 import ProblemDisplay from "../../components/information/problemDisplay";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import BACKEND from "../../configs/hostConfig";
-import { eq } from "../../utilities/equals";
 
 // LATER: Fix prop type
 const Problem = ({ problem }: any) => {
     const solvedProblems: Array<number> = useSolvedProblemsList();
-    //console.log("solved Problems", solvedProblems);
+    // console.log("solved Problems", solvedProblems);
 
     const ProblemDisplayWrap = (minWidth: string) => {
         return (
@@ -23,7 +22,8 @@ const Problem = ({ problem }: any) => {
                 <ProblemDisplay
                     problem={problem}
                     createDataMap={useDataMap}
-                    isSolved={solvedProblems.some(p => eq(p, problem.id))} />
+                    // LATER: mayb this can be optimised if problem size grows large
+                    isSolved={solvedProblems.some(p => p === problem.id)} />
             </div>
         );
     };

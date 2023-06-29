@@ -52,7 +52,7 @@ export default function ProblemList({ problems, parentOrder }: {
 
 const ProblemsWithParents = ({ problems, solvedIds, parentOrder }:
     {
-        problems: Array<any>,
+        problems: Array<ProblemDisplay>,
         solvedIds: Array<number>,
         parentOrder: Array<string>
     }) => {
@@ -68,7 +68,8 @@ const ProblemsWithParents = ({ problems, solvedIds, parentOrder }:
                     problems
                         .filter(problem => eq(problem.parent, parent)); // for testing multiple problems on a grid UI, remove this filter
                 const solvedIdsFiltered =
-                    solvedIds.filter(id => problemsFiltered.some(problem => eq(problem.id, id)));
+                    solvedIds.filter(id => problemsFiltered.some(problem => problem.id === id));
+
                 return (
                     <div
                         key={idx}
@@ -119,7 +120,7 @@ const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
                             problemNumber={problem.id}
                             isSolved={
                                 solvedIds.some(
-                                    (id: number) => eq(id, problem.id))}
+                                    (id: number) => id === problem.id)}
                             tags={problem.tags}
                             imageSource={problem.imageSource} />
                     )
@@ -233,7 +234,7 @@ export async function getStaticProps() {
     const castedList: Array<ProblemDisplay> =
         filteredList.map((p: any) => ({
             // LATER: find a better way to use fallback values
-            id: p.id,
+            id: Number(p.id),
             parent: p.parent || null,
             parentIndex: p.parentIndex || null,
             statement: p.statement || "",
