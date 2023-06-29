@@ -42,7 +42,7 @@ export function inBoundCord(cord: Readonly<Cord>): boolean {
 
 // Chess related utilities
 export const nextTurn = (turn: Color) => {
-    return turn == 'w' ? 'b' : 'w';
+    return turn === 'w' ? 'b' : 'w';
 }
 
 // This is the problem with functional programming - managing large states
@@ -217,7 +217,7 @@ export const isValidBoardString = (boardString: string) => {
     const pieces = boardString.split(" ");
 
     return pieces
-        && pieces?.length == 64
+        && pieces?.length === 64
         // checks every piece is alphabetic, custom `Piece` type cannot be checked at runtime: https://stackoverflow.com/questions/51528780/typescript-check-typeof-against-custom-type
         && pieces?.every(piece => piece.match("^[a-zA-Z\(\)]+$"))
 };

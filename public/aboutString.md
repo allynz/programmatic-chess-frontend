@@ -184,6 +184,14 @@ FAX. There are limit to problem submissions
 you need a google acccount for login
 Supported browsers - The website is supported on almost all modern browsers. It is best viewed on a 13 inch monitor
 
+submissions could take around a min to complete judging
+
+C++ specific version and platform that they are run on, compiler details, compilation command etc.
+
+main function must return int, otherwise compilation error, and return 0
+
+submission limits and when does ti reset
+
 ## Privacy Policy
 - This website collects minimal personal data of the users. Its primary use is for authentication and analytics
 - The website requires to have a `Google` account and sign-in/registering using that

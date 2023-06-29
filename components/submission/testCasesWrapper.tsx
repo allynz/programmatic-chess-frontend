@@ -1,4 +1,5 @@
 import { DocumentData } from "firebase/firestore";
+import { eq } from "../../utilities/equals";
 import TestCases from "./testCasesAccordion/testCases";
 
 export type TestCaseDocument = {
@@ -20,7 +21,7 @@ const TestCasesWrapper = ({ doc }: Props) => {
             getTestCaseList(doc.testCaseDetails) :
             [];
 
-    if (!testCases || testCases.length == 0) {
+    if (!testCases || eq(testCases.length, 0)) {
         return (<></>);
     }
 

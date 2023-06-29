@@ -61,7 +61,7 @@ const CarouselWrapper = ({ lodingParentState, lodingParentStateFalse, movesList,
                                 minWidth: "fit-content", // for status message and long texts
                                 fontSize: "small",
                                 height: "auto",
-                                backgroundColor: index == idx ? "aqua" : "grey",
+                                backgroundColor: index === idx ? "aqua" : "grey",
                                 border: "2px solid white",
                                 display: "flex",
                                 justifyContent: "center",

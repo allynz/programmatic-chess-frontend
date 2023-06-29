@@ -1,6 +1,7 @@
 import to from "await-to-js";
 import { DocumentData, Query, QueryDocumentSnapshot, QuerySnapshot, getDocs } from "firebase/firestore";
 import { useState } from "react";
+import { eq } from "../../../../utilities/equals";
 
 type Type = {
     fetchForward: ({ lastDocument }: {
@@ -39,6 +40,7 @@ export const useSubsequentPage = ({
         // check `useServer` to run these types of queries
         const [err, snapshotDocs] = await to<QuerySnapshot<DocumentData>>(getDocs(query));
         if (err || !snapshotDocs) {
+            //console.log("err", err);
             setError(true);
         } else {
             if (error) setError(false);
@@ -60,12 +62,14 @@ export const useSubsequentPage = ({
         //const snapshotDocs = await getDocs(query);
         const [err, snapshotDocs] = await to<QuerySnapshot<DocumentData>>(getDocs(query));
         if (err || !snapshotDocs) {
+            //console.log("err", err);
             setError(true);
         } else {
             if (error) setError(false);
-            const isFirstPage = snapshotDocs?.size <= pageSizeLimit;
+            const isFirstPage = (snapshotDocs?.size <= pageSizeLimit);
             setPageInfo({
-                pageSnapshotDocs: snapshotDocs?.docs.slice(0, pageSizeLimit),
+                // this slice is better as we need the last 'n' elements
+                pageSnapshotDocs: snapshotDocs?.docs.slice(-pageSizeLimit),
                 isFirstPage: isFirstPage,
                 isLastPage: false
             });
@@ -79,11 +83,11 @@ export const useSubsequentPage = ({
         setLoading(true);
 
         const currentPageInfo = lastPageInfo;
-        if (type == 'forward') {
+        if (eq(type, 'forward')) {
             await paginateForward({
                 currentPageInfo: currentPageInfo
             });
-        } else if (type == 'backward') {
+        } else if (eq(type, 'backward')) {
             await paginateBackward({
                 currentPageInfo: currentPageInfo
             });

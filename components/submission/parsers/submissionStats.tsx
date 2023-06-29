@@ -89,7 +89,7 @@ const getPassedTestCases = (testCasesData: any): number => {
     let i = 1;
     while (true) {
         if (testCasesData[i]) {
-            cnt += (testCasesData[i].status == "SUCCESS" ? 1 : 0);
+            cnt += (eq(testCasesData[i].status, "SUCCESS") ? 1 : 0);
         } else {
             break;
         }
@@ -110,9 +110,10 @@ const getFailedTestCases = (testCasesData: any): number => {
     let i = 1;
     while (true) {
         if (testCasesData[i]) {
-            cnt += (testCasesData[i].status == "SUCCESS" ||
-                testCasesData[i].status == "WAITING"
-                ? 0 : 1);
+            cnt += (
+                eq(testCasesData[i].status, "SUCCESS") ||
+                    eq(testCasesData[i].status, "WAITING")
+                    ? 0 : 1);
         } else {
             break;
         }

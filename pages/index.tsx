@@ -1,3 +1,4 @@
+import { range } from 'lodash';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { XDiamondFill } from 'react-bootstrap-icons';
@@ -41,28 +42,27 @@ const Footer = () => {
           overflow: "clip"
         }}>
         {
-          [...Array(100)]
-            .map(
-              k =>
-              // replace this with chess pieces?
-              (
-                // <Square
-                //   style={{
-                //     flexShrink: "0",
-                //     padding: "0.5px"
-                //   }}
-                //   key={k}
-                //   color={random(1) == 0 ? 'red' : 'purple'}
-                //   size={100} />
-                <div
-                  key={k}
-                  style={{
-                    flexShrink: "0",
-                    padding: "0.5px"
-                  }}>
-                  <ChessSquareBackground />
-                </div>
-              ))
+          range(100).map(
+            k =>
+            // replace this with chess pieces?
+            (
+              // <Square
+              //   style={{
+              //     flexShrink: "0",
+              //     padding: "0.5px"
+              //   }}
+              //   key={k}
+              //   color={random(1) == 0 ? 'red' : 'purple'}
+              //   size={100} />
+              <div
+                key={k}
+                style={{
+                  flexShrink: "0",
+                  padding: "0.5px"
+                }}>
+                <ChessSquareBackground />
+              </div>
+            ))
         }
       </div>
     );
@@ -78,7 +78,7 @@ const Footer = () => {
         backgroundColor: "lightgreen",
         overflow: "clip"
       }}>
-      {[...Array(6)].map(num => (<Diamonds key={num} />))}
+      {range(6).map(num => (<Diamonds key={num} />))}
     </div>
   </>);
 }
@@ -105,7 +105,7 @@ const Examples = () => {
           justifyContent: "center",
           alignItems: "center"
         }}>
-        {[...Array(3)].map(num => (
+        {range(3).map(num => (
           <XDiamondFill
             key={num}
             color='royalblue'
@@ -123,7 +123,7 @@ const Examples = () => {
           }}>
           Example Problems
         </div>
-        {[...Array(3)].map(num => (
+        {range(3).map(num => (
           <XDiamondFill
             key={num}
             color='royalblue'
@@ -140,7 +140,7 @@ const Examples = () => {
         Below are few problems to get you started <br />
         Write solution code in the editor <br />
         Log in to submit solution directly! <br />
-        Be sure to read read submission guidelines on <strong>[<Link href={`/about`}>About Page</Link>]</strong>
+        Be sure to read submission guidelines on <strong>[<Link href={`/about`}>About Page</Link>]</strong>
       </p>
     </div>
   </>);

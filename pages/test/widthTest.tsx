@@ -1,7 +1,7 @@
 import { ListGroup } from "react-bootstrap";
 
 const Page = () => {
-    const li = [...Array(6)].map(i => "Heldsfsdgnsdngsdngjnsdkglo");
+    const li = range(6).map(i => "Heldsfsdgnsdngsdngjnsdkglo");
     const v1 = "ddddddndkjsnfdjsnnggejrf";
 
     return (<>

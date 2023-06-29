@@ -68,7 +68,7 @@ const ProblemsWithParents = ({ problems, solvedIds, parentOrder }:
                     problems
                         .filter(problem => eq(problem.parent, parent)); // for testing multiple problems on a grid UI, remove this filter
                 const solvedIdsFiltered =
-                    solvedIds.filter(id => problemsFiltered.some(problem => problem.id == id));
+                    solvedIds.filter(id => problemsFiltered.some(problem => eq(problem.id, id)));
                 return (
                     <div
                         key={idx}
@@ -119,7 +119,7 @@ const ProblemGroupDisplay = ({ title, problems, solvedIds }: any) => {
                             problemNumber={problem.id}
                             isSolved={
                                 solvedIds.some(
-                                    (id: number) => (id == problem.id))}
+                                    (id: number) => eq(id, problem.id))}
                             tags={problem.tags}
                             imageSource={problem.imageSource} />
                     )

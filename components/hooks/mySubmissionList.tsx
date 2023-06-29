@@ -21,15 +21,13 @@ const Queries = {
                 orderBy("timestamp.submitted", "desc"),
                 limit(limitValue)),
     FETCH_NEXT_QUERY:
-        ({ userId, limitValue }: any) => ({ lastDocument }: any) => {
-            console.log("fnq", { userId, lastDocument, limitValue });
-            return query(
+        ({ userId, limitValue }: any) => ({ lastDocument }: any) =>
+            query(
                 getCollection('Submissions'),
                 where("userId", "==", userId),
                 orderBy("timestamp.submitted", "desc"), // TODO: Check if this is working as it was a nested field
                 startAfter(lastDocument),
-                limit(limitValue))
-        },
+                limit(limitValue)),
     FETCH_PREV_QUERY:
         ({ userId, limitValue }: any) => ({ firstDocument }: any) =>
             query(

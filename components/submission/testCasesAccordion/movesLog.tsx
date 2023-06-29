@@ -53,7 +53,7 @@ const MovesLog = ({ doc }: { doc: TestCaseDocument }) => {
 export default MovesLog;
 
 const ListGroupElement = ({ list }: { list: Array<string> }) => {
-    if (!list || list.length == 0) {
+    if (!list || eq(list.length, 0)) {
         // nice solution
         return (<></>);
     }

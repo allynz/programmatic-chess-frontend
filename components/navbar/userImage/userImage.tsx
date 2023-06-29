@@ -8,7 +8,14 @@ export const UserImage = () => {
     const user = useContext(UserContext);
 
     if (!user) {
-        return (<></>);
+        // Need this element as transparent coz of nav sizing issues between unsigned/signed-in users
+        return (
+            <div style={{ opacity: "0" }} className={styles.outer}>
+                <div style={{ opacity: "0" }} className={styles.inner}>
+
+                </div>
+            </div>
+        );
     }
 
     const defaultImage: string =

@@ -17,7 +17,7 @@ const newPos = (pieces: Array<Piece>): string => {
     let board: Board = [...Array(8)].map(e => Array(8)); // need default val
     let isValidCombo: boolean = false;
     // have a counter also for maximum tries
-    while (isValidCombo == false) {
+    while (isValidCombo === false) {
         board = [...Array(8)].map(e => Array(8));
         const positions: Array<Square> = getRandomPositions(pieces?.length);
         positions.forEach((square, idx) => {

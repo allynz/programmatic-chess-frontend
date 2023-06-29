@@ -5,22 +5,25 @@ import {
 import 'react-page-split/style.css';
 import CustomDivider from "./customDivider";
 
+const ZERO_WIDTH = "0rem";
+const MIN_WIDTH_DEFAULT = "30rem";
+
 const PageSplitWrapper = ({ panels }: { panels: Array<any> }) => {
-    const minWidthDefault = "30rem";
 
     // keep widths so that playground is visible correctly even on resize
-    const [elementMinWidth, setElementMinWidth] = useState<string>(minWidthDefault);
+    const [elementMinWidth, setElementMinWidth] = useState<string>(MIN_WIDTH_DEFAULT);
     const [widths, setWidths] = useState<PageSplitPanelSize[]>(['', '']);
 
     // LATER: Better make it absolute widths as viewport size can be reduced with opening console and resizing. Top minWidth are set so don't worry about it
-    const resetMinWidths = () => setElementMinWidth(minWidthDefault);
-    const disableMinWidths = () => setElementMinWidth("0rem");
-
-    //console.log(elementMinWidth);
+    const resetMinWidths = () => setElementMinWidth(MIN_WIDTH_DEFAULT);
+    const disableMinWidths = () => setElementMinWidth(ZERO_WIDTH);
 
     return (<>
         <HorizontalPageSplit
+            // cant use onMouseDown, it triggers even on clicking the element, not just the divider. Cannot put in divider as it already has a mousedown handler
+
             // boundingSize is called at first click, so we use it to our advantage to reset min widths
+            // LATER: it is causing console errors which are fine for now, we can fix those later on, no issue in usability. Probably have to refactor this usage, cannot find simple fix
             boundingSize={(e) => {
                 resetMinWidths();
                 // return default value

@@ -2,6 +2,7 @@ import { User } from "firebase/auth";
 import { useContext, useState } from "react";
 import BACKEND from "../../configs/hostConfig";
 import UserContext from "../../contexts/UserContext";
+import { eq } from "../../utilities/equals";
 import AuthenticationWrapper from "../auth/authentication";
 import SubmissionCode from "../submission/code";
 import SubmissionButton from "./submissionButton";
@@ -53,7 +54,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                         );
 
                         // Make Success Enum
-                        if (subIdResult.status === "Success") {
+                        if (eq(subIdResult.status, "Success")) {
                             setDisplayError(''); // improve this flow
                             setSubmissionId(subIdResult.id);
                         } else {

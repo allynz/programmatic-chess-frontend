@@ -24,8 +24,8 @@ function checkBoard(
                 const cord: Cord = getCordFromSquare(square);
                 // find better way to check undefined val
                 return piece(cord)
-                    && piece(cord)?.color == opponentTurn
-                    && piece(cord)?.type == 'k';
+                    && piece(cord)?.color === opponentTurn
+                    && piece(cord)?.type === 'k';
             });
 
     if (opponentKingSquare === undefined) return true;
@@ -35,7 +35,7 @@ function checkBoard(
             .filter(square => {
                 const cord = getCordFromSquare(square);
                 return piece(cord)
-                    && piece(cord)?.color == turn;
+                    && piece(cord)?.color === turn;
             })
             .map(square => getCordFromSquare(square));
 

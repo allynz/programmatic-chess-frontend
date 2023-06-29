@@ -8,13 +8,14 @@ import { currentUserObserver } from '../firebase/config';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../styles/chessground.css';
 import '../styles/globals.css';
+import { eq } from '../utilities/equals';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (loading == false) return;
+    if (eq(loading, false)) return;
 
     currentUserObserver((user) => {
       setUser(user);

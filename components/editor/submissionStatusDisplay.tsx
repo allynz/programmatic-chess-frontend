@@ -53,7 +53,7 @@ const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
                 );
             } else {
                 return (
-                    <>Last submission status: {hook}</>
+                    <div>{'Last submission status:  '} {hook}</div>
                 );
             }
         }

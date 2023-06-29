@@ -1,4 +1,4 @@
-import { random } from "lodash";
+import { random, range } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { BrightnessAltHighFill, Icon } from "react-bootstrap-icons";
@@ -123,9 +123,9 @@ const HowToUseIt = () => {
                     padding: "1rem"
                 }}>
                 {
-                    [...Array(6)]
+                    range(6)
                         .map(
-                            k => {
+                            idx => {
                                 const RandomIcon = iconList[random(iconList.length - 1)];
                                 // replace this with chess pieces?
                                 return (
@@ -133,7 +133,7 @@ const HowToUseIt = () => {
                                         style={{
                                             transform: transform
                                         }}
-                                        key={k}
+                                        key={idx}
                                         color="royalblue"
                                         size={100} />
                                 );

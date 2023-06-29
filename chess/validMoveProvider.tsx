@@ -27,17 +27,17 @@ export default function getRawValidMovesForSquare(
     let res: Array<Square> = [];
     const movement = movementProvider(board);
     // cannot find a good way to remove startCord duplicacy, as OO is terrible in js, and calling function multiple times is gonna declare all vars and methods again
-    if (piece.type == 'k') {
+    if (piece.type === 'k') {
         res = movement.kingMovement(startCord);
-    } else if (piece.type == 'q') {
+    } else if (piece.type === 'q') {
         res = movement.queenMovement(startCord);
-    } else if (piece.type == 'b') {
+    } else if (piece.type === 'b') {
         res = movement.bishopMovement(startCord);
-    } else if (piece.type == 'r') {
+    } else if (piece.type === 'r') {
         res = movement.rookMovement(startCord);
-    } else if (piece.type == 'n') {
+    } else if (piece.type === 'n') {
         res = movement.knightMovement(startCord);
-    } else if (piece.type == 'p') {
+    } else if (piece.type === 'p') {
         res = movement.pawnMovement(startCord);
     }
 
@@ -178,7 +178,7 @@ const movementProvider = (
         return filterAndTransform(cords);
     };
     const pawnMovement = (startCord: Readonly<Cord>): Array<Square> => {
-        const diff = piece(startCord)!.color == 'w' ? -1 : 1;
+        const diff = piece(startCord)!.color === 'w' ? -1 : 1;
 
         const forward: Cord = [startCord[0] + diff, startCord[1]];
         const forwardLeft: Cord = [startCord[0] + diff, startCord[1] - 1];

@@ -25,15 +25,15 @@ const isRawValidMovement = (
     let isMovementValid: boolean = false;
     if (piece.type === 'k') {
         isMovementValid = movement.kingMovement();
-    } else if (piece.type == 'q') {
+    } else if (piece.type === 'q') {
         isMovementValid = movement.queenMovement();
-    } else if (piece.type == 'r') {
+    } else if (piece.type === 'r') {
         isMovementValid = movement.rookMovement();
-    } else if (piece.type == 'n') {
+    } else if (piece.type === 'n') {
         isMovementValid = movement.knightMovement();
-    } else if (piece.type == 'b') {
+    } else if (piece.type === 'b') {
         isMovementValid = movement.bishopMovement();
-    } else if (piece.type == 'p') {
+    } else if (piece.type === 'p') {
         isMovementValid = movement.pawnMovement();
     }
 
@@ -164,7 +164,7 @@ const movementProvider = (
         const piece: Piece = board[startCord[0]][startCord[1]]!;
         const endPiece: Piece | undefined = board[endCord[0]][endCord[1]];
 
-        const rowDirection = piece.color == 'w' ? -1 : 1;
+        const rowDirection = piece.color === 'w' ? -1 : 1;
         const forwardRow = [startCord[0] + rowDirection];
 
         const forward = [forwardRow, startCord[1]];

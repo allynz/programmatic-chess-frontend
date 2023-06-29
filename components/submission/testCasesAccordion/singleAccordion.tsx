@@ -19,7 +19,7 @@ const SingleAccordion = ({
     // be careful of `includes`, as it will match substring also, as it's not always array, mostly string, although from type it can be array also
     const isActive: boolean =
         // activeEventKey can be array also so keep this in mind but for now is fine hack
-        (activeEventKey === eventKey) || false;
+        eq(activeEventKey, eventKey) || false;
 
     return (<>
         <Accordion.Item eventKey={eventKey}
@@ -78,7 +78,8 @@ export const MovesBoardWrapper = ({
     }
 
     const board = boardString.split(" ").filter(piece => {
-        const isEmpty: boolean = eq(piece, undefined) || eq(piece, "") || eq(piece, " ");
+        const isEmpty: boolean =
+            eq(piece, undefined) || eq(piece, "") || eq(piece, " ");
         return !isEmpty;
     });
 

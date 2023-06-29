@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { createPortal } from "react-dom";
 import ReactMarkdown from "react-markdown";
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
 import UserContext from "../../contexts/UserContext";
 import { Problem } from "../../types/global";
+import { eq } from "../../utilities/equals";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
 import { MovesBoardWrapper } from "../submission/testCasesAccordion/singleAccordion";
 import styles from "./styles.module.scss";
@@ -51,22 +52,24 @@ export const useDataMap = (problem: Problem):
                     </ReactMarkdown>
                     {
                         (problem.examples).map(
-                            example => {
+                            (example, idx) => {
                                 const element = document.getElementById(example.key);
                                 if (element) element.className = 'example';
 
                                 return element ?
                                     // css is not working somehow, so have to use inline styling. Try appendChild if external css is needed
                                     createPortal(
-                                        <div key={example.key} style={{
-                                            backgroundColor: "green",
-                                            maxHeight: "15rem",
-                                            maxWidth: "15rem",
-                                            display: "grid",
-                                            gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
-                                            gridTemplateColumns: "100%",
-                                            overflow: "clip"
-                                        }}>
+                                        <div
+                                            key={example.key}
+                                            style={{
+                                                backgroundColor: "green",
+                                                maxHeight: "15rem",
+                                                maxWidth: "15rem",
+                                                display: "grid",
+                                                gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
+                                                gridTemplateColumns: "100%",
+                                                overflow: "clip"
+                                            }}>
                                             <MovesBoardWrapper
                                                 input={example.input}
                                                 output={example.output}
@@ -74,7 +77,8 @@ export const useDataMap = (problem: Problem):
                                         </div>,
                                         element
                                     ) :
-                                    (<></>)
+                                    // Apparently this requires a key as well, as it is under `.map`, was causing a headache for me
+                                    (<React.Fragment key={example.key}></React.Fragment>)
                             }
                         )
                     }
@@ -130,7 +134,7 @@ export const useDataMap = (problem: Problem):
             });
         }
     } else {
-        const submissionsIndex = dataMap.findIndex(val => val.key === "submissions");
+        const submissionsIndex = dataMap.findIndex(val => eq(val.key, "submissions"));
         if (submissionsIndex > -1) {
             dataMap.splice(submissionsIndex, 1);
         }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const ProgressBarCustom = () => {
     const [p, setP] = useState<number>(20);
     const percent = p.toString() + '%';
-    console.log("percent", percent);
+    //console.log("percent", percent);
 
     useEffect(() => {
         const interval = setInterval(

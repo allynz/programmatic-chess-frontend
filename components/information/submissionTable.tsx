@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import Link from "next/link";
 import { Table } from "react-bootstrap";
+import { eq } from "../../utilities/equals";
 import styles from './Table.module.scss';
 
 // table has some issues with reloading so have to restart it everytime with npm run devs, see if hydration issues will solve it
@@ -133,7 +134,7 @@ export const TimeDisplay = ({ time }: any) => {
                 .toLocaleString();
 
         return (<>{date}</>);
-    } else if (time === 'WAITING') {
+    } else if (eq(time, 'WAITING')) {
         return (<>WAITING...</>);
     } else {
         return (<>Not available</>);

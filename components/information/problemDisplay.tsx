@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import {
-    Col, TabContainer
-} from 'react-bootstrap';
+import { Col, TabContainer } from "react-bootstrap";
 import UserContext from "../../contexts/UserContext";
 import styles from './Information.module.scss';
 import NavElement from "./navElement";
@@ -18,7 +16,6 @@ type Props = {
 
 // LATER: Fix problem type in Props. Fine for now, later do for all cases where it is used
 const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
-    //console.log(isSolved);
     const user = useContext(UserContext);
     const dataMap = createDataMap(problem);
     const dataMapKeys = dataMap.map(data => data.key);
@@ -32,8 +29,8 @@ const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
         }
     }, [user]);
 
-    // see better containers for this page, what about <Navbar> ?
-    return (<>
+    //see better containers for this page, what about <Navbar> ?
+    return (
         <TabContainer
             defaultActiveKey={defaultActiveKey}
             activeKey={key}
@@ -50,7 +47,7 @@ const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
                 <TabContentElement dataMap={dataMap} />
             </Col>
         </TabContainer>
-    </>);
+    );
 }
 
 export default ProblemDisplay;
