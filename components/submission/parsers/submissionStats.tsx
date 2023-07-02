@@ -5,7 +5,6 @@ import { TimeDisplay } from "../../information/submissionTable";
 
 // add links to goto respective links like problem page etc.
 export const parseSubmissionStats = (data: DocumentData) => {
-
     // make sure to have spaces in values so overflow can be handles easily
     // LATER: Later See if we can add hooks here, without overflowing read/write limits
     // LATER: Have a spinner next to waiting status, also same in Submissions Table. For now is fine
@@ -60,7 +59,7 @@ export const parseSubmissionStats = (data: DocumentData) => {
                         height: "100%"
                     }}
                     // TODO: Check if this is correct or not, should be just `message`? Check with backend
-                    value={data.errorMessage || data.message}>
+                    value={data.message || data.errorMessage}>
                 </textarea>
             )
         },
