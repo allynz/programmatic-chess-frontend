@@ -9,7 +9,9 @@ import remarkToc from 'remark-toc';
 import UserContext from "../../contexts/UserContext";
 import { Problem } from "../../types/global";
 import { eq } from "../../utilities/equals";
+import AuthenticationWrapper from "../auth/authentication";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
+import Loading from "../general/loading";
 import { MovesBoardWrapper } from "../submission/testCasesAccordion/singleAccordion";
 import styles from "./styles.module.scss";
 import SubmissionList from "./submissionList";
@@ -28,87 +30,8 @@ export const useDataMap = (problem: Problem):
     const submissionData = SubmissionList(problem.id);
 
     const dataMap = [
-        {
-            key: "problem",
-            renderContent: (
-                <div
-                    style={{
-                        borderRadius: "1rem",
-                        padding: "1rem",
-                        backgroundColor: "#f2f2f2"
-                    }}
-                    className={styles.yo}>
-                    <ReactMarkdown
-                        rehypePlugins={[
-                            rehypeRaw,
-                            rehypeAutoLinkHeadings,
-                            rehypeSlug
-                        ]}
-                        remarkPlugins={[
-                            remarkGfm,
-                            [remarkToc, { tight: true }]
-                        ]}>
-                        {problem.statement}
-                    </ReactMarkdown>
-                    {
-                        (problem.examples).map(
-                            (example, idx) => {
-                                const element = document.getElementById(example.key);
-                                if (element) element.className = 'example';
-
-                                return element ?
-                                    // css is not working somehow, so have to use inline styling. Try appendChild if external css is needed
-                                    createPortal(
-                                        <div
-                                            key={example.key}
-                                            style={{
-                                                backgroundColor: "green",
-                                                maxHeight: "15rem",
-                                                maxWidth: "15rem",
-                                                display: "grid",
-                                                gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
-                                                gridTemplateColumns: "100%",
-                                                overflow: "clip"
-                                            }}>
-                                            <MovesBoardWrapper
-                                                input={example.input}
-                                                output={example.output}
-                                                boardString={example.board} />
-                                        </div>,
-                                        element
-                                    ) :
-                                    // Apparently this requires a key as well, as it is under `.map`, was causing a headache for me
-                                    (<React.Fragment key={example.key}></React.Fragment>)
-                            }
-                        )
-                    }
-                </div>)
-        },
-        {
-            key: "solution",
-            renderContent: (
-                <div
-                    style={{
-                        borderRadius: "1rem",
-                        padding: "1rem",
-                        backgroundColor: "#f2f2f2"
-                    }}
-                    className={styles.yo}>
-                    <ReactMarkdown
-                        rehypePlugins={[
-                            rehypeRaw,
-                            rehypeAutoLinkHeadings,
-                            rehypeSlug
-                        ]}
-                        remarkPlugins={[
-                            remarkGfm,
-                            [remarkToc, { tight: true }]
-                        ]}>
-                        {problem.solution}
-                    </ReactMarkdown>
-                </div>
-            )
-        }
+        { key: 'problem', renderContent: fetchProblem(problem) },
+        { key: 'solution', renderContent: fetchSolution(problem) }
     ];
 
     if (problem.pieces && problem.pieces.length > 0) {
@@ -142,4 +65,93 @@ export const useDataMap = (problem: Problem):
 
     return dataMap;
 }
+
+const fetchProblem = (problem: Problem) => {
+    return (
+        <div
+            style={{
+                borderRadius: "1rem",
+                padding: "1rem",
+                backgroundColor: "#f2f2f2"
+            }}
+            className={styles.yo}>
+            <ReactMarkdown
+                rehypePlugins={[
+                    rehypeRaw,
+                    rehypeAutoLinkHeadings,
+                    rehypeSlug
+                ]}
+                remarkPlugins={[
+                    remarkGfm,
+                    [remarkToc, { tight: true }]
+                ]}>
+                {problem.statement}
+            </ReactMarkdown>
+            {
+                (problem.examples)?.map(
+                    (example, idx) => {
+                        const element = document.getElementById(example.key);
+                        if (element) element.className = 'example';
+
+                        return element ?
+                            // css is not working somehow, so have to use inline styling. Try appendChild if external css is needed
+                            createPortal(
+                                <div
+                                    key={example.key}
+                                    style={{
+                                        backgroundColor: "green",
+                                        maxHeight: "15rem",
+                                        maxWidth: "15rem",
+                                        display: "grid",
+                                        gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
+                                        gridTemplateColumns: "100%",
+                                        overflow: "clip"
+                                    }}>
+                                    <MovesBoardWrapper
+                                        input={example.input}
+                                        output={example.output}
+                                        boardString={example.board} />
+                                </div>,
+                                element
+                            ) :
+                            // Apparently this requires a key as well, as it is under `.map`, was causing a headache for me
+                            (<React.Fragment key={example.key}></React.Fragment>)
+                    }
+                )
+            }
+        </div>);
+};
+
+const fetchSolution = (problem: Problem) => {
+    const solution = problem.solution;
+
+    if (eq(solution, "LOADING")) {
+        return <Loading />;
+    }
+
+    return (
+        <AuthenticationWrapper>
+            <div
+                style={{
+                    borderRadius: "1rem",
+                    padding: "1rem",
+                    backgroundColor: "#f2f2f2"
+                }}
+                className={styles.yo}>
+                <ReactMarkdown
+                    rehypePlugins={[
+                        rehypeRaw,
+                        rehypeAutoLinkHeadings,
+                        rehypeSlug
+                    ]}
+                    remarkPlugins={[
+                        remarkGfm,
+                        [remarkToc, { tight: true }]
+                    ]}>
+                    {solution}
+                </ReactMarkdown>
+            </div>
+        </AuthenticationWrapper>
+    );
+};
 

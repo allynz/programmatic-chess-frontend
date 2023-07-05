@@ -4,6 +4,7 @@ import UserContext from "../../contexts/UserContext";
 import styles from './Information.module.scss';
 import NavElement from "./navElement";
 import TabContentElement from "./tabContentElement";
+import { useSolution } from "./useSolution";
 
 type Props = {
     problem: any,
@@ -17,7 +18,15 @@ type Props = {
 // LATER: Fix problem type in Props. Fine for now, later do for all cases where it is used
 const ProblemDisplay = ({ problem, createDataMap, isSolved }: Props) => {
     const user = useContext(UserContext);
-    const dataMap = createDataMap(problem);
+    // adding solution as a separate api call
+    const problemFinal = Object.assign(
+        {},
+        problem,
+        {
+            solution: useSolution(problem?.id)
+        }
+    );
+    const dataMap = createDataMap(problemFinal);
     const dataMapKeys = dataMap.map(data => data.key);
 
     const defaultActiveKey = dataMap.at(0)?.key;

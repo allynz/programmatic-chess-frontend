@@ -8,6 +8,7 @@ import BACKEND from "../../configs/hostConfig";
 
 // LATER: Fix prop type
 const Problem = ({ problem }: any) => {
+    // LATER: Optimise this fetching
     const solvedProblems: Array<number> = useSolvedProblemsList();
     // console.log("solved Problems", solvedProblems);
 
@@ -77,7 +78,9 @@ export async function getStaticProps({ params }: { params: any }) {
     //console.log("problemData", data);
 
     return {
-        props: { problem: data }
+        props: {
+            problem: data
+        }
     }
 }
 

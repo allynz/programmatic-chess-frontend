@@ -50,7 +50,8 @@
     "remark-toc": "^8.0.1",
     "sass": "^1.53.0",
     "scss-tokenizer": "^0.4.3",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "swr": "^2.2.0"
   },
   "devDependencies": {
     "@types/chess.js": "^0.13.1",

@@ -17,7 +17,9 @@ const AuthenticationWrapper = (props: any) => {
                 gridTemplateRows: "100%",
                 gridTemplateColumns: "100%"
             }}>
-            <div style={{ gridArea: "1/1/1/1" }}>
+            <div style={{
+                gridArea: "1/1/1/1"
+            }}>
                 {props.children}
             </div>
 
@@ -39,13 +41,14 @@ const GridBackDrop = (props: any) => {
             style={{
                 // https://www.stefanjudis.com/today-i-learned/css-grid-can-be-used-to-stack-elements/
                 gridArea: "1/1/1/1",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                backgroundColor: "rgba(0, 0, 0, 0.4)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 color: "white",
                 // z-index is imp as elements may re-render and update stack
-                zIndex: EDITOR_AUTH_BACKDROP_INDEX
+                zIndex: EDITOR_AUTH_BACKDROP_INDEX,
+                backdropFilter: "blur(4px)"
             }}>
             {props.children}
         </div>
