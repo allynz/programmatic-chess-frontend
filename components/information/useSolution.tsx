@@ -44,7 +44,7 @@ const fetchData = async (user: User | null, id: number) => {
     const headers = new Headers();
     headers.append('Authorization', `Bearer ${userIdToken}`);
     try {
-        const response = await fetch(solutionUrl, { headers });
+        const response = await fetch(solutionUrl.toString(), { headers });
         if (response.ok) {
             return {
                 data: await response.json(),
