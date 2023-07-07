@@ -198,7 +198,7 @@ submission limits and when does ti reset
 - Detailed privacy policy: [Link](https://www.freeprivacypolicy.com/live/7743c1a3-2b8f-405a-8892-e1441e036a21)
 
 ## Terms of Use
-- TODO: Seems i have to write my own as all others are pricey
+- TODO: Seems I have to write my own as all others are pricey
 - do not use things/data from here to other websites
 - links should be mentioned that it was taken from this site
 - The submitted codes by the user are considered public, able to be seen by other users
