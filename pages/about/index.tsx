@@ -1,10 +1,5 @@
 import fs from 'fs';
-import ReactMarkdown from "react-markdown";
-import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
-import rehypeRaw from 'rehype-raw';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-import remarkToc from 'remark-toc';
+import ReactMarkdownDisplay from '../../components/general/reactMarkdownDisplay';
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import styles from './about.module.scss';
 
@@ -46,9 +41,9 @@ const About = ({ markdownText }: any) => {
                     padding: "2rem",
                     float: "left" // check other strategies, like flex/grid
                 }}>
-                <ReactMarkdown>
+                <ReactMarkdownDisplay>
                     {mText}
-                </ReactMarkdown>
+                </ReactMarkdownDisplay>
             </div>
             <div
                 className={styles.yo}
@@ -61,18 +56,9 @@ const About = ({ markdownText }: any) => {
                 {/* WHAT? https://stackoverflow.com/questions/33191744/how-to-add-new-line-in-markdown-presentation, make an auto plugin for this */}
                 {/* CHECK: Adding numbered headings: https://talk.commonmark.org/t/heading-number-and-table-of-content-extension/3645, https://gist.github.com/patik/89ee6092c72a9e39950445c01598517a */}
                 {/* Also see tabbed/indented headings if it's possible */}
-                <ReactMarkdown
-                    rehypePlugins={[
-                        rehypeRaw,
-                        rehypeAutoLinkHeadings,
-                        rehypeSlug
-                    ]}
-                    remarkPlugins={[
-                        remarkGfm,
-                        [remarkToc, { tight: true }]
-                    ]} >
+                <ReactMarkdownDisplay>
                     {markdownText}
-                </ReactMarkdown>
+                </ReactMarkdownDisplay>
 
             </div>
         </PageWrapNav>

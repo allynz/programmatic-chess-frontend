@@ -1,17 +1,12 @@
 import React, { useContext } from "react";
 import { createPortal } from "react-dom";
-import ReactMarkdown from "react-markdown";
-import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
-import rehypeRaw from 'rehype-raw';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-import remarkToc from 'remark-toc';
 import UserContext from "../../contexts/UserContext";
 import { Problem } from "../../types/global";
 import { eq } from "../../utilities/equals";
 import AuthenticationWrapper from "../auth/authentication";
 import PlaygroundBoard from "../chessboard/playground/boardWrapper";
 import Loading from "../general/loading";
+import ReactMarkdownDisplay from "../general/reactMarkdownDisplay";
 import { MovesBoardWrapper } from "../submission/testCasesAccordion/singleAccordion";
 import styles from "./styles.module.scss";
 import SubmissionList from "./submissionList";
@@ -75,18 +70,9 @@ const fetchProblem = (problem: Problem) => {
                 backgroundColor: "#f2f2f2"
             }}
             className={styles.yo}>
-            <ReactMarkdown
-                rehypePlugins={[
-                    rehypeRaw,
-                    rehypeAutoLinkHeadings,
-                    rehypeSlug
-                ]}
-                remarkPlugins={[
-                    remarkGfm,
-                    [remarkToc, { tight: true }]
-                ]}>
+            <ReactMarkdownDisplay>
                 {problem.statement}
-            </ReactMarkdown>
+            </ReactMarkdownDisplay>
             {
                 (problem.examples)?.map(
                     (example, idx) => {
@@ -138,18 +124,9 @@ const fetchSolution = (problem: Problem) => {
                     backgroundColor: "#f2f2f2"
                 }}
                 className={styles.yo}>
-                <ReactMarkdown
-                    rehypePlugins={[
-                        rehypeRaw,
-                        rehypeAutoLinkHeadings,
-                        rehypeSlug
-                    ]}
-                    remarkPlugins={[
-                        remarkGfm,
-                        [remarkToc, { tight: true }]
-                    ]}>
+                <ReactMarkdownDisplay>
                     {solution}
-                </ReactMarkdown>
+                </ReactMarkdownDisplay>
             </div>
         </AuthenticationWrapper>
     );
