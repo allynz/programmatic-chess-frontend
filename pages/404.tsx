@@ -11,7 +11,7 @@ const Page = () => {
                 className={`fit-container clip-overflow`}
                 style={{
                     display: "grid",
-                    gridTemplateRows: "10% 40% 50%",
+                    gridTemplateRows: "10% 30% 30% 30%",
                     gridTemplateColumns: "100%",
                     justifyItems: "center",
                     backgroundColor: "#273527"
@@ -30,11 +30,16 @@ const Page = () => {
                         color: "white",
                         fontSize: "2rem",
                         fontFamily: `"Lucida Console", Courier, monospace`,
-                        textAlign: "center"
+                        display: "flex",
+
+                        flexDirection: "column",
+                        placeItems: "center",
+                        justifyContent: "center"
                     }}>
                     <p>ERROR ENCOUNTERED AT THIS TIME</p>
                     <p>PLEASE TRY AGAIN LATER</p>
                 </div>
+                <br />
             </div>
         </PageWrapNav>
     </>);
