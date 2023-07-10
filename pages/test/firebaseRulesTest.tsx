@@ -1,5 +1,5 @@
-import { getDocs } from "firebase/firestore";
-import { accessProblemPathSegmentsCollection } from "../../firebase/config";
+import { getDoc, getDocs } from "firebase/firestore";
+import { accessProblemPathSegmentsCollection, accessProblemPathSegmentsDocument, getProblemDocument } from "../../firebase/config";
 
 const Page = () => {
     firebaseAccess();
@@ -10,10 +10,17 @@ const Page = () => {
 export default Page;
 
 const firebaseAccess = async () => {
-    const ff = await getDocs(getProblemTestCasesDocument('8'));
-    console.log("ff", ff.docs.forEach(doc => {
+    const pp = await getDoc(getProblemDocument('8'));
+    console.log(pp.data());
+
+    const dd = await getDoc(getProblemTestCasesDocument('8'));
+    console.log(dd.data());
+
+    const ff = await getDocs(getProblemTestCasesCollection('8'));
+    console.log("docs", ff.docs.forEach(doc => {
         console.log(doc.data());
     }));
 }
 
-const getProblemTestCasesDocument = (id: string) => accessProblemPathSegmentsCollection([id, 'ok']);
+const getProblemTestCasesCollection = (id: string) => accessProblemPathSegmentsCollection([id, 'private']);
+const getProblemTestCasesDocument = (id: string) => accessProblemPathSegmentsDocument([id, 'private', 'fields']);
