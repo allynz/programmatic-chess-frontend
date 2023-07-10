@@ -45,6 +45,15 @@ export function getSolvedProblemsDocument(documentId: string) {
     return doc(db, 'SolvedProblems', documentId);
 }
 
+// made for tests specifically so as not to expose inner db details
+export function accessProblemPathSegmentsDocument(pathSegments: string[]) {
+    return doc(db, 'Problems', ...pathSegments);
+}
+
+export function accessProblemPathSegmentsCollection(pathSegments: string[]) {
+    return collection(db, 'Problems', ...pathSegments);
+}
+
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 export const authenticate = () => {
