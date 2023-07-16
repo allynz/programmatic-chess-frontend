@@ -17,7 +17,7 @@ const SubmissionCode = ({ id }: { id: string }) => {
 
     if (error) {
         return (
-            <SubmissionCodeEditorDisplay
+            <CodeEditorDisplay
                 // this param needs to be a string otherwise it wont work
                 code={errorString} />
         );
@@ -29,18 +29,18 @@ const SubmissionCode = ({ id }: { id: string }) => {
 
     if (code) {
         return (
-            <SubmissionCodeEditorDisplay
+            <CodeEditorDisplay
                 code={code} />
         );
     }
 
     return (
-        <SubmissionCodeEditorDisplay
+        <CodeEditorDisplay
             code={errorString} />
     );
 };
 
-const SubmissionCodeEditorDisplay = ({ code }: any) => {
+export const CodeEditorDisplay = ({ code }: any) => {
     const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
     // Remove extra scroll lines as while viewing it's not needed

@@ -1,11 +1,14 @@
+import { User } from "firebase/auth";
 import { getDoc, getDocs } from "firebase/firestore";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { accessPathSegments, accessProblemPathSegmentsCollection, accessProblemPathSegmentsDocument, getProblemDocument } from "../../firebase/config";
 
 const Page = () => {
+    const user = useContext(UserContext);
+
     //testProblems();
-    testSolvedProblems();
+    testSolvedProblems(user);
 
     return (<></>);
 };
@@ -29,8 +32,7 @@ const testProblems = async () => {
 };
 
 // use unisgned, or an account different from admin account
-const testSolvedProblems = async () => {
-    const user = useContext(UserContext);
+const testSolvedProblems = async (user: User | null) => {
     const sampleUserId = "dSGe3T90SUPYp8WVX1WdsfuJFKt2"; // admin account
     const ownuserId = user?.uid || "dummy"; // need to have a non empty string for firebase to work
 

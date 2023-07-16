@@ -4,7 +4,7 @@ import BACKEND from "../../configs/hostConfig";
 import UserContext from "../../contexts/UserContext";
 import { eq } from "../../utilities/equals";
 import AuthenticationWrapper from "../auth/authentication";
-import SubmissionCode from "../submission/code";
+import { CodeEditorDisplay } from "../submission/code";
 import SubmissionButton from "./submissionButton";
 import LastSubmissionDisplay from "./submissionStatusDisplay";
 import VSCodeEditor from "./vscodeEditor";
@@ -69,7 +69,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                 {/* <>Language: C++</> - add this using grid */}
                 {
                     readOnly ?
-                        <SubmissionCode code={submissionCode} />
+                        <CodeEditorDisplay code={submissionCode} />
                         :
                         <VSCodeEditor
                             onEditorMount={() => setEditorMounted(true)}
