@@ -1,9 +1,12 @@
 import SubmissionCode from "../../components/submission/code";
 import SubmissionStats from "../../components/submission/statistics";
+import { useSubmissionDocument } from "./hooks/useSubmissionDocument";
 import TestCasesWrapper from "./testCasesWrapper";
 
 // Test that no hooks are there, only display info
-const SubmissionDisplay = ({ doc, code }: any) => {
+const SubmissionDisplay = ({ id }: any) => {
+    const doc = useSubmissionDocument(id);
+
     return (<>
         <div
             style={{
@@ -25,7 +28,7 @@ const SubmissionDisplay = ({ doc, code }: any) => {
                     overflow: "clip"
                 }}>
                 <Display text="Source Code">
-                    <SubmissionCode code={code} />
+                    <SubmissionCode id={id} />
                 </Display>
                 <Display text="Submission Details">
                     <SubmissionStats doc={doc} />

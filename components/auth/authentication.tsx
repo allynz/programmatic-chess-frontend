@@ -4,6 +4,7 @@ import UserContext from "../../contexts/UserContext";
 import { authenticate, logout } from "../../firebase/config";
 import { EDITOR_AUTH_BACKDROP_INDEX } from "../config/zIndex";
 
+// it should re-render when user object changes and all api calls should be done again
 const AuthenticationWrapper = (props: any) => {
     const user = useContext(UserContext);
 

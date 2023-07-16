@@ -4,6 +4,7 @@ import UserContext from "../../contexts/UserContext";
 import { getSolvedProblemsDocument } from "../../firebase/config";
 
 // should be a react component or custom hook to use hooks inside of it, rules of hook
+// LATER: See if we can use `useSWR` here as this is used at multiple places, and we can preload as well
 export const useSolvedProblemsList = (): Array<number> => {
     const user = useContext(UserContext);
     const docRef = getSolvedProblemsDocument(user?.uid || "dummy");

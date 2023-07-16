@@ -45,6 +45,10 @@ export function getSolvedProblemsDocument(documentId: string) {
     return doc(db, 'SolvedProblems', documentId);
 }
 
+export function accessPathSegments(collection: string, pathSegments: string[]) {
+    return doc(db, collection, ...pathSegments);
+}
+
 // made for tests specifically so as not to expose inner db details
 export function accessProblemPathSegmentsDocument(pathSegments: string[]) {
     return doc(db, 'Problems', ...pathSegments);
