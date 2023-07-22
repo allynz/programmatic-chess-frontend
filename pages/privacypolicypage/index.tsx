@@ -3,9 +3,14 @@ import BACKEND from "../../configs/hostConfig";
 
 const Page = ({ data }: any) => {
     return (
-        <ReactMarkdownDisplay>
-            {data}
-        </ReactMarkdownDisplay>
+        <div
+            style={{
+                padding: "5rem"
+            }}>
+            <ReactMarkdownDisplay>
+                {data}
+            </ReactMarkdownDisplay>
+        </div>
     );
 }
 
