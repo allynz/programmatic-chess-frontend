@@ -7,7 +7,8 @@ export default function Document() {
                 <link rel="apple-touch-icon" sizes="180x180" href="/favicon_redketchup/apple-touch-icon.png" />
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon_redketchup/favicon-32x32.png" />
                 <link rel="icon" type="image/png" sizes="16x16" href="/favicon_redketchup/favicon-16x16.png" />
-                <link rel="manifest" href="/favicon_redketchup/site.webmanifest" />
+                {/* needed to use crossOrigin https://github.com/aws-amplify/amplify-hosting/issues/195 */}
+                <link crossOrigin='use-credentials' rel="manifest" href="/favicon_redketchup/site.webmanifest" />
             </Head>
             <body>
                 <Main />

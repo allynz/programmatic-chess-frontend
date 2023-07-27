@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import ReactMarkdownDisplay from '../../components/general/reactMarkdownDisplay';
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import BACKEND from '../../configs/hostConfig';
@@ -6,6 +8,17 @@ import styles from './about.module.scss';
 // Markdown TOC generator: https://ecotrust-canada.github.io/markdown-toc/
 // manage spacing between elements, it seems off
 const About = ({ markdownText, toc }: any) => {
+    const { asPath } = useRouter();
+    const anchor: string = computeAnchorFromUrl(asPath);
+
+    useEffect(() => {
+        // had to do this since it doesnt scroll automatically on pageLoad for some reason
+        if (anchor && anchor?.length > 0) {
+            const elem = document.getElementById(anchor);
+            elem?.scrollIntoView();
+        }
+    }, []);
+
     // prob. we can get TOC directly from that website API or make your own npm package - parse AST and generate tree, look at implementation of remark-toc
     return (<>
         <PageWrapNav>
@@ -45,6 +58,10 @@ const About = ({ markdownText, toc }: any) => {
 };
 
 export default About;
+
+const computeAnchorFromUrl = (url: string) => {
+    return url?.split("/about")[1]?.substring(1);
+}
 
 // can only use absolute URLs using `fetch` here
 export async function getStaticProps() {
