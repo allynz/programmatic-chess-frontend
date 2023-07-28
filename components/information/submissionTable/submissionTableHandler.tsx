@@ -9,7 +9,6 @@ import { Type1 } from "./types";
 const PAGE_SIZE_LIMIT = 25;
 
 // page numbers are not consistent with constantly updating collection, so don't use that
-// TODO: Have to handle all error scenarios as well while fetching etc.
 // color success in green, and unsuccess in red
 const SubmissionTableHandler = ({ queries }: any) => {
     const userId = useContext(UserContext)?.uid || "dummy";
@@ -27,8 +26,6 @@ const SubmissionTableHandler = ({ queries }: any) => {
                 { userId: userId, limitValue: PAGE_SIZE_LIMIT + 1 }),
         pageSizeLimit: PAGE_SIZE_LIMIT
     });
-
-
 
     const {
         pageInfo,

@@ -58,7 +58,7 @@ export const parseSubmissionStats = (data: DocumentData) => {
                         width: "100%",
                         height: "100%"
                     }}
-                    // TODO: Check if this is correct or not, should be just `message`? Check with backend
+                    // It is changed to just `message` in backend but kept errorMessage for legacy purposes
                     value={data.message || data.errorMessage}>
                 </textarea>
             )

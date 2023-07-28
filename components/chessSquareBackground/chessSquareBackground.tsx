@@ -49,6 +49,7 @@ const ChessSquareBackground = () => {
                 width: "5rem"
             }}>
             <Image
+                alt="different chess pieces"
                 src={chessPiecesWhite[random(chessPiecesWhite.length - 1)]}
                 height={"5rem"}
                 width={"5rem"}

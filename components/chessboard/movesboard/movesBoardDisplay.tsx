@@ -7,7 +7,6 @@ import CarouselWrapper from "./carouselWrapper";
 // https://stackoverflow.com/questions/64995856/what-approach-can-i-use-to-wait-for-all-child-callbacks-to-complete - nice way to communicate betn child to parent
 // better naming would be moveList or moves, not movesList as it is both plural and list
 // all depends on movesList being valid so keep that in mind
-// TODO: see if status is displayed correctly in the end with all correct spacing
 const MovesBoardDisplay = ({ startFen, movesList }: any) => {
     // Current idx of the move
     const [idx, setIdx] = useState<number>(0);

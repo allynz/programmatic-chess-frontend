@@ -13,6 +13,7 @@ export const useFirstPage = ({ hook, pageSizeLimit }: { hook: () => Query<Docume
     return {
         snapshot: snapshot1?.docs.slice(0, pageSizeLimit),
         loading: loading,
-        isLastPage: isLastPage
+        isLastPage: isLastPage,
+        error: error
     }
 };

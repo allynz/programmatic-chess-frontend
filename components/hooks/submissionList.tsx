@@ -29,7 +29,7 @@ const Queries = ({ problemId }: any) => {
                     getCollection('Submissions'),
                     where("userId", "==", userId),
                     where("problemId", "==", String(problemId)),
-                    orderBy("timestamp.submitted", "desc"), // TODO: Check if this is working as it was a nested field
+                    orderBy("timestamp.submitted", "desc"),
                     startAfter(lastDocument),
                     limit(limitValue))
             },
@@ -39,7 +39,7 @@ const Queries = ({ problemId }: any) => {
                     getCollection('Submissions'),
                     where("userId", "==", userId),
                     where("problemId", "==", String(problemId)),
-                    orderBy("timestamp.submitted", "desc"), // TODO: Check if this is working as it was a nested field
+                    orderBy("timestamp.submitted", "desc"),
                     endBefore(firstDocument),
                     limitToLast(limitValue))
     }

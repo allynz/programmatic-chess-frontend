@@ -17,7 +17,9 @@ const About = ({ markdownText, toc }: any) => {
             const elem = document.getElementById(anchor);
             elem?.scrollIntoView();
         }
-    }, []);
+    },
+        // it will render only once on page refresh, clicking on toc links will not trigger render
+        [anchor]);
 
     // prob. we can get TOC directly from that website API or make your own npm package - parse AST and generate tree, look at implementation of remark-toc
     return (<>

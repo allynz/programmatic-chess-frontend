@@ -215,7 +215,8 @@ type ProblemDataType = {
     parentOrder: Array<string>
 };
 // cannot use useContext here it seems
-// not static props as it is diff for all users - is it though? TODO: solved problems can be rendered client side - see how to do in nextJS. ISG?
+// not static props as it is diff for all users - is it though? 
+// LATER: solved problems can be rendered client side - see how to do in nextJS. ISG?
 export async function getStaticProps() {
     const problemData: ProblemDataType = await
         fetch(BACKEND + '/problems')

@@ -18,7 +18,7 @@ export class BoardState {
 
     constructor(fen: string) {
         this.fen = fen;
-        this.grid = [...Array(8)].map(e => Array(8)); // TODO: can we just use Array(8)? why .map?
+        this.grid = [...Array(8)].map(e => Array(8));
 
         // https://www.chess.com/terms/fen-chess
         const currFen = fen + ' w ' + ' - ' + ' - ' + ' 0 1';

@@ -6,6 +6,7 @@ import "react-multi-carousel/lib/styles.css";
 // https://stackoverflow.com/questions/66136068/how-to-have-a-loading-screen-until-all-my-components-are-mounted-in-react
 // LATER: make width equal to length of 3 child divs, have childs handle padding, then it centers correctly, can do this resizing using stateful variables also but whatever
 // In general, we should not have any useState for the variables of this class as it will re-render the Board, or make the Board separate from inside Carousel
+// LATER: there is some sizing issue in `Carousel` element which doesnt let flex-shrink work, fine for now tho as we can see details on movesListDisplay on left side
 const CarouselWrapper = ({ lodingParentState, lodingParentStateFalse, movesList, idx }: any) => {
     //const prevIdx: number = usePrevious(idx) || idx; // should we shift this inside useEffect?, doesnt seem necessary
     const carouselRef = useRef<Carousel | null>();
