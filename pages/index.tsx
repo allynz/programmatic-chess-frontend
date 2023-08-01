@@ -13,6 +13,7 @@ import BACKEND from '../configs/hostConfig';
 // LATER: See how other sites do large screens, keep your content width fixed, and let padding on left and right be automatic depending on screen
 // Can also add scroll animations with css
 const Home: NextPage = ({ problemList, pieces, displayCode, displayFAQ }: any) => {
+  //console.log("problemList", problemList);
   return (<>
     <PageWrapNav>
       <PageTop
@@ -203,8 +204,9 @@ export async function getStaticProps() {
 // LATER: resolve error scenarios, for now sending empty is fine, just see that it is ignored
 async function fetchProblem(id: number) {
   try {
-    const res = await fetch(BACKEND + `/problem?id=${id}`)
-    return await res.json();
+    const res = await fetch(BACKEND + `/problem?id=${id}`);
+    const resJson = await res.json();
+    return resJson;
   } catch (error) {
     return {};
   }

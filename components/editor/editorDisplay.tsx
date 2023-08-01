@@ -27,60 +27,60 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
 
     // Rendered without margin, seems better that way
     return (
-        <AuthenticationWrapper>
-            <form
-                // I like it without padding only, have padding on individual elements
-                style={{
-                    display: "grid",
-                    height: "100%",
-                    width: "100%",
-                    gridTemplateRows: "90% 10%",
-                    gridTemplateColumns: "100%" // important during resizing
-                }}
+        <form
+            // I like it without padding only, have padding on individual elements
+            style={{
+                display: "grid",
+                height: "100%",
+                width: "100%",
+                gridTemplateRows: "90% 10%",
+                gridTemplateColumns: "100%" // important during resizing
+            }}
 
-                onSubmit={
-                    async (e) => {
-                        e.preventDefault();
-                        setIsSubmitting(true);
+            onSubmit={
+                async (e) => {
+                    e.preventDefault();
+                    setIsSubmitting(true);
 
-                        const subIdResult: {
-                            status: string,
-                            id: string
-                        } = await submitForm(
-                            submissionCode,
-                            // can do forceRefresh also everytime for better security
-                            await user?.getIdToken() || "",
-                            problemId
-                        );
+                    const subIdResult: {
+                        status: string,
+                        id: string
+                    } = await submitForm(
+                        submissionCode,
+                        // can do forceRefresh also everytime for better security
+                        await user?.getIdToken() || "",
+                        problemId
+                    );
 
-                        // Make Success Enum
-                        if (eq(subIdResult.status, "Success")) {
-                            setDisplayError(''); // improve this flow
-                            setSubmissionId(subIdResult.id);
-                        } else {
-                            setDisplayError(subIdResult.status);
-                            setSubmissionId('dummy'); // find a good value for this // CHECK: Don't set to empty, otherwise firebase will throw error
-                        }
-
-                        setIsSubmitting(false);
+                    // Make Success Enum
+                    if (eq(subIdResult.status, "Success")) {
+                        setDisplayError(''); // improve this flow
+                        setSubmissionId(subIdResult.id);
+                    } else {
+                        setDisplayError(subIdResult.status);
+                        setSubmissionId('dummy'); // find a good value for this // CHECK: Don't set to empty, otherwise firebase will throw error
                     }
-                }>
 
-                {/* <>Language: C++</> - add this using grid */}
-                {
-                    readOnly ?
-                        <CodeEditorDisplay code={submissionCode} />
-                        :
-                        <VSCodeEditor
-                            onEditorMount={() => setEditorMounted(true)}
-                            code={submissionCode}
-                            updateSubmissionCode={
-                                (code: string) => setSubmissionCode(code)
-                            }
-                        />
+                    setIsSubmitting(false);
                 }
-                {
-                    editerMounted ?
+            }>
+
+            {/* <>Language: C++</> - add this using grid */}
+            {
+                readOnly ?
+                    <CodeEditorDisplay code={submissionCode} />
+                    :
+                    <VSCodeEditor
+                        onEditorMount={() => setEditorMounted(true)}
+                        code={submissionCode}
+                        updateSubmissionCode={
+                            (code: string) => setSubmissionCode(code)
+                        }
+                    />
+            }
+            {
+                editerMounted ?
+                    <AuthenticationWrapper>
                         <div
                             style={{
                                 height: "100%",
@@ -94,12 +94,12 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                                 submissionId={submissionId}
                                 displayError={displayError} />
                         </div>
-                        :
-                        <></>
-                }
+                    </AuthenticationWrapper>
+                    :
+                    <></>
+            }
 
-            </form>
-        </AuthenticationWrapper>);
+        </form>);
 }
 
 export default EditorDisplay;

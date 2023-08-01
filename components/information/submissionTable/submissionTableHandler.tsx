@@ -11,10 +11,13 @@ const PAGE_SIZE_LIMIT = 25;
 // page numbers are not consistent with constantly updating collection, so don't use that
 // color success in green, and unsuccess in red
 const SubmissionTableHandler = ({ queries }: any) => {
-    const userId = useContext(UserContext)?.uid || "dummy";
+    const user = useContext(UserContext);
+    const userId = user?.uid || "dummy";
+    // make sure that hooks are called even if user is unsigned, otherwise it can lead to errors once user is signed in
     const res: Type1 = usePaginationInfo({
         // it's best to pass the userId from here itself, for ease of use later, hooks shouldn't have to worry about userId
         // read more about currying and how to best use it for objects
+        // also if i'm using userId in usePagination hook, then is it still right to pass userId from here?
         firstPageDataHook:
             () => queries.FIRST_PAGE_HOOK(
                 { userId: userId, limitValue: PAGE_SIZE_LIMIT + 1 }),
@@ -47,9 +50,60 @@ const SubmissionTableHandler = ({ queries }: any) => {
     const { pageSnapshotDocs, isFirstPage, isLastPage } = pageInfo;
     const submissionList = pageSnapshotDocs?.map(doc => doc.data());
 
-    if (error) return <ErrorContent />;
     if (loading) return <LoadingContent />;
+    if (error) {
+        if (!user) {
+            return (
+                <SubmissionContent
+                    isFirstPage={true}
+                    isLastPage={true}
+                    setFirstPage={setFirstPage}
+                    handlePageUpdate={handlePageUpdate}
+                    pageSnapshotDocs={[]}
+                    submissionList={[]}
+                    customMessage={`Sign In to view your submissions`} />
+            )
+        }
 
+        return <ErrorContent />;
+    }
+
+    return (
+        <SubmissionContent
+            isFirstPage={isFirstPage}
+            isLastPage={isLastPage}
+            setFirstPage={setFirstPage}
+            handlePageUpdate={handlePageUpdate}
+            pageSnapshotDocs={pageSnapshotDocs}
+            submissionList={submissionList} />
+    );
+};
+
+export default SubmissionTableHandler;
+
+const ErrorContent = () => {
+    return (<>
+        <div>
+            Error, please try again later
+        </div>
+    </>);
+};
+
+const LoadingContent = () => {
+    return (<>
+        <Loading />
+    </>);
+};
+
+const SubmissionContent = ({
+    isFirstPage,
+    isLastPage,
+    setFirstPage,
+    handlePageUpdate,
+    pageSnapshotDocs,
+    submissionList,
+    customMessage
+}: any) => {
     return (<>
         {/* without the div, rendering was horizontal, not vertical */}
         <div>
@@ -74,23 +128,8 @@ const SubmissionTableHandler = ({ queries }: any) => {
                         }
                     })} />
             <SubmissionTable
-                submissionList={submissionList} />
+                submissionList={submissionList}
+                customMessage={customMessage} />
         </div>
     </>);
-};
-
-export default SubmissionTableHandler;
-
-const ErrorContent = () => {
-    return (<>
-        <div>
-            Error, please try again later
-        </div>
-    </>);
-};
-
-const LoadingContent = () => {
-    return (<>
-        <Loading />
-    </>);
-};
+}

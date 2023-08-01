@@ -37,6 +37,7 @@ const Problem = ({ problem }: any) => {
                 minWidth: minWidth,
                 zIndex: 2
             }}>
+
             <EditorDisplay problemId={problem.id} />
         </div>
     );
