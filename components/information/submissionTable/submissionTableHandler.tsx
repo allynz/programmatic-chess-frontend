@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import UserContext from "../../../contexts/UserContext";
 import Loading from "../../general/loading";
 import { SubmissionTable } from "../submissionTable";
@@ -13,6 +13,7 @@ const PAGE_SIZE_LIMIT = 25;
 const SubmissionTableHandler = ({ queries }: any) => {
     const user = useContext(UserContext);
     const userId = user?.uid || "dummy";
+
     // make sure that hooks are called even if user is unsigned, otherwise it can lead to errors once user is signed in
     const res: Type1 = usePaginationInfo({
         // it's best to pass the userId from here itself, for ease of use later, hooks shouldn't have to worry about userId
@@ -38,6 +39,25 @@ const SubmissionTableHandler = ({ queries }: any) => {
         error
     } = res;
 
+    // this useEffect is important, it does an important task of refreshing the hook so that new user data will be fetched
+    // the problem occurs when u sign out and login as different user, the previous data will be shown, this is the fix for it
+    useEffect(() => {
+        setFirstPage();
+    }, [userId]);
+
+    if (!user) {
+        return (
+            <SubmissionContent
+                isFirstPage={true}
+                isLastPage={true}
+                setFirstPage={setFirstPage}
+                handlePageUpdate={handlePageUpdate}
+                pageSnapshotDocs={[]}
+                submissionList={[]}
+                customMessage={`Sign In to view your submissions`} />
+        )
+    }
+
     // for checking difference between states
     // const prevRes = usePrevious(res);
     // useEffect(() => {
@@ -51,22 +71,7 @@ const SubmissionTableHandler = ({ queries }: any) => {
     const submissionList = pageSnapshotDocs?.map(doc => doc.data());
 
     if (loading) return <LoadingContent />;
-    if (error) {
-        if (!user) {
-            return (
-                <SubmissionContent
-                    isFirstPage={true}
-                    isLastPage={true}
-                    setFirstPage={setFirstPage}
-                    handlePageUpdate={handlePageUpdate}
-                    pageSnapshotDocs={[]}
-                    submissionList={[]}
-                    customMessage={`Sign In to view your submissions`} />
-            )
-        }
-
-        return <ErrorContent />;
-    }
+    if (error) return <ErrorContent />;
 
     return (
         <SubmissionContent

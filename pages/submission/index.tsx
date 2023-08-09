@@ -20,9 +20,3 @@ const MySubmissions = () => {
 };
 
 export default MySubmissions;
-
-const UnsignedUserComponent = () => {
-    return (<>
-        Sign In to view your submissions
-    </>);
-}

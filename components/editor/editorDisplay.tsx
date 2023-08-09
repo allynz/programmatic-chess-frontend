@@ -6,10 +6,10 @@ import { eq } from "../../utilities/equals";
 import AuthenticationWrapper from "../auth/authentication";
 import { CodeEditorDisplay } from "../submission/code";
 import SubmissionButton from "./submissionButton";
-import LastSubmissionDisplay from "./submissionStatusDisplay";
+import LatestSubmissionDisplay from "./submissionStatusDisplay";
 import VSCodeEditor from "./vscodeEditor";
 
-// LATER: Improve waiting symbol in Last submission display - make it loader. Now is also fine
+// LATER: Improve waiting symbol in Latest submission display - make it loader. Now is also fine
 // If error in solution, mail to my email id
 function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
     const EMPTY_SUBMISSION_ID: Readonly<string> = "empty document";
@@ -90,7 +90,7 @@ function EditorDisplay({ problemId, readOnly, defaultCode }: any) {
                             }}>
                             <SubmissionButton
                                 isSubmitting={isSubmitting} />
-                            <LastSubmissionDisplay
+                            <LatestSubmissionDisplay
                                 submissionId={submissionId}
                                 displayError={displayError} />
                         </div>

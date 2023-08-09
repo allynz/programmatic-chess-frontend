@@ -10,7 +10,7 @@ type Props = {
 // LATER: Make it global across all files
 const EMPTY_SUBMISSION_ID: Readonly<string> = "empty document";
 
-const LastSubmissionDisplay = ({ submissionId, displayError }: Props) => {
+const LatestSubmissionDisplay = ({ submissionId, displayError }: Props) => {
     return (
         <div
             style={{
@@ -20,16 +20,16 @@ const LastSubmissionDisplay = ({ submissionId, displayError }: Props) => {
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-            <LastSubmissionDetails
+            <LatestSubmissionDetails
                 submissionId={submissionId}
                 displayError={displayError} />
         </div>
     );
 }
 
-export default LastSubmissionDisplay;
+export default LatestSubmissionDisplay;
 
-const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
+const LatestSubmissionDetails = ({ submissionId, displayError }: Props) => {
     const user = useContext(UserContext);
 
     // need to persist hook even if user is not present as on sign in the hook must be present
@@ -53,7 +53,7 @@ const LastSubmissionDetails = ({ submissionId, displayError }: Props) => {
                 );
             } else {
                 return (
-                    <div>{'Last submission status:  '} {hook}</div>
+                    <div>{'Latest submission status:  '} {hook}</div>
                 );
             }
         }
