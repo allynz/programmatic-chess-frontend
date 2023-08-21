@@ -5,7 +5,6 @@ import ProblemDisplay from "../information/problemDisplay";
 // submit them to a different faster queue
 // LATER: See if you want to enable outside scrolling on this editor, yeah, it's a menace when scrolling, so no
 const TutorialEditor = ({ problem }: any) => {
-    console.log(problem.id);
     return (<>
         <div
             style={{

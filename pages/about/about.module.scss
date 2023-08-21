@@ -6,4 +6,12 @@
     p:has(+ ul) {
         margin-bottom: 0;
     }
+
+    img {
+        max-width: 40rem;
+        max-height: 40rem;
+        margin: 0.25rem;
+        border: 2px solid black;
+        // display: block; // multiple images also come in separate lines
+    }
 }

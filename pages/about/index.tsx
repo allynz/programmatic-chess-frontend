@@ -53,7 +53,6 @@ const About = ({ markdownText, toc }: any) => {
                 <ReactMarkdownDisplay>
                     {markdownText}
                 </ReactMarkdownDisplay>
-
             </div>
         </PageWrapNav>
     </>);

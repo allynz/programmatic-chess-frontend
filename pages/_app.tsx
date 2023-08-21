@@ -7,7 +7,7 @@ import UserContext from '../contexts/UserContext';
 import { currentUserObserver } from '../firebase/config';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../styles/chessground.css';
-import '../styles/globals.css';
+import '../styles/globals.scss';
 import { eq } from '../utilities/equals';
 
 function MyApp({ Component, pageProps }: AppProps) {
