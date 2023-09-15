@@ -1,8 +1,10 @@
 import ReactMarkdown from "react-markdown";
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
+import rehypeMathjax from 'rehype-mathjax';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import remarkToc from 'remark-toc';
 
 const ReactMarkdownDisplay = (props: any) => {
@@ -13,10 +15,15 @@ const ReactMarkdownDisplay = (props: any) => {
             rehypePlugins={[
                 rehypeRaw,
                 rehypeAutoLinkHeadings,
-                rehypeSlug
+                rehypeSlug,
+                rehypeMathjax,
+                // rehypeKatex needs the css to work, but the css messes up my own css, especially markdwon background, so used rehypeMathjax instead
+                // rehypeKatex,
+                // [rehypeDocument, { css: "https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" }]
             ]}
             remarkPlugins={[
                 remarkGfm,
+                remarkMath,
                 [remarkToc, { tight: true }]
             ]}>
             {props.children}

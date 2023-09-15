@@ -88,9 +88,13 @@ const fetchProblem = (problem: Problem) => {
                                         backgroundColor: "green",
                                         maxHeight: "15rem",
                                         maxWidth: "15rem",
-                                        display: "grid",
-                                        gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
-                                        gridTemplateColumns: "100%",
+                                        // firefox has sizing issues with grid percentages and 100% height so i have to use flex as much as possible
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        //gridTemplateRows: "100%", // this is a saviour otherwise was not able to contain it
+                                        //gridTemplateColumns: "100%",
                                         overflow: "clip"
                                     }}>
                                     <MovesBoardWrapper

@@ -9,7 +9,7 @@
     left: 5vh;
     top: 25vh;
     // dont scroll on overflow
-    overflow: clip;
+    //overflow: clip; // removed clipping for fixing firefox issue in playground, fix later
 }
 
 .boardWrap>p {

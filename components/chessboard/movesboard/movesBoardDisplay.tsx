@@ -29,7 +29,8 @@ const MovesBoardDisplay = ({ startFen, movesList }: any) => {
                 overflow: "scroll",
                 display: "grid",
                 gap: "1%",
-                gridTemplateRows: "10% 75% 10%"
+                gridTemplateRows: "10% 75% 10%",
+                gridTemplateColumns: "100%"
             }}>
             {/* do better naming of params */}
             {/* Cannot keep carousel in center of board rn as it will be too complex sizing as board is also cnetered */}
