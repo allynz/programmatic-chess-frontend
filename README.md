@@ -1,7 +1,7 @@
-## Coding Chess Frontend
-This is the frontend codebase for www.codingchess.com
+## [Coding Chess Frontend](https://www.codingchess.com)
+This is the frontend codebase for [www.codingchess.com](https://www.codingchess.com)
 
-[![Pull Requests][prs-badge]][prs] [![Version][version-badge]][version] [![GPL-3 License][license-badge]][license]
+![homepage image](https://programmatic-chess-images.s3.amazonaws.com/about/homepage.png)
 
 ## Details
-It is a nextJs app
+It is built using NextJS framework
