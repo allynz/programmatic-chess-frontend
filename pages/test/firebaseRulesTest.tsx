@@ -33,7 +33,7 @@ const testProblems = async () => {
 
 // use unisgned, or an account different from admin account
 const testSolvedProblems = async (user: User | null) => {
-    const sampleUserId = "dSGe3T90SUPYp8WVX1WdsfuJFKt2"; // admin account
+    const sampleUserId = ""; // use admin account id or something for testing
     const ownuserId = user?.uid || "dummy"; // need to have a non empty string for firebase to work
 
     const accessSolvedProblems = (id: string) => accessPathSegments('SolvedProblems', [id]);

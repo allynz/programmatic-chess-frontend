@@ -29,7 +29,7 @@ const Page = () => {
           "STATUS:INVALID_MOVE"
       ],
       "message": "",
-      "board": "X X X X X X X X X X X X X X X X X X X X X X X X BK X K X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X"
+      "board": "BR BN BB BQ BK BB BN BR BP BP BP BP BP BP BP BP X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X P P P P P P P P R N B Q K B N R"
   }
   ]
   `);
