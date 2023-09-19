@@ -142,8 +142,17 @@ const submitForm = async (
                 id: jsonValue
             }
         } else {
+            // LATER: hack for now to avoid the annoying dump from server, fix later
+            if (response.status == 500) {
+                return {
+                    status: "Server Error, please try again after some time",
+                    id: ""
+                }
+            }
+
             // LATER: Check this errorText, it should not be obscure which happens sometimes from server when it itself throws exception. Probably we can tokenize on frontend
             const errorText: string = await response.text();
+
             if (errorText.length > 0) {
                 return {
                     status: errorText,
