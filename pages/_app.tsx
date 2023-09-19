@@ -29,6 +29,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (<>
       <Head>
         <title>CodingChess</title>
+        <meta name="description">
+          A platform to improve your programming skills by solving interactive problems.
+          Solve chess-related problems to improve your coding abilities
+        </meta>
       </Head>
       <div
         style={{
