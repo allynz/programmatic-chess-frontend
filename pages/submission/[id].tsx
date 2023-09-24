@@ -43,7 +43,7 @@ export async function getServerSideProps({ req, res, params }: any) {
     //console.log(params);
     const codeUrl = new URL(BACKEND + "/isAuthNeededForSubmission");
     codeUrl.searchParams.set("id", id.toString());
-    const isAuthNeededResponse: Response = await fetch(codeUrl);
+    const isAuthNeededResponse: Response = await fetch(codeUrl.toString());
 
     let isAuthNeeded: boolean = true;
     if (isAuthNeededResponse.ok) {
