@@ -61,9 +61,9 @@ export const AuthButton = () => {
     const user = useContext(UserContext);
 
     if (user) {
-        return <SignOutButton />
+        return <SignOutButton />;
     } else {
-        return <SignInButton />
+        return <SignInButton />;
     }
 }
 

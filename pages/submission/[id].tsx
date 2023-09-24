@@ -1,3 +1,4 @@
+import Script from "next/script";
 import AuthenticationWrapper from "../../components/auth/authentication";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import SubmissionDisplay from "../../components/submission/submissionDisplay";
@@ -7,6 +8,14 @@ import BACKEND from "../../configs/hostConfig";
 const Submission = ({ id, isAuthNeeded }: { id: number, isAuthNeeded: boolean }) => {
     if (isAuthNeeded) {
         return (<>
+            {/* <!-- Event snippet for Website traffic conversion page -->  */}
+            <Script id='google-ads-conversion-submission'>
+                {
+                    `
+                gtag('event', 'conversion', {'send_to': 'AW-10878653161/KzyeCIKspOMYEOmlrMMo'});
+                `
+                }
+            </Script>
             <PageWrapNav>
                 <AuthenticationWrapper>
                     <SubmissionDisplay
@@ -17,6 +26,14 @@ const Submission = ({ id, isAuthNeeded }: { id: number, isAuthNeeded: boolean })
         </>);
     } else {
         return (<>
+            {/* <!-- Event snippet for Website traffic conversion page -->  */}
+            <Script id='google-ads-conversion-submission'>
+                {
+                    `
+                gtag('event', 'conversion', {'send_to': 'AW-10878653161/KzyeCIKspOMYEOmlrMMo'});
+                `
+                }
+            </Script>
             <PageWrapNav>
                 <SubmissionDisplay
                     id={String(id)}

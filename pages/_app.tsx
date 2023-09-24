@@ -1,6 +1,7 @@
 import { User } from 'firebase/auth';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import Loading from '../components/general/loading';
 import UserContext from '../contexts/UserContext';
@@ -69,6 +70,17 @@ const LoadedPage = ({ pageProps, user, Component }: any) => {
           minHeight: "40rem",
           minWidth: "90rem"
         }}>
+        {/* https://nextjs.org/docs/messages/next-script-for-ga#using-gtagjs */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-10878653161" />
+        <Script id='google-ads'>
+          {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-10878653161');
+        `}
+        </Script>
         {/* LATER: Check wrapper for all pages config for minWidth and minHeight
     As scrolling is not allowed on all pages, that could be an issue
     Leave for now I guess

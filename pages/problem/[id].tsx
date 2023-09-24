@@ -1,3 +1,4 @@
+import Script from "next/script";
 import PageSplitWrapper from "../../components/divider/pageSplit";
 import EditorDisplay from "../../components/editor/editorDisplay";
 import { useDataMap } from "../../components/hooks/useDataMap";
@@ -13,7 +14,7 @@ const Problem = ({ problem }: any) => {
     // console.log("solved Problems", solvedProblems);
 
     const ProblemDisplayWrap = (minWidth: string) => {
-        return (
+        return (<>
             <div
                 key={"problemDisplayWrap"}
                 className={`fit-container clip-overflow`}
@@ -26,7 +27,7 @@ const Problem = ({ problem }: any) => {
                     // LATER: mayb this can be optimised if problem size grows large
                     isSolved={solvedProblems.some(p => p === problem.id)} />
             </div>
-        );
+        </>);
     };
 
     const EditorDisplayWrap = (minWidth: string) => (
@@ -42,7 +43,15 @@ const Problem = ({ problem }: any) => {
         </div>
     );
 
-    return (
+    return (<>
+        {/* <!-- Event snippet for Website traffic conversion page -->  */}
+        <Script id='google-ads-conversion-problem'>
+            {
+                `
+                gtag('event', 'conversion', {'send_to': 'AW-10878653161/KzyeCIKspOMYEOmlrMMo'});
+                `
+            }
+        </Script>
         <PageWrapNav stickyNav constrainToViewport>
             <div
                 style={{
@@ -57,7 +66,7 @@ const Problem = ({ problem }: any) => {
                     ]} />
             </div>
         </PageWrapNav>
-    )
+    </>);
 }
 
 export default Problem;
