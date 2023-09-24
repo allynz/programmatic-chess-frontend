@@ -1,17 +1,29 @@
 import AuthenticationWrapper from "../../components/auth/authentication";
 import PageWrapNav from "../../components/navbar/pageWrapper";
 import SubmissionDisplay from "../../components/submission/submissionDisplay";
+import BACKEND from "../../configs/hostConfig";
 
 // have absolute sizing on this page, as users may shift to larger screen to see more stuff, rather than responsive behaviour
-const Submission = ({ id }: { id: number }) => {
-    return (<>
-        <PageWrapNav>
-            <AuthenticationWrapper>
+const Submission = ({ id, isAuthNeeded }: { id: number, isAuthNeeded: boolean }) => {
+    if (isAuthNeeded) {
+        return (<>
+            <PageWrapNav>
+                <AuthenticationWrapper>
+                    <SubmissionDisplay
+                        id={String(id)}
+                        isAuthNeeded={isAuthNeeded} />
+                </AuthenticationWrapper>
+            </PageWrapNav>
+        </>);
+    } else {
+        return (<>
+            <PageWrapNav>
                 <SubmissionDisplay
-                    id={String(id)} />
-            </AuthenticationWrapper>
-        </PageWrapNav>
-    </>);
+                    id={String(id)}
+                    isAuthNeeded={isAuthNeeded} />
+            </PageWrapNav>
+        </>);
+    }
 }
 
 export default Submission;
@@ -26,13 +38,33 @@ export async function getServerSideProps({ req, res, params }: any) {
     //     'public, s-maxage=10, stale-while-revalidate=59'
     // );
 
-    //console.log(params);
-
     const id: number = params.id;
+
+    //console.log(params);
+    const codeUrl = new URL(BACKEND + "/isAuthNeededForSubmission");
+    codeUrl.searchParams.set("id", id.toString());
+    const isAuthNeededResponse: Response = await fetch(codeUrl);
+
+    let isAuthNeeded: boolean = true;
+    if (isAuthNeededResponse.ok) {
+        const response = await isAuthNeededResponse.json();
+        // needed this as type can change if sent value from server is not boolean
+        isAuthNeeded = (response === false) ? false : true;
+    }
+
+    // console.table([
+    //     ["id", id],
+    //     ["authneeded: ", isAuthNeeded],
+    //     ["isFAlse: ", isAuthNeeded === false]
+    // ]);
+
     // https://nextjs.org/docs/pages/api-reference/functions/get-server-side-props#notfound
 
     return {
-        props: { id }
+        props: {
+            id: id,
+            isAuthNeeded: isAuthNeeded
+        }
     };
 }
 

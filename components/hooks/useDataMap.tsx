@@ -119,6 +119,22 @@ const fetchSolution = (problem: Problem) => {
         return <Loading />;
     }
 
+    if (problem && problem.isGlobal) {
+        return (<>
+            <div
+                style={{
+                    borderRadius: "1rem",
+                    padding: "1rem",
+                    backgroundColor: "#f2f2f2"
+                }}
+                className={styles.yo}>
+                <ReactMarkdownDisplay>
+                    {solution}
+                </ReactMarkdownDisplay>
+            </div>
+        </>);
+    }
+
     return (
         <AuthenticationWrapper>
             <div

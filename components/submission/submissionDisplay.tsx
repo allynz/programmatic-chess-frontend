@@ -4,8 +4,8 @@ import { useSubmissionDocument } from "./hooks/useSubmissionDocument";
 import TestCasesWrapper from "./testCasesWrapper";
 
 // Test that no hooks are there, only display info
-const SubmissionDisplay = ({ id }: any) => {
-    const doc = useSubmissionDocument(id);
+const SubmissionDisplay = ({ id, isAuthNeeded }: any) => {
+    const doc = useSubmissionDocument(id, isAuthNeeded);
 
     return (<>
         <div

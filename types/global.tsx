@@ -2,6 +2,7 @@ import { Piece } from "../chess/types";
 
 export type Problem = {
     id: number,
+    isGlobal: boolean,
     statement: string,
     solution: string,
     pieces: Array<Piece>,
